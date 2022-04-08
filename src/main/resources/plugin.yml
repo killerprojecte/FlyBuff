@@ -1,0 +1,12 @@
+name: FlyBuff
+version: '${version}'
+main: flyproject.flybuff.FlyBuff
+api-version: 1.13
+authors: [ FlyProject ]
+description: A Buff Plugin for RPG Server
+commands:
+  flybuff:
+    permission: flybuff.admin
+permissions:
+  flybuff.admin:
+    default: op

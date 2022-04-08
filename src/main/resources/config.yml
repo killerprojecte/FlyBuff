@@ -1,0 +1,21 @@
+#BUFF宝石
+#格式: "宝石识别lore": "BUFF效果识别lore"
+gem:
+  "&b&l速度II": "&6[&c&lBUFF&6] &b速度I"
+#可镶嵌白名单
+whitelist:
+  - "DIAMOND_SWORD"
+  - "DIAMOND_AXE"
+#强化完成提示
+finish: "&a强化成功"
+#强化完成播放声音
+sound: "BLOCK_ANVIL_PLACE"
+#检测lore给予药水效果
+#格式: (支持多个药水效果)
+#"BUFF效果识别lore":
+#  - "药水ID:等级"
+#药水ID可前往 https://hub.spigotmc.org/javadocs/spigot/org/bukkit/potion/PotionEffectType.html 查看
+#等级最高仅支持1-255 (原版限制)
+effect:
+  "&6[&c&lBUFF&6] &b速度I":
+    - "SPEED:1"
