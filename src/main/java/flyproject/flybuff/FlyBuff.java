@@ -6,6 +6,7 @@ import flyproject.flybuff.thread.PotionSender;
 import flyproject.flybuff.utils.Color;
 import flyproject.licenseplugin.LicensePlugin;
 import org.bukkit.Bukkit;
+import org.bukkit.Material;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
@@ -38,20 +39,11 @@ public final class FlyBuff extends JavaPlugin {
                 "Author All Rights Reserved\n" +
                 "Github: https://github.com/killerprojecte/FlyBuff\n" +
                 "Version: " + getDescription().getVersion() +
-                "  This is a beta version please not share it\n");
-        Bukkit.getScheduler().runTaskLaterAsynchronously(this,() -> {
-            if (Bukkit.getPluginManager().getPlugin("FlyLicense")==null || !Bukkit.getPluginManager().getPlugin("FlyLicense").isEnabled()){
-                System.err.println("[FlyBuff] 非法访问: 无法访问认证模块");
-                Bukkit.shutdown();
-            }
-            if (!LicensePlugin.fuckyou.contains("FlyBuff")){
-                System.err.println("[FlyBuff] 非法访问: 无法访问认证模块");
-                Bukkit.shutdown();
-            }
-            PotionSender.load();
-            Bukkit.getPluginManager().registerEvents(new ClickWorkbench(),this);
-            getCommand("flybuff").setExecutor(new BuffCommand());
-        },1200L);
+                "\n");
+
+        Bukkit.getPluginManager().registerEvents(new ClickWorkbench(),this);
+        getCommand("flybuff").setExecutor(new BuffCommand());
+        PotionSender.load();
         // Plugin startup logic
 
     }
@@ -81,6 +73,7 @@ public final class FlyBuff extends JavaPlugin {
         ItemStack i6 = player.getItemInHand();
         ItemStack[] is = {i1,i2,i3,i4,i5,i6};
         for (ItemStack i : is){
+            if (i==null || i.getType().equals(Material.AIR)) continue;
             ItemMeta meta = i.getItemMeta();
             if (meta.getLore()==null || meta.getLore().size()==0) continue;
             for (String l : config.getConfigurationSection("effect").getKeys(false)){
@@ -89,7 +82,7 @@ public final class FlyBuff extends JavaPlugin {
                     if (lore.equals(cl)){
                         for (String pots : config.getStringList("effect." + l)){
                             String[] args = pots.split(":");
-                            list.add(new PotionEffect(PotionEffectType.getByName(args[0]),3600,Integer.parseInt(args[1])));
+                            list.add(new PotionEffect(PotionEffectType.getByName(args[0]),10,Integer.parseInt(args[1])));
                         }
                         break;
                     }

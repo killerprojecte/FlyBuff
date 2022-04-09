@@ -8,6 +8,10 @@ whitelist:
   - "DIAMOND_AXE"
 #强化完成提示
 finish: "&a强化成功"
+#已含有该lore提示
+error: "&c强化失败 该物品已含有此属性"
+#非白名单物品强化提示
+invaild: "&c该物品不支持强化"
 #强化完成播放声音
 sound: "BLOCK_ANVIL_PLACE"
 #检测lore给予药水效果

@@ -20,29 +20,32 @@ public class ClickWorkbench implements Listener {
     @EventHandler
     public void onClick(InventoryClickEvent event){
         ItemStack buff = event.getCursor();
-        if ((event.getWhoClicked() instanceof Player)) return;
         Player p = (Player) event.getWhoClicked();
-        if (event.getClick().equals(ClickType.LEFT) && event.getClickedInventory() != null && event.getClickedInventory().getType().equals(InventoryType.WORKBENCH) && buff != null && buff.getType().equals(Material.AIR) && buff.getItemMeta().getLore()!=null && buff.getItemMeta().getLore().size()!=0 && event.getCurrentItem()!=null && whitelist(event.getCurrentItem().getType()) && event.getCurrentItem().getType().equals(Material.AIR)){
-            ItemMeta buffim = buff.getItemMeta();
-            ItemStack click = event.getCurrentItem();
-            ItemMeta meta = click.getItemMeta();
-            String place = place(buffim.getLore());
-            if (place==null) return;
-            List<String> lore = new ArrayList<>();
-            if (!(meta.getLore()==null)){
-                lore.addAll(meta.getLore());
-            }
-            lore.add(Color.color(place));
-            int amount = buff.getAmount() - 1;
-            if (amount<=0){
-                buff.setType(Material.AIR);
+        if (event.getClick().equals(ClickType.LEFT) && event.getClickedInventory() != null && event.getClickedInventory().getType().equals(InventoryType.WORKBENCH) && buff != null && !buff.getType().equals(Material.AIR) && buff.getItemMeta().getLore()!=null && buff.getItemMeta().getLore().size()!=0 && event.getCurrentItem()!=null && !event.getCurrentItem().getType().equals(Material.AIR)){
+            if (whitelist(event.getCurrentItem().getType())){
+                ItemMeta buffim = buff.getItemMeta();
+                ItemStack click = event.getCurrentItem();
+                ItemMeta meta = click.getItemMeta();
+                String place = place(buffim.getLore());
+                if (place==null) return;
+                List<String> lore = new ArrayList<>();
+                if (!(meta.getLore()==null)){
+                    lore.addAll(meta.getLore());
+                }
+                if (lore.contains(Color.color(place))){
+                    p.sendMessage(Color.color(FlyBuff.config.getString("error")));
+                    return;
+                }
+                lore.add(Color.color(place));
+                buff.setAmount(buff.getAmount() - 1);
+                meta.setLore(lore);
+                click.setItemMeta(meta);
+                p.sendMessage(Color.color(FlyBuff.config.getString("finish")));
+                p.playSound(p.getLocation(), Sound.valueOf(FlyBuff.config.getString("sound")),1.0f,1.0f);
+                sort(click);
             } else {
-                buff.setAmount(amount);
+                p.sendMessage(Color.color(FlyBuff.config.getString("invaild")));
             }
-            meta.setLore(lore);
-            click.setItemMeta(meta);
-            p.sendMessage(Color.color(FlyBuff.config.getString("finish")));
-            p.playSound(p.getLocation(), Sound.valueOf(FlyBuff.config.getString("sound")),1.0f,1.0f);
         }
     }
     private static void sort(ItemStack item){
@@ -71,7 +74,7 @@ public class ClickWorkbench implements Listener {
     private static String place(List<String> lore){
         for (String key : FlyBuff.config.getConfigurationSection("gem").getKeys(false)){
             if (lore.contains(Color.color(key))){
-                return key;
+                return FlyBuff.config.getString("gem." + key);
             }
         }
         return null;

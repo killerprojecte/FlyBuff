@@ -17,6 +17,6 @@ public class PotionSender {
                     }
                 }
             }
-        }.runTaskTimerAsynchronously(FlyBuff.getPlugin(FlyBuff.class),1L,0L);
+        }.runTaskTimerAsynchronously(FlyBuff.getPlugin(FlyBuff.class),10L,0L);
     }
 }
