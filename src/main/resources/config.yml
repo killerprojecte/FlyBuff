@@ -23,3 +23,8 @@ sound: "BLOCK_ANVIL_PLACE"
 effect:
   "&6[&c&lBUFF&6] &b速度I":
     - "SPEED:1"
+
+#Buff移除
+remove: true
+#Buff移除界面标题
+title: "&8[&bBUFF移除面板&8]"
