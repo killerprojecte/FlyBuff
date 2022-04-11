@@ -18,7 +18,9 @@ import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public final class FlyBuff extends JavaPlugin {
     public static FileConfiguration config;
@@ -75,6 +77,7 @@ public final class FlyBuff extends JavaPlugin {
         for (ItemStack i : is){
             if (i==null || i.getType().equals(Material.AIR)) continue;
             ItemMeta meta = i.getItemMeta();
+            Map<PotionEffectType,Integer> map = new HashMap<>();
             if (meta.getLore()==null || meta.getLore().size()==0) continue;
             for (String l : config.getConfigurationSection("effect").getKeys(false)){
                 String cl = Color.color(l);
@@ -82,7 +85,7 @@ public final class FlyBuff extends JavaPlugin {
                     if (lore.equals(cl)){
                         for (String pots : config.getStringList("effect." + l)){
                             String[] args = pots.split(":");
-                            PotionEffect pe = new PotionEffect(PotionEffectType.getByName(args[0]),10,Integer.parseInt(args[1]));
+                            PotionEffect pe = new PotionEffect(PotionEffectType.getByName(args[0]),10,Integer.parseInt(args[1]) -1);
                             if (list.contains(pe)){
                                 continue;
                             } else {
