@@ -1,5 +1,6 @@
 package flyproject.flybuff.command;
 
+import flyproject.flybuff.gui.GuiUtil;
 import flyproject.flybuff.utils.BHolder;
 import flyproject.flybuff.utils.Color;
 import org.bukkit.Bukkit;
@@ -16,7 +17,10 @@ public class RemoveCommand implements CommandExecutor {
             sender.sendMessage(Color.color("&c该命令需要玩家执行"));
             return false;
         }
-        Inventory inv = Bukkit.createInventory(new BHolder(),6*9,"");
+        Player p = (Player) sender;
+        Inventory inv = GuiUtil.create();
+        GuiUtil.init(inv,p);
+        p.openInventory(inv);
         return true;
     }
 }

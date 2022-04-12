@@ -1,7 +1,7 @@
 #BUFF宝石
 #格式: "宝石识别lore": "BUFF效果识别lore"
 gem:
-  "&b&l速度II": "&6[&c&lBUFF&6] &b速度I"
+  "&b&l速度I": "&6[&c&lBUFF&6] &b速度I"
 #可镶嵌白名单
 whitelist:
   - "DIAMOND_SWORD"
@@ -28,3 +28,7 @@ effect:
 remove: true
 #Buff移除界面标题
 title: "&8[&bBUFF移除面板&8]"
+#移除Buff宝石lore提示:
+removehelp: "&e - 点击移除BUFF"
+#移除Buff时 背包空间已满提示
+nospace: "&c背包空间不足 无法移除BUFF"

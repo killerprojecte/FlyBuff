@@ -8,6 +8,7 @@ import flyproject.licenseplugin.LicensePlugin;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
@@ -17,18 +18,19 @@ import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.io.File;
+import java.util.*;
 
 public final class FlyBuff extends JavaPlugin {
     public static FileConfiguration config;
+    public static FileConfiguration item;
 
     @Override
     public void onEnable() {
         saveDefaultConfig();
+        saveResource("items.yml",false);
         config = getConfig();
+        item = YamlConfiguration.loadConfiguration(new File(getDataFolder() + "/items.yml"));
         System.out.println("\n" +
                 "    ________      ____        ________\n" +
                 "   / ____/ /_  __/ __ )__  __/ __/ __/\n" +
@@ -98,5 +100,9 @@ public final class FlyBuff extends JavaPlugin {
             }
         }
         return list;
+    }
+    public static ItemStack simpleSkull(ItemStack head, String value) {
+        UUID uuid = UUID.nameUUIDFromBytes(value.getBytes());
+        return Bukkit.getUnsafe().modifyItemStack(head, "{SkullOwner:{Id:\"" + uuid + "\",Properties:{textures:[{Value:\"" + value + "\"}]}}}");
     }
 }

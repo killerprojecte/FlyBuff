@@ -5,6 +5,9 @@ import flyproject.flybuff.utils.Color;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.configuration.file.YamlConfiguration;
+
+import java.io.File;
 
 public class BuffCommand implements CommandExecutor {
     @Override
@@ -13,6 +16,7 @@ public class BuffCommand implements CommandExecutor {
         FlyBuff buff = FlyBuff.getPlugin(FlyBuff.class);
         buff.reloadConfig();
         FlyBuff.config = buff.getConfig();
+        FlyBuff.item = YamlConfiguration.loadConfiguration(new File(buff.getDataFolder() + "/items.yml"));
         return true;
     }
 }

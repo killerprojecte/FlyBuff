@@ -1,0 +1,16 @@
+gems:
+  #此处填药水效果ID
+  "&6[&c&lBUFF&6] &b速度I":
+    #mode:
+    ##make -- 新建物品(不支持NBT)
+    ##stack -- 使用ItemStack生成(支持NBT) [使用 /buffitem <名称> 保存 不支持输入lore请手动修改]
+    mode: make
+    #物品名称
+    display: "&7速度药水"
+    #物品lore
+    lores:
+      - "&b&l速度I"
+    #物品TYPE
+    type: PLAYER_SKULL
+    #头颅材质(仅支持PLAYER_HEAD或SKULL_ITEM使用)
+    texture: ""
