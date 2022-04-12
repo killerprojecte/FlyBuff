@@ -32,3 +32,7 @@ title: "&8[&bBUFF移除面板&8]"
 removehelp: "&e - 点击移除BUFF"
 #移除Buff时 背包空间已满提示
 nospace: "&c背包空间不足 无法移除BUFF"
+#上一页按钮
+backpage: "&f上一页"
+#下一页按钮
+nextpage: "&f下一页"

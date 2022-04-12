@@ -62,6 +62,23 @@ public class GuiClick implements Listener {
         } else {
             if (hasSpace(p)){
                 p.getInventory().addItem(tonormal(event.getCurrentItem()));
+                for (String key : FlyBuff.item.getConfigurationSection("gems").getKeys(false)){
+                    if (p.getItemInHand().getItemMeta().getLore().contains(Color.color(key))){
+                        for (String ls : FlyBuff.item.getStringList("gems." + key + ".lores")){
+                            if (event.getCurrentItem().getItemMeta().getLore().contains(Color.color(ls))){
+                                ItemMeta im = p.getItemInHand().getItemMeta();
+                                List<String> lores = new ArrayList<>();
+                                for (String str : im.getLore()){
+                                    if (str.equals(Color.color(key))) continue;
+                                    lores.add(str);
+                                }
+                                im.setLore(lores);
+                                p.getItemInHand().setItemMeta(im);
+                            }
+                        }
+                    }
+                }
+                p.closeInventory();
             } else {
                 p.sendMessage(Color.color(FlyBuff.config.getString("nospace")));
             }

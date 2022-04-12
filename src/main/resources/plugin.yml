@@ -7,6 +7,12 @@ description: A Buff Plugin for RPG Server
 commands:
   flybuff:
     permission: flybuff.admin
+  buffremove:
+    permission: flybuff.player
+  buffitem:
+    permission: flybuff.admin
 permissions:
   flybuff.admin:
+    default: op
+  flybuff.player:
     default: op

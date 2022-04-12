@@ -11,6 +11,6 @@ gems:
     lores:
       - "&b&l速度I"
     #物品TYPE
-    type: PLAYER_SKULL
+    type: PLAYER_HEAD
     #头颅材质(仅支持PLAYER_HEAD或SKULL_ITEM使用)
-    texture: ""
+    texture: "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNTAzMjdmYjM0MzE5Zjg5YWM1YWI0OGI0ZDc5MjUxZjEzZjA2N2ViZWE3ZGE1Zjg4Yjc1ZjQ3OWE3Mzg5OTI0ZSJ9fX0="

@@ -1,6 +1,9 @@
 package flyproject.flybuff;
 
 import flyproject.flybuff.command.BuffCommand;
+import flyproject.flybuff.command.ItemCommand;
+import flyproject.flybuff.command.RemoveCommand;
+import flyproject.flybuff.gui.GuiClick;
 import flyproject.flybuff.listener.ClickWorkbench;
 import flyproject.flybuff.thread.PotionSender;
 import flyproject.flybuff.utils.Color;
@@ -46,7 +49,10 @@ public final class FlyBuff extends JavaPlugin {
                 "\n");
 
         Bukkit.getPluginManager().registerEvents(new ClickWorkbench(),this);
+        Bukkit.getPluginManager().registerEvents(new GuiClick(),this);
         getCommand("flybuff").setExecutor(new BuffCommand());
+        getCommand("buffremove").setExecutor(new RemoveCommand());
+        getCommand("buffitem").setExecutor(new ItemCommand());
         PotionSender.load();
         // Plugin startup logic
 
