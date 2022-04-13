@@ -1,5 +1,6 @@
 package flyproject.flybuff.command;
 
+import flyproject.flybuff.FlyBuff;
 import flyproject.flybuff.gui.GuiUtil;
 import flyproject.flybuff.utils.BHolder;
 import flyproject.flybuff.utils.Color;
@@ -17,6 +18,7 @@ public class RemoveCommand implements CommandExecutor {
             sender.sendMessage(Color.color("&c该命令需要玩家执行"));
             return false;
         }
+        if (!FlyBuff.config.getBoolean("remove")) return false;
         Player p = (Player) sender;
         Inventory inv = GuiUtil.create();
         GuiUtil.init(inv,p);

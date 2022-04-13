@@ -36,3 +36,5 @@ nospace: "&c背包空间不足 无法移除BUFF"
 backpage: "&f上一页"
 #下一页按钮
 nextpage: "&f下一页"
+#配置版本(不要修改)
+config-version: "1.1.0"

@@ -25,6 +25,7 @@ public class ItemCommand implements CommandExecutor {
         if (p.getItemInHand()==null || p.getItemInHand().getType().equals(Material.AIR)){
             sender.sendMessage(Color.color("&c手上物品不能为空"));
         }
+        FlyBuff.item.set("gems." + args[0] + ".mode","stack");
         FlyBuff.item.set("gems." + args[0] + ".itemstack",p.getItemInHand());
         FlyBuff buff = FlyBuff.getPlugin(FlyBuff.class);
         try {

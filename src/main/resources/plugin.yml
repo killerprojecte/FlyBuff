@@ -15,4 +15,4 @@ permissions:
   flybuff.admin:
     default: op
   flybuff.player:
-    default: op
+    default: true
