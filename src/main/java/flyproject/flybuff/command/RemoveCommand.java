@@ -5,6 +5,7 @@ import flyproject.flybuff.gui.GuiUtil;
 import flyproject.flybuff.utils.BHolder;
 import flyproject.flybuff.utils.Color;
 import org.bukkit.Bukkit;
+import org.bukkit.Material;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -20,6 +21,10 @@ public class RemoveCommand implements CommandExecutor {
         }
         if (!FlyBuff.config.getBoolean("remove")) return false;
         Player p = (Player) sender;
+        if (p.getItemInHand()==null || p.getItemInHand().getType().equals(Material.AIR)){
+            sender.sendMessage(Color.color("&c物品不能为空"));
+            return false;
+        }
         Inventory inv = GuiUtil.create();
         GuiUtil.init(inv,p);
         p.openInventory(inv);

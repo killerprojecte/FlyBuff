@@ -8,6 +8,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -22,45 +23,61 @@ public class GuiClick implements Listener {
         event.setCancelled(true);
         if (event.getCurrentItem()==null || event.getCurrentItem().getType().equals(Material.AIR)) return;
         Player p = (Player) event.getWhoClicked();
-        BHolder holder = (BHolder) event.getClickedInventory().getHolder();
-        if (event.getSlot()==45 && holder.getItems().size()>54 && !(holder.getPage()==1)){
+        Inventory inv = event.getClickedInventory();
+        BHolder holder = (BHolder) inv.getHolder();
+        if (event.getSlot()==45 && holder.getItems().size()>54 && holder.getPage()!=1){
             int back = holder.getPage() - 1;
             if (back==1){
-                event.getClickedInventory().setItem(45,new ItemStack(Material.AIR));
+                inv.setItem(45,new ItemStack(Material.AIR));
                 for (int i = 0;i<45;i++){
-                    event.getClickedInventory().setItem(i,holder.getItems().get(i));
+                    inv.setItem(i,holder.getItems().get(i));
                 }
             } else {
                 int start = back * 45;
                 for (int i = start;i<(start + 45);i++){
-                    if (holder.getItems().get(i)==null)break;
-                    event.getClickedInventory().setItem(i,holder.getItems().get(i));
+                    if (holder.getItems().size()<=i)break;
+                    inv.setItem(i,holder.getItems().get(i));
                 }
             }
             holder.setPage(back);
+            ItemStack b = new ItemStack(Material.ARROW);
+            ItemMeta bi = b.getItemMeta();
+            bi.setDisplayName(Color.color(FlyBuff.config.getString("nextpage")));
+            b.setItemMeta(bi);
+            inv.setItem(53,b);
         } else if (event.getSlot()==53 && holder.getItems().size()>54){
             int next = holder.getPage() + 1;
-            int start = next * 45;
-            boolean haspage = true;
-            for (int i = start;i<(start + 45);i++){
-                if (holder.getItems().get(i)==null && i!=start)break;
-                if (holder.getItems().get(i)==null && i==start){
-                    haspage = false;
+            int start = (next * 45) -44;
+            for (int i = 0;i<45;i++){
+                inv.setItem(i,new ItemStack(Material.AIR));
+            }
+            for (int i = start;i<(start+45);i++){
+                if (holder.getItems().size()<=i && i!=start)break;
+                if (holder.getItems().size()<=i && i==start){
+                    inv.setItem(53,new ItemStack(Material.AIR));
                     break;
                 }
-                event.getClickedInventory().setItem(i,holder.getItems().get(i));
+                inv.setItem(i - ((next-1)*46),holder.getItems().get(i));
             }
-            if (haspage) holder.setPage(next);
-            if (!haspage){
-                event.getClickedInventory().setItem(53,new ItemStack(Material.AIR));
-            }
+            holder.setPage(next);
             int nnext = next + 1;
             int nstart = nnext * 45;
-            if (holder.getItems().get(nstart)==null){
-                event.getClickedInventory().setItem(53,new ItemStack(Material.AIR));
+            if (holder.getItems().size()<=nstart){
+                inv.setItem(53,new ItemStack(Material.AIR));
             }
+            ItemStack a = new ItemStack(Material.ARROW);
+            ItemMeta ai = a.getItemMeta();
+            ai.setDisplayName(Color.color(FlyBuff.config.getString("backpage")));
+            a.setItemMeta(ai);
+            inv.setItem(45,a);
         } else {
             if (hasSpace(p)){
+                if (((inv.getItem(45)!=null && inv.getItem(45).getType().equals(Material.ARROW)) || inv.getItem(53)!=null && inv.getItem(53).getType().equals(Material.ARROW)) &&  (event.getSlot()==45 || event.getSlot()==46 || event.getSlot() == 47 || event.getSlot() == 48 || event.getSlot() == 49 || event.getSlot() == 50 || event.getSlot() == 51 || event.getSlot() == 52 || event.getSlot() == 53)){
+                    event.setCancelled(true);
+                    p.closeInventory();
+                    p.getInventory().addItem(event.getCurrentItem());
+                    return;
+                }
                 p.getInventory().addItem(tonormal(event.getCurrentItem()));
                 for (String key : FlyBuff.item.getConfigurationSection("gems").getKeys(false)){
                     if (p.getItemInHand().getItemMeta().getLore().contains(Color.color(key))){
