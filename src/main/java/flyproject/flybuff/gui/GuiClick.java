@@ -38,7 +38,7 @@ public class GuiClick implements Listener {
                 }
             }
             holder.setPage(back);
-        } else if (event.getSlot()==53 && holder.getItems().size()>54 && !(holder.getPage()==1)){
+        } else if (event.getSlot()==53 && holder.getItems().size()>54){
             int next = holder.getPage() + 1;
             int start = next * 45;
             boolean haspage = true;
