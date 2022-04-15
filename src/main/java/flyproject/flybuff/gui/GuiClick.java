@@ -19,6 +19,7 @@ import java.util.List;
 public class GuiClick implements Listener {
     @EventHandler
     public void onClick(InventoryClickEvent event){
+        if (event.getClickedInventory()==null) return;
         if (!(event.getClickedInventory().getHolder() instanceof BHolder)){return;}
         event.setCancelled(true);
         if (event.getCurrentItem()==null || event.getCurrentItem().getType().equals(Material.AIR)) return;
@@ -93,6 +94,7 @@ public class GuiClick implements Listener {
                                 p.getItemInHand().setItemMeta(im);
                             }
                         }
+                        break;
                     }
                 }
                 p.closeInventory();
