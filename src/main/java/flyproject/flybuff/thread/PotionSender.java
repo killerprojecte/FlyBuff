@@ -1,6 +1,7 @@
 package flyproject.flybuff.thread;
 
 import flyproject.flybuff.FlyBuff;
+import flyproject.flybuff.utils.FlyTask;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.potion.PotionEffect;
@@ -13,7 +14,9 @@ public class PotionSender {
             public void run() {
                 for (Player p : Bukkit.getOnlinePlayers()){
                     for (PotionEffect potionEffect : FlyBuff.getPotion(p)){
-                        FlyBuff.sendPotion(p,potionEffect);
+                        FlyTask.runTask(() -> {
+                            p.addPotionEffect(potionEffect);
+                        });
                     }
                 }
             }

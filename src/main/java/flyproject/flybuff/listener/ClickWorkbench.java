@@ -2,6 +2,7 @@ package flyproject.flybuff.listener;
 
 import flyproject.flybuff.FlyBuff;
 import flyproject.flybuff.utils.Color;
+import flyproject.flybuff.utils.FlyTask;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
@@ -21,32 +22,34 @@ public class ClickWorkbench implements Listener {
     public void onClick(InventoryClickEvent event){
         ItemStack buff = event.getCursor();
         Player p = (Player) event.getWhoClicked();
-        if (event.getClick().equals(ClickType.LEFT) && event.getClickedInventory() != null && event.getClickedInventory().getType().equals(InventoryType.WORKBENCH) && buff != null && !buff.getType().equals(Material.AIR) && buff.getItemMeta().getLore()!=null && buff.getItemMeta().getLore().size()!=0 && event.getCurrentItem()!=null && !event.getCurrentItem().getType().equals(Material.AIR)){
-            if (whitelist(event.getCurrentItem().getType())){
-                ItemMeta buffim = buff.getItemMeta();
-                ItemStack click = event.getCurrentItem();
-                ItemMeta meta = click.getItemMeta();
-                String place = place(buffim.getLore());
-                if (place==null) return;
-                List<String> lore = new ArrayList<>();
-                if (!(meta.getLore()==null)){
-                    lore.addAll(meta.getLore());
+        FlyTask.runTaskAsync(() -> {
+            if (event.getClick().equals(ClickType.LEFT) && event.getClickedInventory() != null && event.getClickedInventory().getType().equals(InventoryType.WORKBENCH) && buff != null && !buff.getType().equals(Material.AIR) && buff.getItemMeta().getLore()!=null && buff.getItemMeta().getLore().size()!=0 && event.getCurrentItem()!=null && !event.getCurrentItem().getType().equals(Material.AIR)){
+                if (whitelist(event.getCurrentItem().getType())){
+                    ItemMeta buffim = buff.getItemMeta();
+                    ItemStack click = event.getCurrentItem();
+                    ItemMeta meta = click.getItemMeta();
+                    String place = place(buffim.getLore());
+                    if (place==null) return;
+                    List<String> lore = new ArrayList<>();
+                    if (!(meta.getLore()==null)){
+                        lore.addAll(meta.getLore());
+                    }
+                    if (lore.contains(Color.color(place))){
+                        p.sendMessage(Color.color(FlyBuff.config.getString("error")));
+                        return;
+                    }
+                    lore.add(Color.color(place));
+                    buff.setAmount(buff.getAmount() - 1);
+                    meta.setLore(lore);
+                    click.setItemMeta(meta);
+                    p.sendMessage(Color.color(FlyBuff.config.getString("finish")));
+                    p.playSound(p.getLocation(), Sound.valueOf(FlyBuff.config.getString("sound")),1.0f,1.0f);
+                    sort(click);
+                } else {
+                    p.sendMessage(Color.color(FlyBuff.config.getString("invaild")));
                 }
-                if (lore.contains(Color.color(place))){
-                    p.sendMessage(Color.color(FlyBuff.config.getString("error")));
-                    return;
-                }
-                lore.add(Color.color(place));
-                buff.setAmount(buff.getAmount() - 1);
-                meta.setLore(lore);
-                click.setItemMeta(meta);
-                p.sendMessage(Color.color(FlyBuff.config.getString("finish")));
-                p.playSound(p.getLocation(), Sound.valueOf(FlyBuff.config.getString("sound")),1.0f,1.0f);
-                sort(click);
-            } else {
-                p.sendMessage(Color.color(FlyBuff.config.getString("invaild")));
             }
-        }
+        });
     }
     private static void sort(ItemStack item){
         ItemMeta im = item.getItemMeta();

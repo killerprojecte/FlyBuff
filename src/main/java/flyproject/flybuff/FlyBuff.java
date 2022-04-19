@@ -8,6 +8,7 @@ import flyproject.flybuff.listener.ClickWorkbench;
 import flyproject.flybuff.thread.PotionSender;
 import flyproject.flybuff.utils.Color;
 import flyproject.flybuff.utils.ConfigUpdater;
+import flyproject.flybuff.utils.FlyTask;
 import flyproject.flybuff.utils.Version;
 import flyproject.licenseplugin.LicensePlugin;
 import org.bukkit.Bukkit;
@@ -49,7 +50,9 @@ public final class FlyBuff extends JavaPlugin {
                 "Github: https://github.com/killerprojecte/FlyBuff\n" +
                 "Version: " + getDescription().getVersion() +
                 "\n");
-        ConfigUpdater.update();
+        FlyTask.runTaskAsync(() -> {
+            ConfigUpdater.update();
+        });
         Bukkit.getPluginManager().registerEvents(new ClickWorkbench(),this);
         Bukkit.getPluginManager().registerEvents(new GuiClick(),this);
         getCommand("flybuff").setExecutor(new BuffCommand());
@@ -63,9 +66,9 @@ public final class FlyBuff extends JavaPlugin {
             }
         }.runTaskLaterAsynchronously(this,1200L);
         // Plugin startup logic
-
     }
 
+    @Deprecated
     public static void sendPotion(Player p,PotionEffect pe){
         new BukkitRunnable() {
             @Override
