@@ -10,7 +10,6 @@ import flyproject.flybuff.utils.Color;
 import flyproject.flybuff.utils.ConfigUpdater;
 import flyproject.flybuff.utils.FlyTask;
 import flyproject.flybuff.utils.Version;
-import flyproject.licenseplugin.LicensePlugin;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.configuration.file.FileConfiguration;
