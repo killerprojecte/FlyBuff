@@ -6,10 +6,9 @@ import flyproject.flybuff.command.RemoveCommand;
 import flyproject.flybuff.gui.GuiClick;
 import flyproject.flybuff.listener.ClickWorkbench;
 import flyproject.flybuff.thread.PotionSender;
-import flyproject.flybuff.utils.Color;
-import flyproject.flybuff.utils.ConfigUpdater;
-import flyproject.flybuff.utils.FlyTask;
-import flyproject.flybuff.utils.Version;
+import flyproject.flybuff.utils.*;
+import net.milkbowl.vault.economy.Economy;
+import org.black_ixx.playerpoints.PlayerPoints;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -18,6 +17,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
@@ -29,6 +29,8 @@ import java.util.*;
 public final class FlyBuff extends JavaPlugin {
     public static FileConfiguration config;
     public static FileConfiguration item;
+    public static boolean hasVault = true;
+    public static boolean hasPoints = true;
 
     @Override
     public void onEnable() {
@@ -58,6 +60,17 @@ public final class FlyBuff extends JavaPlugin {
         getCommand("buffremove").setExecutor(new RemoveCommand());
         getCommand("buffitem").setExecutor(new ItemCommand());
         PotionSender.load();
+        if (!setupEconomy()){
+            hasVault = false;
+            System.err.println("[FlyBuff-Payment] 您的服务器中并没有安装 Vault 插件， 对应的经济功能将被禁用");
+        }
+        if (!setupPoints()){
+            hasPoints = false;
+            System.err.println("[FlyBuff-Payment] 您的服务器中并没有安装 PlayerPoints 插件， 对应的经济功能将被禁用");
+        }
+        if (!hasVault && !hasPoints){
+            System.err.println("[FlyBuff-Payment] 您的服务器上没有任何可用的经济插件 经济功能将完全禁用");
+        }
         new BukkitRunnable() {
             @Override
             public void run() {
@@ -76,6 +89,28 @@ public final class FlyBuff extends JavaPlugin {
             }
         }.runTask(getPlugin(FlyBuff.class));
     }
+
+    private boolean setupPoints(){
+        if (Bukkit.getPluginManager().isPluginEnabled("PlayerPoints")) {
+            PaymentCore.points = PlayerPoints.getInstance().getAPI();
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    private boolean setupEconomy() {
+        if (getServer().getPluginManager().getPlugin("Vault") == null || !Bukkit.getPluginManager().isPluginEnabled("Vault")) {
+            return false;
+        }
+        RegisteredServiceProvider<Economy> rsp = getServer().getServicesManager().getRegistration(Economy.class);
+        if (rsp == null) {
+            return false;
+        }
+        PaymentCore.econ = rsp.getProvider();
+        return PaymentCore.econ != null;
+    }
+
 
     @Override
     public void onDisable() {

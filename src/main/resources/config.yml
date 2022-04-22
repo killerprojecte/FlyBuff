@@ -36,5 +36,17 @@ nospace: "&c背包空间不足 无法移除BUFF"
 backpage: "&f上一页"
 #下一页按钮
 nextpage: "&f下一页"
+#移除BUFF收费
+payment:
+  #是否开启
+  enable: false
+  #金额
+  cost: 1000.0
+  #货币种类(money = 游戏币 ; point = 点券)
+  mode: money
+  #余额不足提示
+  error: "&c余额不足低于 %cost% 无法进行该操作"
+  #完成提示
+  passed: "&a成功支付%cost% 游戏币，拆卸完成！"
 #配置版本(不要修改)
-config-version: "1.1.0"
+config-version: "1.1.1"

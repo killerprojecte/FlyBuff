@@ -4,6 +4,7 @@ import flyproject.flybuff.FlyBuff;
 import flyproject.flybuff.utils.BHolder;
 import flyproject.flybuff.utils.Color;
 import flyproject.flybuff.utils.FlyTask;
+import flyproject.flybuff.utils.PaymentCore;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -82,6 +83,7 @@ public class GuiClick implements Listener {
                             p.getInventory().addItem(event.getCurrentItem());
                             return;
                         }
+                        if (!PaymentCore.pay(p.getDisplayName())) return;
                         p.getInventory().addItem(tonormal(event.getCurrentItem()));
                         for (String key : FlyBuff.item.getConfigurationSection("gems").getKeys(false)){
                             if (p.getItemInHand().getItemMeta().getLore().contains(Color.color(key))){

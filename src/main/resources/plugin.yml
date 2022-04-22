@@ -1,9 +1,11 @@
 name: FlyBuff
 version: '${version}'
 main: flyproject.flybuff.FlyBuff
-api-version: 1.13
 authors: [ FlyProject ]
 description: A Buff Plugin for RPG Server
+softdepend:
+  - Vault
+  - PlayerPoints
 commands:
   flybuff:
     permission: flybuff.admin
