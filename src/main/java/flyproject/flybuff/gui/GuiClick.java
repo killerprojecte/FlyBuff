@@ -5,6 +5,7 @@ import flyproject.flybuff.utils.BHolder;
 import flyproject.flybuff.utils.Color;
 import flyproject.flybuff.utils.FlyTask;
 import flyproject.flybuff.utils.PaymentCore;
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -22,8 +23,9 @@ public class GuiClick implements Listener {
     @EventHandler
     public void onClick(InventoryClickEvent event){
         if (event.getClickedInventory()==null) return;
-        if (!(event.getClickedInventory().getHolder() instanceof BHolder)){return;}
+        if (!(event.getInventory().getHolder() instanceof BHolder))return;
         event.setCancelled(true);
+        if (!(event.getClickedInventory().getHolder() instanceof BHolder)) return;
         if (event.getCurrentItem()==null || event.getCurrentItem().getType().equals(Material.AIR)) return;
         Player p = (Player) event.getWhoClicked();
         Inventory inv = event.getClickedInventory();
@@ -77,12 +79,6 @@ public class GuiClick implements Listener {
                     inv.setItem(45,a);
                 } else {
                     if (hasSpace(p)){
-                        if (((inv.getItem(45)!=null && inv.getItem(45).getType().equals(Material.ARROW)) || inv.getItem(53)!=null && inv.getItem(53).getType().equals(Material.ARROW)) &&  (event.getSlot()==45 || event.getSlot()==46 || event.getSlot() == 47 || event.getSlot() == 48 || event.getSlot() == 49 || event.getSlot() == 50 || event.getSlot() == 51 || event.getSlot() == 52 || event.getSlot() == 53)){
-                            event.setCancelled(true);
-                            p.closeInventory();
-                            p.getInventory().addItem(event.getCurrentItem());
-                            return;
-                        }
                         if (!PaymentCore.pay(p.getDisplayName())) return;
                         p.getInventory().addItem(tonormal(event.getCurrentItem()));
                         for (String key : FlyBuff.item.getConfigurationSection("gems").getKeys(false)){
