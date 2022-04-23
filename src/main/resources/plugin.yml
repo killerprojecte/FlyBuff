@@ -3,6 +3,7 @@ version: '${version}'
 main: flyproject.flybuff.FlyBuff
 authors: [ FlyProject ]
 description: A Buff Plugin for RPG Server
+api-version: 1.13
 softdepend:
   - Vault
   - PlayerPoints
