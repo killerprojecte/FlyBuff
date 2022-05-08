@@ -48,5 +48,6 @@ payment:
   error: "&c余额不足低于 %cost% 无法进行该操作"
   #完成提示
   passed: "&a成功支付%cost% 游戏币，拆卸完成！"
+bufftime: 10
 #配置版本(不要修改)
-config-version: "1.1.1"
+config-version: "1.1.2"

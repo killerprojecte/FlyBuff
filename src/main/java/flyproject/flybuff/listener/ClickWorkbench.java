@@ -22,7 +22,6 @@ public class ClickWorkbench implements Listener {
     public void onClick(InventoryClickEvent event){
         ItemStack buff = event.getCursor();
         Player p = (Player) event.getWhoClicked();
-        FlyTask.runTaskAsync(() -> {
             if (event.getClick().equals(ClickType.LEFT) && event.getClickedInventory() != null && event.getClickedInventory().getType().equals(InventoryType.WORKBENCH) && buff != null && !buff.getType().equals(Material.AIR) && buff.getItemMeta().getLore()!=null && buff.getItemMeta().getLore().size()!=0 && event.getCurrentItem()!=null && !event.getCurrentItem().getType().equals(Material.AIR)){
                 if (whitelist(event.getCurrentItem().getType())){
                     ItemMeta buffim = buff.getItemMeta();
@@ -49,7 +48,6 @@ public class ClickWorkbench implements Listener {
                     p.sendMessage(Color.color(FlyBuff.config.getString("invaild")));
                 }
             }
-        });
     }
     private static void sort(ItemStack item){
         ItemMeta im = item.getItemMeta();
@@ -86,8 +84,9 @@ public class ClickWorkbench implements Listener {
         String n = type.toString();
         boolean back = false;
         for (String a : FlyBuff.config.getStringList("whitelist")){
-            if (n.equalsIgnoreCase(a)){
+            if (n.equalsIgnoreCase(a)) {
                 back = true;
+                break;
             }
         }
         return back;

@@ -24,6 +24,8 @@ import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
 import java.util.*;
 
 public final class FlyBuff extends JavaPlugin {
@@ -35,8 +37,17 @@ public final class FlyBuff extends JavaPlugin {
     @Override
     public void onEnable() {
         saveDefaultConfig();
-        saveResource("items.yml",false);
         config = getConfig();
+        if (getServer().getVersion().contains("1.12") || getServer().getVersion().contains("1.11") || getServer().getVersion().contains("1.10") || getServer().getVersion().contains("1.9") || getServer().getVersion().contains("1.8") || getServer().getVersion().contains("1.7")){
+            saveResource("items-low.yml",false);
+            File il = new File(getDataFolder() + "/items-low.yml");
+            try {
+                Files.copy(il.toPath(),new File(getDataFolder() + "/items.yml").toPath());
+            } catch (IOException ignored) {
+            }
+        } else {
+            saveResource("items.yml",false);
+        }
         item = YamlConfiguration.loadConfiguration(new File(getDataFolder() + "/items.yml"));
         System.out.println("\n" +
                 "    ________      ____        ________\n" +
