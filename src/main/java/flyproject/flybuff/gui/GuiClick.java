@@ -53,6 +53,10 @@ public class GuiClick implements Listener {
         Player p = (Player) event.getWhoClicked();
         Inventory inv = event.getClickedInventory();
         BHolder holder = (BHolder) inv.getHolder();
+        if (p.isSneaking()){
+            p.closeInventory();
+            return;
+        }
         {
             if (event.getSlot() == 45 && holder.getItems().size() > 54 && holder.getPage() != 1) {
                 int back = holder.getPage() - 1;
@@ -105,56 +109,67 @@ public class GuiClick implements Listener {
                     for (String key : FlyBuff.item.getConfigurationSection("gems").getKeys(false)) {
                         if (p.getInventory().getItemInMainHand().getItemMeta().getLore().contains(Color.color(key))) {
                             if (FlyBuff.item.getString("gems." + key + ".mode").equalsIgnoreCase("stack")){
-                                ItemMeta im = p.getInventory().getItemInMainHand().getItemMeta();
-                                List<String> lores = new ArrayList<>();
-                                boolean ok = false;
-                                for (String str : im.getLore()) {
-                                    if (str.equals(Color.color(key))){
-                                        ok = true;
-                                        continue;
+                                if (eqlore(FlyBuff.item.getItemStack("gems." + key + ".itemstack").getItemMeta().getLore(),event.getCurrentItem().getItemMeta().getLore())){
+                                    ItemMeta im = p.getInventory().getItemInMainHand().getItemMeta();
+                                    List<String> lores = new ArrayList<>();
+                                    for (String str : im.getLore()) {
+                                        if (str.equals(Color.color(key))){
+                                            continue;
+                                        }
+                                        lores.add(str);
                                     }
-                                    lores.add(str);
+                                    im.setLore(lores);
+                                    p.getInventory().getItemInMainHand().setItemMeta(im);
+                                    p.getInventory().addItem(FlyBuff.item.getItemStack("gems." + key + ".itemstack"));
+                                    p.closeInventory();
+                                    return;
                                 }
-                                if (!ok){
-                                    System.err.println("BUFF移除失败 玩家: " + p.getDisplayName());
-                                    break;
-                                }
-                                im.setLore(lores);
-                                p.getInventory().getItemInMainHand().setItemMeta(im);
-                                p.getInventory().addItem(FlyBuff.item.getItemStack("gems." + key + ".itemstack"));
-                                break;
                             } else {
-                                for (String ls : FlyBuff.item.getStringList("gems." + key + ".lores")) {
-                                    if (event.getCurrentItem().getItemMeta().getLore().contains(Color.color(ls))) {
-                                        ItemMeta im = p.getInventory().getItemInMainHand().getItemMeta();
-                                        List<String> lores = new ArrayList<>();
-                                        boolean ok = false;
-                                        for (String str : im.getLore()) {
-                                            if (str.equals(Color.color(key))){
-                                                ok = true;
-                                                continue;
-                                            }
-                                            lores.add(str);
+                                if (colore2(FlyBuff.item.getStringList("gems." + key + ".lores"),event.getCurrentItem().getItemMeta().getLore())){
+                                    ItemMeta im = p.getInventory().getItemInMainHand().getItemMeta();
+                                    List<String> lores = new ArrayList<>();
+                                    for (String str : im.getLore()) {
+                                        if (str.equals(Color.color(key))){
+                                            continue;
                                         }
-                                        if (!ok){
-                                            System.err.println("BUFF移除失败 玩家: " + p.getDisplayName());
-                                            break;
-                                        }
-                                        im.setLore(lores);
-                                        p.getInventory().getItemInMainHand().setItemMeta(im);
-                                        p.getInventory().addItem(tonormal(event.getCurrentItem()));
-                                        break;
+                                        lores.add(str);
                                     }
+                                    im.setLore(lores);
+                                    p.getInventory().getItemInMainHand().setItemMeta(im);
+                                    p.getInventory().addItem(tonormal(event.getCurrentItem()));
+                                    p.closeInventory();
+                                    return;
                                 }
                             }
-                            break;
                         }
                     }
-                    p.closeInventory();
                 } else {
                     p.sendMessage(Color.color(FlyBuff.config.getString("nospace")));
                 }
             }
         }
+    }
+
+    public boolean eqlore(List<String> lore1,List<String> lore2){
+        if (lore1.size()!=lore2.size()){
+            return false;
+        }
+        for (int i = 0;i < lore1.size();i++){
+            if (!lore1.get(i).equals(lore2.get(i))){
+                return false;
+            }
+        }
+        return true;
+    }
+    public boolean colore2(List<String> lore1,List<String> lore2){
+        if (lore1.size()!=(lore2.size()-1)){
+            return false;
+        }
+        for (int i = 0;i < lore1.size();i++){
+            if (!Color.color(lore1.get(i)).equals(lore2.get(i))){
+                return false;
+            }
+        }
+        return true;
     }
 }
