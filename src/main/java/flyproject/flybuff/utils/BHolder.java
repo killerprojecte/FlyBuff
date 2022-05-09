@@ -4,7 +4,9 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.ItemStack;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class BHolder implements InventoryHolder {
     int p;
@@ -13,6 +15,8 @@ public class BHolder implements InventoryHolder {
     public Inventory getInventory() {
         return null;
     }
+
+    public Map<Integer,ItemStack> origin = new HashMap<>();
 
     public BHolder(int page){
         p = page;

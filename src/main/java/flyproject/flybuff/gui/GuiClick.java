@@ -101,20 +101,50 @@ public class GuiClick implements Listener {
                 inv.setItem(45, a);
             } else {
                 if (hasSpace(p)) {
-                    if (!PaymentCore.pay(p.getDisplayName())) return;
-                    p.getInventory().addItem(tonormal(event.getCurrentItem()));
+                    if (!PaymentCore.pay(p.getUniqueId())) return;
                     for (String key : FlyBuff.item.getConfigurationSection("gems").getKeys(false)) {
-                        if (p.getItemInHand().getItemMeta().getLore().contains(Color.color(key))) {
-                            for (String ls : FlyBuff.item.getStringList("gems." + key + ".lores")) {
-                                if (event.getCurrentItem().getItemMeta().getLore().contains(Color.color(ls))) {
-                                    ItemMeta im = p.getItemInHand().getItemMeta();
-                                    List<String> lores = new ArrayList<>();
-                                    for (String str : im.getLore()) {
-                                        if (str.equals(Color.color(key))) continue;
-                                        lores.add(str);
+                        if (p.getInventory().getItemInMainHand().getItemMeta().getLore().contains(Color.color(key))) {
+                            if (FlyBuff.item.getString("gems." + key + ".mode").equalsIgnoreCase("stack")){
+                                ItemMeta im = p.getInventory().getItemInMainHand().getItemMeta();
+                                List<String> lores = new ArrayList<>();
+                                boolean ok = false;
+                                for (String str : im.getLore()) {
+                                    if (str.equals(Color.color(key))){
+                                        ok = true;
+                                        continue;
                                     }
-                                    im.setLore(lores);
-                                    p.getItemInHand().setItemMeta(im);
+                                    lores.add(str);
+                                }
+                                if (!ok){
+                                    System.err.println("BUFF移除失败 玩家: " + p.getDisplayName());
+                                    break;
+                                }
+                                im.setLore(lores);
+                                p.getInventory().getItemInMainHand().setItemMeta(im);
+                                p.getInventory().addItem(FlyBuff.item.getItemStack("gems." + key + ".itemstack"));
+                                break;
+                            } else {
+                                for (String ls : FlyBuff.item.getStringList("gems." + key + ".lores")) {
+                                    if (event.getCurrentItem().getItemMeta().getLore().contains(Color.color(ls))) {
+                                        ItemMeta im = p.getInventory().getItemInMainHand().getItemMeta();
+                                        List<String> lores = new ArrayList<>();
+                                        boolean ok = false;
+                                        for (String str : im.getLore()) {
+                                            if (str.equals(Color.color(key))){
+                                                ok = true;
+                                                continue;
+                                            }
+                                            lores.add(str);
+                                        }
+                                        if (!ok){
+                                            System.err.println("BUFF移除失败 玩家: " + p.getDisplayName());
+                                            break;
+                                        }
+                                        im.setLore(lores);
+                                        p.getInventory().getItemInMainHand().setItemMeta(im);
+                                        p.getInventory().addItem(tonormal(event.getCurrentItem()));
+                                        break;
+                                    }
                                 }
                             }
                             break;

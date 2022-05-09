@@ -7,10 +7,12 @@ import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 
+import java.util.UUID;
+
 public class PaymentCore {
     public static Economy econ = null;
     public static PlayerPointsAPI points = null;
-    public static boolean pay(String player){
+    public static boolean pay(UUID player){
         if (FlyBuff.config.getBoolean("payment.enable")){
             OfflinePlayer ofp = Bukkit.getOfflinePlayer(player);
             Player p = Bukkit.getPlayer(player);
