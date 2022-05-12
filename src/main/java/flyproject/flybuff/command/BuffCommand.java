@@ -2,6 +2,7 @@ package flyproject.flybuff.command;
 
 import flyproject.flybuff.FlyBuff;
 import flyproject.flybuff.utils.Color;
+import flyproject.flybuff.utils.XMap;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -17,6 +18,7 @@ public class BuffCommand implements CommandExecutor {
         buff.reloadConfig();
         FlyBuff.config = buff.getConfig();
         FlyBuff.item = YamlConfiguration.loadConfiguration(new File(buff.getDataFolder() + "/items.yml"));
+        XMap.load();
         return true;
     }
 }

@@ -34,19 +34,70 @@ public final class FlyBuff extends JavaPlugin {
     public static boolean hasVault = true;
     public static boolean hasPoints = true;
 
+    @Deprecated
+    public static void sendPotion(Player p, PotionEffect pe) {
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+                p.addPotionEffect(pe);
+            }
+        }.runTask(getPlugin(FlyBuff.class));
+    }
+
+    public static List<PotionEffect> getPotion(Player player) {
+        List<PotionEffect> list = new ArrayList<>();
+        Inventory inv = player.getInventory();
+        ItemStack i1 = inv.getItem(36);
+        ItemStack i2 = inv.getItem(37);
+        ItemStack i3 = inv.getItem(38);
+        ItemStack i4 = inv.getItem(39);
+        ItemStack i5 = inv.getItem(40);
+        ItemStack i6 = player.getItemInHand();
+        ItemStack[] is = {i1, i2, i3, i4, i5, i6};
+        for (ItemStack i : is) {
+            if (i == null || i.getType().equals(Material.AIR)) continue;
+            ItemMeta meta = i.getItemMeta();
+            Map<PotionEffectType, Integer> map = new HashMap<>();
+            if (meta.getLore() == null || meta.getLore().size() == 0) continue;
+            for (String l : config.getConfigurationSection("effect").getKeys(false)) {
+                String cl = Color.color(l);
+                for (String lore : meta.getLore()) {
+                    if (lore.equals(cl)) {
+                        for (String pots : config.getStringList("effect." + l)) {
+                            String[] args = pots.split(":");
+                            PotionEffect pe = new PotionEffect(PotionEffectType.getByName(args[0]), 10, Integer.parseInt(args[1]) - 1);
+                            if (list.contains(pe)) {
+                                continue;
+                            } else {
+                                list.add(pe);
+                            }
+                        }
+                        break;
+                    }
+                }
+            }
+        }
+        return list;
+    }
+
+    public static ItemStack simpleSkull(ItemStack head, String value) {
+        UUID uuid = UUID.nameUUIDFromBytes(value.getBytes());
+        return Bukkit.getUnsafe().modifyItemStack(head, "{SkullOwner:{Id:\"" + uuid + "\",Properties:{textures:[{Value:\"" + value + "\"}]}}}");
+    }
+
     @Override
     public void onEnable() {
         saveDefaultConfig();
         config = getConfig();
-        if (getServer().getVersion().contains("1.12") || getServer().getVersion().contains("1.11") || getServer().getVersion().contains("1.10") || getServer().getVersion().contains("1.9") || getServer().getVersion().contains("1.8") || getServer().getVersion().contains("1.7")){
-            saveResource("items-low.yml",false);
+        if (getServer().getVersion().contains("1.12") || getServer().getVersion().contains("1.11") || getServer().getVersion().contains("1.10") || getServer().getVersion().contains("1.9") || getServer().getVersion().contains("1.8") || getServer().getVersion().contains("1.7")) {
+            saveResource("items-low.yml", false);
             File il = new File(getDataFolder() + "/items-low.yml");
             try {
-                Files.copy(il.toPath(),new File(getDataFolder() + "/items.yml").toPath());
+                Files.copy(il.toPath(), new File(getDataFolder() + "/items.yml").toPath());
             } catch (IOException ignored) {
             }
         } else {
-            saveResource("items.yml",false);
+            saveResource("items.yml", false);
         }
         item = YamlConfiguration.loadConfiguration(new File(getDataFolder() + "/items.yml"));
         System.out.println("\n" +
@@ -65,21 +116,21 @@ public final class FlyBuff extends JavaPlugin {
         FlyTask.runTaskAsync(() -> {
             ConfigUpdater.update();
         });
-        Bukkit.getPluginManager().registerEvents(new ClickWorkbench(),this);
-        Bukkit.getPluginManager().registerEvents(new GuiClick(),this);
+        Bukkit.getPluginManager().registerEvents(new ClickWorkbench(), this);
+        Bukkit.getPluginManager().registerEvents(new GuiClick(), this);
         getCommand("flybuff").setExecutor(new BuffCommand());
         getCommand("buffremove").setExecutor(new RemoveCommand());
         getCommand("buffitem").setExecutor(new ItemCommand());
         PotionSender.load();
-        if (!setupEconomy()){
+        if (!setupEconomy()) {
             hasVault = false;
             System.err.println("[FlyBuff-Payment] 您的服务器中并没有安装 Vault 插件， 对应的经济功能将被禁用");
         }
-        if (!setupPoints()){
+        if (!setupPoints()) {
             hasPoints = false;
             System.err.println("[FlyBuff-Payment] 您的服务器中并没有安装 PlayerPoints 插件， 对应的经济功能将被禁用");
         }
-        if (!hasVault && !hasPoints){
+        if (!hasVault && !hasPoints) {
             System.err.println("[FlyBuff-Payment] 您的服务器上没有任何可用的经济插件 经济功能将完全禁用");
         }
         new BukkitRunnable() {
@@ -87,21 +138,12 @@ public final class FlyBuff extends JavaPlugin {
             public void run() {
                 Version.check();
             }
-        }.runTaskLaterAsynchronously(this,1200L);
+        }.runTaskLaterAsynchronously(this, 1200L);
+        XMap.load();
         // Plugin startup logic
     }
 
-    @Deprecated
-    public static void sendPotion(Player p,PotionEffect pe){
-        new BukkitRunnable() {
-            @Override
-            public void run() {
-                p.addPotionEffect(pe);
-            }
-        }.runTask(getPlugin(FlyBuff.class));
-    }
-
-    private boolean setupPoints(){
+    private boolean setupPoints() {
         if (Bukkit.getPluginManager().isPluginEnabled("PlayerPoints")) {
             PaymentCore.points = PlayerPoints.getInstance().getAPI();
             return true;
@@ -122,49 +164,8 @@ public final class FlyBuff extends JavaPlugin {
         return PaymentCore.econ != null;
     }
 
-
     @Override
     public void onDisable() {
         // Plugin shutdown logic
-    }
-
-    public static List<PotionEffect> getPotion(Player player){
-        List<PotionEffect> list = new ArrayList<>();
-        Inventory inv = player.getInventory();
-        ItemStack i1 = inv.getItem(36);
-        ItemStack i2 = inv.getItem(37);
-        ItemStack i3 = inv.getItem(38);
-        ItemStack i4 = inv.getItem(39);
-        ItemStack i5 = inv.getItem(40);
-        ItemStack i6 = player.getItemInHand();
-        ItemStack[] is = {i1,i2,i3,i4,i5,i6};
-        for (ItemStack i : is){
-            if (i==null || i.getType().equals(Material.AIR)) continue;
-            ItemMeta meta = i.getItemMeta();
-            Map<PotionEffectType,Integer> map = new HashMap<>();
-            if (meta.getLore()==null || meta.getLore().size()==0) continue;
-            for (String l : config.getConfigurationSection("effect").getKeys(false)){
-                String cl = Color.color(l);
-                for (String lore : meta.getLore()){
-                    if (lore.equals(cl)){
-                        for (String pots : config.getStringList("effect." + l)){
-                            String[] args = pots.split(":");
-                            PotionEffect pe = new PotionEffect(PotionEffectType.getByName(args[0]),10,Integer.parseInt(args[1]) -1);
-                            if (list.contains(pe)){
-                                continue;
-                            } else {
-                                list.add(pe);
-                            }
-                        }
-                        break;
-                    }
-                }
-            }
-        }
-        return list;
-    }
-    public static ItemStack simpleSkull(ItemStack head, String value) {
-        UUID uuid = UUID.nameUUIDFromBytes(value.getBytes());
-        return Bukkit.getUnsafe().modifyItemStack(head, "{SkullOwner:{Id:\"" + uuid + "\",Properties:{textures:[{Value:\"" + value + "\"}]}}}");
     }
 }

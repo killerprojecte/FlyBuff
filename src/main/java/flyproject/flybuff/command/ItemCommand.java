@@ -15,18 +15,18 @@ import java.io.IOException;
 public class ItemCommand implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-        if (!(sender instanceof Player)){
+        if (!(sender instanceof Player)) {
             sender.sendMessage(Color.color("&c该命令需要玩家执行"));
         }
         Player p = (Player) sender;
-        if (args.length!=1){
+        if (args.length != 1) {
             sender.sendMessage(Color.color("&c参数错误"));
         }
-        if (p.getItemInHand()==null || p.getItemInHand().getType().equals(Material.AIR)){
+        if (p.getItemInHand() == null || p.getItemInHand().getType().equals(Material.AIR)) {
             sender.sendMessage(Color.color("&c手上物品不能为空"));
         }
-        FlyBuff.item.set("gems." + args[0] + ".mode","stack");
-        FlyBuff.item.set("gems." + args[0] + ".itemstack",p.getItemInHand());
+        FlyBuff.item.set("gems." + args[0] + ".mode", "stack");
+        FlyBuff.item.set("gems." + args[0] + ".itemstack", p.getItemInHand());
         FlyBuff buff = FlyBuff.getPlugin(FlyBuff.class);
         try {
             FlyBuff.item.save(new File(buff.getDataFolder() + "/items.yml"));

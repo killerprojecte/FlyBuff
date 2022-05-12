@@ -8,18 +8,18 @@ import org.bukkit.potion.PotionEffect;
 import org.bukkit.scheduler.BukkitRunnable;
 
 public class PotionSender {
-    public static void load(){
+    public static void load() {
         new BukkitRunnable() {
             @Override
             public void run() {
-                for (Player p : Bukkit.getOnlinePlayers()){
-                    for (PotionEffect potionEffect : FlyBuff.getPotion(p)){
+                for (Player p : Bukkit.getOnlinePlayers()) {
+                    for (PotionEffect potionEffect : FlyBuff.getPotion(p)) {
                         FlyTask.runTask(() -> {
                             p.addPotionEffect(potionEffect);
                         });
                     }
                 }
             }
-        }.runTaskTimerAsynchronously(FlyBuff.getPlugin(FlyBuff.class),FlyBuff.config.getInt("bufftime"), 0L);
+        }.runTaskTimerAsynchronously(FlyBuff.getPlugin(FlyBuff.class), FlyBuff.config.getInt("bufftime"), 0L);
     }
 }

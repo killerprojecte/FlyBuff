@@ -3,9 +3,7 @@ package flyproject.flybuff.gui;
 import flyproject.flybuff.FlyBuff;
 import flyproject.flybuff.utils.BHolder;
 import flyproject.flybuff.utils.Color;
-import flyproject.flybuff.utils.FlyTask;
 import flyproject.flybuff.utils.PaymentCore;
-import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -53,7 +51,7 @@ public class GuiClick implements Listener {
         Player p = (Player) event.getWhoClicked();
         Inventory inv = event.getClickedInventory();
         BHolder holder = (BHolder) inv.getHolder();
-        if (p.isSneaking()){
+        if (p.isSneaking()) {
             p.closeInventory();
             return;
         }
@@ -106,40 +104,37 @@ public class GuiClick implements Listener {
             } else {
                 if (hasSpace(p)) {
                     if (!PaymentCore.pay(p.getUniqueId())) return;
-                    for (String key : FlyBuff.item.getConfigurationSection("gems").getKeys(false)) {
-                        if (p.getInventory().getItemInMainHand().getItemMeta().getLore().contains(Color.color(key))) {
-                            if (FlyBuff.item.getString("gems." + key + ".mode").equalsIgnoreCase("stack")){
-                                if (eqlore(FlyBuff.item.getItemStack("gems." + key + ".itemstack").getItemMeta().getLore(),event.getCurrentItem().getItemMeta().getLore())){
-                                    ItemMeta im = p.getInventory().getItemInMainHand().getItemMeta();
-                                    List<String> lores = new ArrayList<>();
-                                    for (String str : im.getLore()) {
-                                        if (str.equals(Color.color(key))){
-                                            continue;
-                                        }
-                                        lores.add(str);
+                    String key = holder.origin.get((53 * (holder.getPage() - 1)) + event.getSlot());
+                    if (p.getInventory().getItemInMainHand().getItemMeta().getLore().contains(Color.color(key))) {
+                        if (FlyBuff.item.getString("gems." + key + ".mode").equalsIgnoreCase("stack")) {
+                            if (eqlore(FlyBuff.item.getItemStack("gems." + key + ".itemstack").getItemMeta().getLore(), event.getCurrentItem().getItemMeta().getLore())) {
+                                ItemMeta im = p.getInventory().getItemInMainHand().getItemMeta();
+                                List<String> lores = new ArrayList<>();
+                                for (String str : im.getLore()) {
+                                    if (str.equals(Color.color(key))) {
+                                        continue;
                                     }
-                                    im.setLore(lores);
-                                    p.getInventory().getItemInMainHand().setItemMeta(im);
-                                    p.getInventory().addItem(FlyBuff.item.getItemStack("gems." + key + ".itemstack"));
-                                    p.closeInventory();
-                                    return;
+                                    lores.add(str);
                                 }
-                            } else {
-                                if (colore2(FlyBuff.item.getStringList("gems." + key + ".lores"),event.getCurrentItem().getItemMeta().getLore())){
-                                    ItemMeta im = p.getInventory().getItemInMainHand().getItemMeta();
-                                    List<String> lores = new ArrayList<>();
-                                    for (String str : im.getLore()) {
-                                        if (str.equals(Color.color(key))){
-                                            continue;
-                                        }
-                                        lores.add(str);
+                                im.setLore(lores);
+                                p.getInventory().getItemInMainHand().setItemMeta(im);
+                                p.getInventory().addItem(FlyBuff.item.getItemStack("gems." + key + ".itemstack"));
+                                p.closeInventory();
+                            }
+                        } else {
+                            if (colore2(FlyBuff.item.getStringList("gems." + key + ".lores"), event.getCurrentItem().getItemMeta().getLore())) {
+                                ItemMeta im = p.getInventory().getItemInMainHand().getItemMeta();
+                                List<String> lores = new ArrayList<>();
+                                for (String str : im.getLore()) {
+                                    if (str.equals(Color.color(key))) {
+                                        continue;
                                     }
-                                    im.setLore(lores);
-                                    p.getInventory().getItemInMainHand().setItemMeta(im);
-                                    p.getInventory().addItem(tonormal(event.getCurrentItem()));
-                                    p.closeInventory();
-                                    return;
+                                    lores.add(str);
                                 }
+                                im.setLore(lores);
+                                p.getInventory().getItemInMainHand().setItemMeta(im);
+                                p.getInventory().addItem(tonormal(event.getCurrentItem()));
+                                p.closeInventory();
                             }
                         }
                     }
@@ -150,23 +145,24 @@ public class GuiClick implements Listener {
         }
     }
 
-    public boolean eqlore(List<String> lore1,List<String> lore2){
-        if (lore1.size()!=lore2.size()){
+    public boolean eqlore(List<String> lore1, List<String> lore2) {
+        if (lore1.size() != lore2.size()) {
             return false;
         }
-        for (int i = 0;i < lore1.size();i++){
-            if (!lore1.get(i).equals(lore2.get(i))){
+        for (int i = 0; i < lore1.size(); i++) {
+            if (!lore1.get(i).equals(lore2.get(i))) {
                 return false;
             }
         }
         return true;
     }
-    public boolean colore2(List<String> lore1,List<String> lore2){
-        if (lore1.size()!=(lore2.size()-1)){
+
+    public boolean colore2(List<String> lore1, List<String> lore2) {
+        if (lore1.size() != (lore2.size() - 1)) {
             return false;
         }
-        for (int i = 0;i < lore1.size();i++){
-            if (!Color.color(lore1.get(i)).equals(lore2.get(i))){
+        for (int i = 0; i < lore1.size(); i++) {
+            if (!Color.color(lore1.get(i)).equals(lore2.get(i))) {
                 return false;
             }
         }

@@ -8,24 +8,26 @@ import java.io.File;
 import java.io.IOException;
 
 public class ConfigUpdater {
-    public static void update(){
+    public static void update() {
         FlyBuff buff = FlyBuff.getPlugin(FlyBuff.class);
         FileConfiguration config = YamlConfiguration.loadConfiguration(new File(buff.getDataFolder() + "/config.yml"));
-        if (config.get("config-version")==null){
+        if (config.get("config-version") == null) {
             System.out.println(Color.color("&a[配置更新器] 检测到正在使用1.0.1或之前的版本 开始更新"));
-            config.set("remove",true);
-            config.set("title","&8[&bBUFF移除面板&8]");
-            config.set("removehelp","&e - 点击移除BUFF");
-            config.set("nospace","&c背包空间不足 无法移除BUFF");
-            config.set("backpage","&f上一页");
-            config.set("nextpage","&f下一页");
-            config.set("config-version","1.1.2");
-            config.set("payment.enable",false);
-            config.set("payment.cost",1000.0);
-            config.set("payment.mode","money");
-            config.set("payment.error","&c余额不足低于 %cost% 无法进行该操作");
-            config.set("payment.passed","&a成功支付%cost% 游戏币，拆卸完成！");
-            config.set("bufftime",10);
+            config.set("remove", true);
+            config.set("title", "&8[&bBUFF移除面板&8]");
+            config.set("removehelp", "&e - 点击移除BUFF");
+            config.set("nospace", "&c背包空间不足 无法移除BUFF");
+            config.set("backpage", "&f上一页");
+            config.set("nextpage", "&f下一页");
+            config.set("config-version", "1.1.4");
+            config.set("payment.enable", false);
+            config.set("payment.cost", 1000.0);
+            config.set("payment.mode", "money");
+            config.set("payment.error", "&c余额不足低于 %cost% 无法进行该操作");
+            config.set("payment.passed", "&a成功支付%cost% 游戏币，拆卸完成！");
+            config.set("bufftime", 10);
+            config.set("limit",-1);
+            config.set("maxinstalled","&c已超过限制的镶嵌数量 无法镶嵌");
             config.options().header("由于配置需要更新 注释已被消除 请查看MCBBS上的配置文件栏查看格式");
             try {
                 config.save(new File(buff.getDataFolder() + "/config.yml"));
@@ -37,14 +39,16 @@ public class ConfigUpdater {
             FlyBuff.config = buff.getConfig();
             System.out.println(Color.color("[配置更新器] 更新完成！"));
             return;
-        } else if (config.getString("config-version").equals("1.1.0") || config.getString("config-version").equals("1.1.1")){
-            config.set("config-version","1.1.2");
-            config.set("payment.enable",false);
-            config.set("payment.cost",1000.0);
-            config.set("payment.mode","money");
-            config.set("payment.error","&c余额不足低于 %cost% 无法进行该操作");
-            config.set("payment.passed","&a成功支付%cost% 游戏币，拆卸完成！");
-            config.set("bufftime",10);
+        } else if (config.getString("config-version").equals("1.1.0") || config.getString("config-version").equals("1.1.1") || config.getString("config-version").equals("1.1.2") || config.getString("config-version").equals("1.1.3")) {
+            config.set("config-version", "1.1.4");
+            config.set("payment.enable", false);
+            config.set("payment.cost", 1000.0);
+            config.set("payment.mode", "money");
+            config.set("payment.error", "&c余额不足低于 %cost% 无法进行该操作");
+            config.set("payment.passed", "&a成功支付%cost% 游戏币，拆卸完成！");
+            config.set("bufftime", 10);
+            config.set("limit",-1);
+            config.set("maxinstalled","&c已超过限制的镶嵌数量 无法镶嵌");
             config.options().header("由于配置需要更新 注释已被消除 请查看MCBBS上的配置文件栏查看格式");
             try {
                 config.save(new File(buff.getDataFolder() + "/config.yml"));

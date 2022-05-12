@@ -9,28 +9,32 @@ import java.util.List;
 import java.util.Map;
 
 public class BHolder implements InventoryHolder {
+    public Map<Integer, String> origin = new HashMap<>();
     int p;
     List<ItemStack> i;
+
+    public BHolder(int page) {
+        p = page;
+    }
+
     @Override
     public Inventory getInventory() {
         return null;
     }
 
-    public Map<Integer,ItemStack> origin = new HashMap<>();
+    public int getPage() {
+        return p;
+    }
 
-    public BHolder(int page){
+    public void setPage(int page) {
         p = page;
     }
 
-    public int getPage(){return p;}
-
-    public List<ItemStack> getItems(){
+    public List<ItemStack> getItems() {
         return i;
     }
-    public void setItems(List<ItemStack> items){
+
+    public void setItems(List<ItemStack> items) {
         i = items;
-    }
-    public void setPage(int page){
-        p = page;
     }
 }
