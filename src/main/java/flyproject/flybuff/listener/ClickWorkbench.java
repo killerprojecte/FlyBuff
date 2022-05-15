@@ -98,6 +98,6 @@ public class ClickWorkbench implements Listener {
         for (String l : lore){
             if (XMap.installs.contains(Color.uncolor(l))) installed++;
         }
-        return installed <= limit;
+        return installed < limit;
     }
 }

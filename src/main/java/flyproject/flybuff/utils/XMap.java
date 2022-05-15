@@ -18,7 +18,7 @@ public class XMap {
         }
         installs = new ArrayList<>();
         for (String key : FlyBuff.config.getConfigurationSection("gem").getKeys(false)){
-            installs.add(FlyBuff.config.getString(key));
+            installs.add(FlyBuff.config.getString("gem." + key));
         }
     }
 }

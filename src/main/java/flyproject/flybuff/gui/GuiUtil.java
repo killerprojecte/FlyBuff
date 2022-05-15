@@ -36,18 +36,15 @@ public class GuiUtil {
     public static void init(Inventory inv, Player player) {
         ItemStack is = player.getItemInHand();
         ItemMeta im = is.getItemMeta();
-        Map<Integer, Object[]> ilist = new HashMap<>();
-        List<ItemStack> items = new ArrayList<>();
         BHolder holder = (BHolder) inv.getHolder();
         if (im.getLore() == null || im.getLore().size() == 0) return;
         FlyTask.runTaskAsync(() -> {
+            List<Object[]> items = new ArrayList<>();
             for (String lore : im.getLore()) {
                 if (!XMap.gems.contains(Color.uncolor(lore))) continue;
                 String key = Color.uncolor(lore);
-                int put = (ilist.size() == 0) ? 0 : (ilist.size() + 1);
                 if (FlyBuff.item.getString("gems." + key + ".mode").equals("stack")) {
-                    ilist.put(put, new Object[]{FlyBuff.item.getItemStack("gems." + key + ".itemstack"), key});
-                    items.add(FlyBuff.item.getItemStack("gems." + key + ".itemstack"));
+                    items.add(new Object[]{FlyBuff.item.getItemStack("gems." + key + ".itemstack"), key});
                 } else {
                     String type = FlyBuff.item.getString("gems." + key + ".type");
                     ItemStack nitem;
@@ -67,25 +64,28 @@ public class GuiUtil {
                     nim.setDisplayName(display);
                     nim.setLore(nlore);
                     nitem.setItemMeta(nim);
-                    ilist.put(put, new Object[]{nitem, key});
-                    items.add(nitem);
+                    items.add(new Object[]{nitem,key});
                 }
             }
             inv.setItem(45, new ItemStack(Material.AIR));
-            if (ilist.size() <= 54) {
+            if (items.size() <= 54) {
                 inv.setItem(45, new ItemStack(Material.AIR));
                 inv.setItem(53, new ItemStack(Material.AIR));
-                for (int i = 0; i < ilist.size(); i++) {
-                    inv.setItem(i, (ItemStack) ilist.get(i)[0]);
-                    holder.origin.put(i, (String) ilist.get(i)[1]);
+                for (int i = 0; i < items.size(); i++) {
+                    inv.setItem(i, (ItemStack) items.get(i)[0]);
+                    holder.origin.put(i, (String) items.get(i)[1]);
                 }
             } else {
                 for (int i = 0; i < 45; i++) {
-                    inv.setItem(i, (ItemStack) ilist.get(i)[0]);
-                    holder.origin.put(i, (String) ilist.get(i)[1]);
+                    inv.setItem(i, (ItemStack) items.get(i)[0]);
+                    holder.origin.put(i, (String) items.get(i)[1]);
                 }
             }
-            holder.setItems(items);
+            List<ItemStack> isl  = new ArrayList<>();
+            for (Object[] obj : items){
+                isl.add((ItemStack) obj[0]);
+            }
+            holder.setItems(isl);
         });
     }
 }
