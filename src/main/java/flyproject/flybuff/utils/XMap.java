@@ -11,7 +11,9 @@ public class XMap {
     public static List<String> installs;
     public static void load(){
         whitelists = new ArrayList<>();
-        whitelists.addAll(FlyBuff.config.getStringList("whitelist"));
+        for (String type : FlyBuff.config.getStringList("whitelist")){
+            whitelists.add(type.toLowerCase());
+        }
         gems = new ArrayList<>();
         for (String key : FlyBuff.item.getConfigurationSection("gems").getKeys(false)){
             gems.add(key);

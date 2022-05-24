@@ -65,7 +65,9 @@ public final class FlyBuff extends JavaPlugin {
                     if (lore.equals(cl)) {
                         for (String pots : config.getStringList("effect." + l)) {
                             String[] args = pots.split(":");
-                            PotionEffect pe = new PotionEffect(PotionEffectType.getByName(args[0]), 10, Integer.parseInt(args[1]) - 1);
+                            int time = 10;
+                            if (args.length==3) time= Integer.parseInt(args[2]);
+                            PotionEffect pe = new PotionEffect(PotionEffectType.getByName(args[0]),time, Integer.parseInt(args[1]) - 1);
                             if (list.contains(pe)) {
                                 continue;
                             } else {

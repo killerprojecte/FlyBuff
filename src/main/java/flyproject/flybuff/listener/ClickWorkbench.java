@@ -53,14 +53,14 @@ public class ClickWorkbench implements Listener {
 
     private static boolean whitelist(Material type) {
         String n = type.toString();
-        return XMap.whitelists.contains(n);
+        return XMap.whitelists.contains(n.toUpperCase());
     }
 
     @EventHandler
     public void onClick(InventoryClickEvent event) {
         ItemStack buff = event.getCursor();
         Player p = (Player) event.getWhoClicked();
-        if (event.getClick().equals(ClickType.LEFT) && event.getClickedInventory() != null && event.getClickedInventory().getType().equals(InventoryType.WORKBENCH) && buff != null && !buff.getType().equals(Material.AIR) && buff.getItemMeta().getLore() != null && buff.getItemMeta().getLore().size() != 0 && event.getCurrentItem() != null && !event.getCurrentItem().getType().equals(Material.AIR)) {
+        if (event.getClick().equals(ClickType.LEFT) && event.getClickedInventory() != null && event.getClickedInventory().getType().equals(InventoryType.valueOf(FlyBuff.config.getString("workspace"))) && buff != null && !buff.getType().equals(Material.AIR) && buff.getItemMeta().getLore() != null && buff.getItemMeta().getLore().size() != 0 && event.getCurrentItem() != null && !event.getCurrentItem().getType().equals(Material.AIR)) {
             if (whitelist(event.getCurrentItem().getType())) {
                 ItemMeta buffim = buff.getItemMeta();
                 ItemStack click = event.getCurrentItem();
@@ -87,6 +87,7 @@ public class ClickWorkbench implements Listener {
                 p.playSound(p.getLocation(), Sound.valueOf(FlyBuff.config.getString("sound")), 1.0f, 1.0f);
                 sort(click);
             } else {
+                if (FlyBuff.config.getStringList("bypass").contains(event.getCurrentItem().getType().toString())) return;
                 p.sendMessage(Color.color(FlyBuff.config.getString("invaild")));
             }
         }

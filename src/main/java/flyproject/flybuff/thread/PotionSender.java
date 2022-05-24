@@ -15,6 +15,7 @@ public class PotionSender {
                 for (Player p : Bukkit.getOnlinePlayers()) {
                     for (PotionEffect potionEffect : FlyBuff.getPotion(p)) {
                         FlyTask.runTask(() -> {
+                            if (p.getActivePotionEffects().contains(potionEffect)) return;
                             p.addPotionEffect(potionEffect);
                         });
                     }
