@@ -21,7 +21,8 @@ sound: "BLOCK_ANVIL_PLACE"
 #药水ID可前往 https://hub.spigotmc.org/javadocs/spigot/org/bukkit/potion/PotionEffectType.html 查看
 #等级最高仅支持1-255 (原版限制)
 #新格式
-#"<药水效果>:<等级>:<持续时间>"
+#"[buff] <药水效果>:<等级>:<持续时间>"
+#"[particle] <Particle配置文件对应名称>"
 effect:
   "&6[&c&lBUFF&6] &b速度I":
     - "[buff] SPEED:1"
@@ -66,4 +67,4 @@ bypass:
   - "PLAYER_HEAD"
   - "SKULL_ITEM"
 #配置版本(不要修改)
-config-version: "1.1.5"
+config-version: "1.2.0"

@@ -19,7 +19,7 @@ public class ConfigUpdater {
             config.set("nospace", "&c背包空间不足 无法移除BUFF");
             config.set("backpage", "&f上一页");
             config.set("nextpage", "&f下一页");
-            config.set("config-version", "1.1.5");
+            config.set("config-version", "1.2.0");
             config.set("payment.enable", false);
             config.set("payment.cost", 1000.0);
             config.set("payment.mode", "money");
@@ -41,7 +41,7 @@ public class ConfigUpdater {
             System.out.println(Color.color("[配置更新器] 更新完成！"));
             return;
         } else if (config.getString("config-version").equals("1.1.0") || config.getString("config-version").equals("1.1.1")) {
-            config.set("config-version", "1.1.5");
+            config.set("config-version", "1.2.0");
             config.set("payment.enable", false);
             config.set("payment.cost", 1000.0);
             config.set("payment.mode", "money");
@@ -63,7 +63,7 @@ public class ConfigUpdater {
             System.out.println(Color.color("[配置更新器] 更新完成！"));
             return;
         } else if (config.getString("config-version").equals("1.1.3") || config.getString("config-version").equals("1.1.4")) {
-            config.set("config-version", "1.1.5");
+            config.set("config-version", "1.2.0");
             config.set("bufftime", 10);
             config.set("limit",-1);
             config.set("maxinstalled","&c已超过限制的镶嵌数量 无法镶嵌");
