@@ -1,0 +1,8 @@
+particles:
+  heart:
+    x: "%player_x%"
+    y: "%player_y%+1"
+    z: "%player_z%"
+    world: "%player_world%"
+    type: HEART
+    count: 3

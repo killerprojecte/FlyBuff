@@ -24,7 +24,9 @@ sound: "BLOCK_ANVIL_PLACE"
 #"<药水效果>:<等级>:<持续时间>"
 effect:
   "&6[&c&lBUFF&6] &b速度I":
-    - "SPEED:1"
+    - "[buff] SPEED:1"
+  "&6[&c&lBUFF&6] &b爱心粒子":
+    - "[particle] heart"
 
 #Buff移除
 remove: true

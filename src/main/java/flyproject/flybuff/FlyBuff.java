@@ -11,6 +11,7 @@ import net.milkbowl.vault.economy.Economy;
 import org.black_ixx.playerpoints.PlayerPoints;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
+import org.bukkit.Particle;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
@@ -31,6 +32,7 @@ import java.util.*;
 public final class FlyBuff extends JavaPlugin {
     public static FileConfiguration config;
     public static FileConfiguration item;
+    public static FileConfiguration particle;
     public static boolean hasVault = true;
     public static boolean hasPoints = true;
 
@@ -64,6 +66,8 @@ public final class FlyBuff extends JavaPlugin {
                 for (String lore : meta.getLore()) {
                     if (lore.equals(cl)) {
                         for (String pots : config.getStringList("effect." + l)) {
+                            if (!pots.startsWith("[buff] ")) continue;
+                            pots = pots.substring(7);
                             String[] args = pots.split(":");
                             int time = 10;
                             if (args.length==3) time= Integer.parseInt(args[2]);
@@ -76,6 +80,29 @@ public final class FlyBuff extends JavaPlugin {
                         }
                         break;
                     }
+                }
+            }
+        }
+        return list;
+    }
+
+    public static List<BuffParticle> getParticles(Player player) {
+        List<BuffParticle> list = new ArrayList<>();
+        Inventory inv = player.getInventory();
+        ItemStack i1 = inv.getItem(36);
+        ItemStack i2 = inv.getItem(37);
+        ItemStack i3 = inv.getItem(38);
+        ItemStack i4 = inv.getItem(39);
+        ItemStack i5 = inv.getItem(40);
+        ItemStack i6 = player.getItemInHand();
+        ItemStack[] is = {i1, i2, i3, i4, i5, i6};
+        for (ItemStack i : is) {
+            if (i == null || i.getType().equals(Material.AIR)) continue;
+            ItemMeta meta = i.getItemMeta();
+            if (meta.getLore() == null || meta.getLore().size() == 0) continue;
+            for (String lore : meta.getLore()){
+                if (XMap.particles.containsKey(lore)){
+                    list.addAll(XMap.particles.get(lore));
                 }
             }
         }
@@ -102,6 +129,7 @@ public final class FlyBuff extends JavaPlugin {
             saveResource("items.yml", false);
         }
         item = YamlConfiguration.loadConfiguration(new File(getDataFolder() + "/items.yml"));
+        particle = YamlConfiguration.loadConfiguration(new File(getDataFolder() + "/particle.yml"));
         System.out.println("\n" +
                 "    ________      ____        ________\n" +
                 "   / ____/ /_  __/ __ )__  __/ __/ __/\n" +

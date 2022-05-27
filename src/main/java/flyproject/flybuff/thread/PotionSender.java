@@ -1,8 +1,13 @@
 package flyproject.flybuff.thread;
 
 import flyproject.flybuff.FlyBuff;
+import flyproject.flybuff.utils.BuffParticle;
 import flyproject.flybuff.utils.FlyTask;
+import flyproject.flybuff.utils.MathEngine;
+import me.clip.placeholderapi.PlaceholderAPI;
 import org.bukkit.Bukkit;
+import org.bukkit.Particle;
+import org.bukkit.World;
 import org.bukkit.entity.Player;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -18,6 +23,23 @@ public class PotionSender {
                             if (p.getActivePotionEffects().contains(potionEffect)) return;
                             p.addPotionEffect(potionEffect);
                         });
+                    }
+                    for (BuffParticle buffParticle : FlyBuff.getParticles(p)){
+                        World world = Bukkit.getWorld(buffParticle.getWorld());
+                        Particle particle = Particle.valueOf(buffParticle.getParticle());
+                        String xstr = buffParticle.getX();
+                        String ystr = buffParticle.getY();
+                        String zstr = buffParticle.getZ();
+                        if (Bukkit.getPluginManager().getPlugin("PlaceholderAPI")!=null){
+                            xstr = PlaceholderAPI.setPlaceholders(p,xstr);
+                            ystr = PlaceholderAPI.setPlaceholders(p,ystr);
+                            zstr = PlaceholderAPI.setPlaceholders(p,zstr);
+                        }
+                        int x = Integer.parseInt(MathEngine.format(xstr));
+                        int y = Integer.parseInt(MathEngine.format(ystr));
+                        int z = Integer.parseInt(MathEngine.format(zstr));
+                        int count = buffParticle.getCount();
+                        world.spawnParticle(particle,x,y,z,count);
                     }
                 }
             }

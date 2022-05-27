@@ -18,6 +18,7 @@ public class BuffCommand implements CommandExecutor {
         buff.reloadConfig();
         FlyBuff.config = buff.getConfig();
         FlyBuff.item = YamlConfiguration.loadConfiguration(new File(buff.getDataFolder() + "/items.yml"));
+        FlyBuff.particle = YamlConfiguration.loadConfiguration(new File(buff.getDataFolder() + "/particle.yml"));
         XMap.load();
         return true;
     }
