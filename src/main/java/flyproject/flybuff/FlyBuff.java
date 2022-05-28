@@ -5,13 +5,15 @@ import flyproject.flybuff.command.ItemCommand;
 import flyproject.flybuff.command.RemoveCommand;
 import flyproject.flybuff.gui.GuiClick;
 import flyproject.flybuff.listener.ClickWorkbench;
+import flyproject.flybuff.nms.*;
 import flyproject.flybuff.thread.PotionSender;
 import flyproject.flybuff.utils.*;
 import net.milkbowl.vault.economy.Economy;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.black_ixx.playerpoints.PlayerPoints;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
-import org.bukkit.Particle;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
@@ -35,6 +37,7 @@ public final class FlyBuff extends JavaPlugin {
     public static FileConfiguration particle;
     public static boolean hasVault = true;
     public static boolean hasPoints = true;
+    public static NbtManager nms;
 
     @Deprecated
     public static void sendPotion(Player p, PotionEffect pe) {
@@ -44,6 +47,72 @@ public final class FlyBuff extends JavaPlugin {
                 p.addPotionEffect(pe);
             }
         }.runTask(getPlugin(FlyBuff.class));
+    }
+
+    private void setupNMS(){
+        Logger logger = LogManager.getRootLogger();
+        String version = Bukkit.getServer().getClass().getPackage()
+                .getName().replace("org.bukkit.craftbukkit.","");
+        logger.info("[FlyBuff] 服务器版本: " + version + " 正在尝试初始化NMS组件");
+        switch (version){
+            case "v1_8_R1": {
+                nms = new NMS_1_8_R1();
+            }
+            case "v1_8_R2": {
+                nms = new NMS_1_8_R2();
+            }
+            case "v1_8_R3": {
+                nms = new NMS_1_8_R3();
+            }
+            case "v1_9_R1": {
+                nms = new NMS_1_9_R1();
+            }
+            case "v1_9_R2": {
+                nms = new NMS_1_9_R2();
+            }
+            case "v1_10_R1": {
+                nms = new NMS_1_10_R1();
+            }
+            case "v1_11_R1": {
+                nms = new NMS_1_11_R1();
+            }
+            case "v1_12_R1": {
+                nms = new NMS_1_12_R1();
+            }
+            case "v1_13_R1": {
+                nms = new NMS_1_13_R1();
+            }
+            case "v1_13_R2": {
+                nms = new NMS_1_13_R2();
+            }
+            case "v1_14_R1": {
+                nms = new NMS_1_14_R1();
+            }
+            case "v1_15_R1": {
+                nms = new NMS_1_15_R1();
+            }
+            case "v1_16_R1": {
+                nms = new NMS_1_16_R1();
+            }
+            case "v1_16_R2": {
+                nms = new NMS_1_16_R2();
+            }
+            case "v1_16_R3": {
+                nms = new NMS_1_16_R3();
+            }
+            case "v1_17_R1": {
+                nms = new NMS_1_17_R1();
+            }
+            case "v1_18_R1": {
+                nms = new NMS_1_18_R1();
+            }
+            case "v1_18_R2": {
+                nms = new NMS_1_18_R2();
+            }
+            default: {
+                logger.error("[FlyBuff] 无法找到对应服务器版本的NMS映射组件 请联系作者!");
+            }
+        }
     }
 
     public static List<PotionEffect> getPotion(Player player) {
@@ -105,6 +174,7 @@ public final class FlyBuff extends JavaPlugin {
                     list.addAll(XMap.particles.get(lore));
                 }
             }
+
         }
         return list;
     }
@@ -128,6 +198,7 @@ public final class FlyBuff extends JavaPlugin {
         } else {
             saveResource("items.yml", false);
         }
+        saveResource("particle.yml",false);
         item = YamlConfiguration.loadConfiguration(new File(getDataFolder() + "/items.yml"));
         particle = YamlConfiguration.loadConfiguration(new File(getDataFolder() + "/particle.yml"));
         System.out.println("\n" +
@@ -143,9 +214,8 @@ public final class FlyBuff extends JavaPlugin {
                 "Github: https://github.com/killerprojecte/FlyBuff\n" +
                 "Version: " + getDescription().getVersion() +
                 "\n");
-        FlyTask.runTaskAsync(() -> {
-            ConfigUpdater.update();
-        });
+        setupNMS();
+        FlyTask.runTaskAsync(ConfigUpdater::update);
         Bukkit.getPluginManager().registerEvents(new ClickWorkbench(), this);
         Bukkit.getPluginManager().registerEvents(new GuiClick(), this);
         getCommand("flybuff").setExecutor(new BuffCommand());

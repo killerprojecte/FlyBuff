@@ -1,7 +1,8 @@
 #BUFF宝石
 #格式: "宝石识别lore": "BUFF效果识别lore"
 gem:
-  "&b&l速度I": "&6[&c&lBUFF&6] &b速度I"
+  "&b&l速度I": "[lore] &6[&c&lBUFF&6] &b速度I"
+  "&b&l爱心": "[nbt] heart"
 #可镶嵌白名单
 whitelist:
   - "DIAMOND_SWORD"
@@ -27,6 +28,11 @@ effect:
   "&6[&c&lBUFF&6] &b速度I":
     - "[buff] SPEED:1"
   "&6[&c&lBUFF&6] &b爱心粒子":
+    - "[particle] heart"
+
+#NBT Effect
+nbteffect:
+  "heart":
     - "[particle] heart"
 
 #Buff移除

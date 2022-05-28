@@ -26,7 +26,10 @@ public class ClickWorkbench implements Listener {
         for (String a : lores) {
             boolean ok = false;
             for (String key : FlyBuff.config.getConfigurationSection("gem").getKeys(false)) {
-                String l = Color.color(FlyBuff.config.getString("gem." + key));
+                String data = FlyBuff.config.getString("gem." + key);
+                if (data.startsWith("[nbt] ")) continue;
+                data = data.substring(7);
+                String l = Color.color(data);
                 if (a.equals(l)) {
                     c.add(l);
                     ok = true;
@@ -71,17 +74,33 @@ public class ClickWorkbench implements Listener {
                 if (!(meta.getLore() == null)) {
                     lore.addAll(meta.getLore());
                 }
-                if (lore.contains(Color.color(place))) {
-                    p.sendMessage(Color.color(FlyBuff.config.getString("error")));
-                    return;
+                if (place.startsWith("[nbt] ")){
+                    place = place.substring(6);
+                    if (FlyBuff.nms.getItemBuffs(click).contains(place)) {
+                        p.sendMessage(Color.color(FlyBuff.config.getString("error")));
+                        return;
+                    }
+                    if (!checklimit(click)) {
+                        p.sendMessage(Color.color(FlyBuff.config.getString("maxinstalled")));
+                        return;
+                    }
+                    event.setCurrentItem(FlyBuff.nms.addBuff(click,place));
+                    buff.setAmount(buff.getAmount() - 1);
+                } else {
+                    place = place.substring(7);
+                    if (lore.contains(Color.color(place))) {
+                        p.sendMessage(Color.color(FlyBuff.config.getString("error")));
+                        return;
+                    }
+                    if (!checklimit(click)) {
+                        p.sendMessage(Color.color(FlyBuff.config.getString("maxinstalled")));
+                        return;
+                    }
+                    lore.add(Color.color(place));
+                    buff.setAmount(buff.getAmount() - 1);
+                    meta.setLore(lore);
                 }
-                if (!checklimit(lore)) {
-                    p.sendMessage(Color.color(FlyBuff.config.getString("maxinstalled")));
-                    return;
-                }
-                lore.add(Color.color(place));
-                buff.setAmount(buff.getAmount() - 1);
-                meta.setLore(lore);
+
                 click.setItemMeta(meta);
                 p.sendMessage(Color.color(FlyBuff.config.getString("finish")));
                 p.playSound(p.getLocation(), Sound.valueOf(FlyBuff.config.getString("sound")), 1.0f, 1.0f);
@@ -92,13 +111,14 @@ public class ClickWorkbench implements Listener {
             }
         }
     }
-    private static boolean checklimit(List<String> lore){
+    private static boolean checklimit(ItemStack item){
         int installed = 0;
         int limit = FlyBuff.config.getInt("limit");
         if (limit==-1) return true;
-        for (String l : lore){
+        for (String l : item.getItemMeta().getLore()){
             if (XMap.installs.contains(Color.uncolor(l))) installed++;
         }
+        installed = installed + FlyBuff.nms.getItemBuffs(item).size();
         return installed < limit;
     }
 }
