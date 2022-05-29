@@ -3,7 +3,7 @@ plugins {
 }
 
 group = 'flyproject'
-version = '1.2.0-ALPHA'
+version = '1.2.0-BETA'
 
 repositories {
     mavenCentral()

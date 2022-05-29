@@ -47,13 +47,16 @@ public class NMS_1_18_R1 extends NbtManager{
         net.minecraft.world.item.ItemStack i = org.bukkit.craftbukkit.v1_17_R1.inventory.CraftItemStack.asNMSCopy(item);
         NBTTagCompound nbt= i.getOrCreateTag();
         NBTTagList nlist;
+        NBTTagList list = new NBTTagList();
         if (nbt.hasKey("FlyBuff")){
             nlist = nbt.getList("FlyBuff",8);
-            nlist.remove(buff);
-        } else {
-            nlist = new NBTTagList();
+            for (int s = 0;s<nlist.size();s++){
+                String str = nlist.getString(s);
+                if (str.equals(buff)) continue;
+                list.add(NBTTagString.a(str));
+            }
         }
-        nbt.set("FlyBuff",nlist);
+        nbt.set("FlyBuff",list);
         i.setTag(nbt);
         return org.bukkit.craftbukkit.v1_17_R1.inventory.CraftItemStack.asBukkitCopy(i);
     }

@@ -107,6 +107,7 @@ public class GuiClick implements Listener {
                     String key = holder.origin.get((53 * (holder.getPage() - 1)) + event.getSlot());
                     if (key.startsWith("[nbt] ")){
                         key = key.substring(6);
+                        System.out.println(key);
                         if (FlyBuff.nms.getItemBuffs(p.getInventory().getItemInMainHand()).contains(key)){
                             if (FlyBuff.item.getString("nbtgem." + key + ".mode").equalsIgnoreCase("stack")){
                                 p.getInventory().setItemInMainHand(FlyBuff.nms.removeBuff(p.getInventory().getItemInMainHand(),key));

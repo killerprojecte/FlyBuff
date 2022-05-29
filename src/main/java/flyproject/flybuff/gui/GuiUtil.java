@@ -37,39 +37,41 @@ public class GuiUtil {
         ItemStack is = player.getItemInHand();
         ItemMeta im = is.getItemMeta();
         BHolder holder = (BHolder) inv.getHolder();
-        if (im.getLore() == null || im.getLore().size() == 0) return;
         FlyTask.runTaskAsync(() -> {
             List<Object[]> items = new ArrayList<>();
-            for (String lore : im.getLore()) {
-                if (!XMap.gems.contains(Color.uncolor(lore))) continue;
-                String key = Color.uncolor(lore);
-                if (FlyBuff.item.getString("gems." + key + ".mode").equals("stack")) {
-                    items.add(new Object[]{FlyBuff.item.getItemStack("gems." + key + ".itemstack"), key});
-                } else {
-                    String type = FlyBuff.item.getString("gems." + key + ".type");
-                    ItemStack nitem;
-                    if (type.equals("PLAYER_HEAD") || type.equals("SKULL_ITEM")) {
-                        nitem = new ItemStack(Material.valueOf(type), 1, (short) 3);
-                        nitem = FlyBuff.simpleSkull(nitem, FlyBuff.item.getString("gems." + key + ".texture"));
+            if (im.getLore() != null && im.getLore().size() != 0){
+                for (String lore : im.getLore()) {
+                    if (!XMap.gems.contains(Color.uncolor(lore))) continue;
+                    String key = Color.uncolor(lore);
+                    if (FlyBuff.item.getString("gems." + key + ".mode").equals("stack")) {
+                        items.add(new Object[]{FlyBuff.item.getItemStack("gems." + key + ".itemstack"), key});
                     } else {
-                        nitem = new ItemStack(Material.valueOf(type), 1);
+                        String type = FlyBuff.item.getString("gems." + key + ".type");
+                        ItemStack nitem;
+                        if (type.equals("PLAYER_HEAD") || type.equals("SKULL_ITEM")) {
+                            nitem = new ItemStack(Material.valueOf(type), 1, (short) 3);
+                            nitem = FlyBuff.simpleSkull(nitem, FlyBuff.item.getString("gems." + key + ".texture"));
+                        } else {
+                            nitem = new ItemStack(Material.valueOf(type), 1);
+                        }
+                        ItemMeta nim = nitem.getItemMeta();
+                        String display = Color.color(FlyBuff.item.getString("gems." + key + ".display"));
+                        List<String> nlore = new ArrayList<>();
+                        for (String nl : FlyBuff.item.getStringList("gems." + key + ".lores")) {
+                            nlore.add(Color.color(nl));
+                        }
+                        nlore.add(Color.color(FlyBuff.config.getString("removehelp")));
+                        nim.setDisplayName(display);
+                        nim.setLore(nlore);
+                        nitem.setItemMeta(nim);
+                        items.add(new Object[]{nitem,"[lore] " + key});
                     }
-                    ItemMeta nim = nitem.getItemMeta();
-                    String display = Color.color(FlyBuff.item.getString("gems." + key + ".display"));
-                    List<String> nlore = new ArrayList<>();
-                    for (String nl : FlyBuff.item.getStringList("gems." + key + ".lores")) {
-                        nlore.add(Color.color(nl));
-                    }
-                    nlore.add(Color.color(FlyBuff.config.getString("removehelp")));
-                    nim.setDisplayName(display);
-                    nim.setLore(nlore);
-                    nitem.setItemMeta(nim);
-                    items.add(new Object[]{nitem,"[lore] " + key});
                 }
             }
             for (String nbt : FlyBuff.nms.getItemBuffs(is)){
+                if (!FlyBuff.item.getConfigurationSection("nbtgem").getKeys(false).contains(nbt)) continue;
                 if (FlyBuff.item.getString("nbtgem." + nbt + ".mode").equals("stack")) {
-                    items.add(new Object[]{FlyBuff.item.getItemStack("gems." + nbt + ".itemstack"), nbt});
+                    items.add(new Object[]{FlyBuff.item.getItemStack("nbtgem." + nbt + ".itemstack"), nbt});
                 } else {
                     String type = FlyBuff.item.getString("nbtgem." + nbt + ".type");
                     ItemStack nitem;
