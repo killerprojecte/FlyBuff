@@ -1,6 +1,7 @@
 package flyproject.flybuff.utils;
 
 import flyproject.flybuff.FlyBuff;
+import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 
@@ -11,74 +12,9 @@ public class ConfigUpdater {
     public static void update() {
         FlyBuff buff = FlyBuff.getPlugin(FlyBuff.class);
         FileConfiguration config = YamlConfiguration.loadConfiguration(new File(buff.getDataFolder() + "/config.yml"));
-        if (config.get("config-version") == null) {
-            System.out.println(Color.color("&a[配置更新器] 检测到正在使用1.0.1或之前的版本 开始更新"));
-            config.set("remove", true);
-            config.set("title", "&8[&bBUFF移除面板&8]");
-            config.set("removehelp", "&e - 点击移除BUFF");
-            config.set("nospace", "&c背包空间不足 无法移除BUFF");
-            config.set("backpage", "&f上一页");
-            config.set("nextpage", "&f下一页");
-            config.set("config-version", "1.2.0");
-            config.set("payment.enable", false);
-            config.set("payment.cost", 1000.0);
-            config.set("payment.mode", "money");
-            config.set("payment.error", "&c余额不足低于 %cost% 无法进行该操作");
-            config.set("payment.passed", "&a成功支付%cost% 游戏币，拆卸完成！");
-            config.set("bufftime", 10);
-            config.set("limit",-1);
-            config.set("maxinstalled","&c已超过限制的镶嵌数量 无法镶嵌");
-            config.set("workspace","WORKBENCH");
-            config.options().header("由于配置需要更新 注释已被消除 请查看MCBBS上的配置文件栏查看格式");
-            try {
-                config.save(new File(buff.getDataFolder() + "/config.yml"));
-            } catch (IOException e) {
-                System.err.println(Color.color("&c[配置更新器] 保存失败"));
-                return;
-            }
-            buff.reloadConfig();
-            FlyBuff.config = buff.getConfig();
-            System.out.println(Color.color("[配置更新器] 更新完成！"));
-            return;
-        } else if (config.getString("config-version").equals("1.1.0") || config.getString("config-version").equals("1.1.1")) {
-            config.set("config-version", "1.2.0");
-            config.set("payment.enable", false);
-            config.set("payment.cost", 1000.0);
-            config.set("payment.mode", "money");
-            config.set("payment.error", "&c余额不足低于 %cost% 无法进行该操作");
-            config.set("payment.passed", "&a成功支付%cost% 游戏币，拆卸完成！");
-            config.set("bufftime", 10);
-            config.set("limit",-1);
-            config.set("maxinstalled","&c已超过限制的镶嵌数量 无法镶嵌");
-            config.set("workspace","WORKBENCH");
-            config.options().header("由于配置需要更新 注释已被消除 请查看MCBBS上的配置文件栏查看格式");
-            try {
-                config.save(new File(buff.getDataFolder() + "/config.yml"));
-            } catch (IOException e) {
-                System.err.println(Color.color("&c[配置更新器] 保存失败"));
-                return;
-            }
-            buff.reloadConfig();
-            FlyBuff.config = buff.getConfig();
-            System.out.println(Color.color("[配置更新器] 更新完成！"));
-            return;
-        } else if (config.getString("config-version").equals("1.1.3") || config.getString("config-version").equals("1.1.4")) {
-            config.set("config-version", "1.2.0");
-            config.set("bufftime", 10);
-            config.set("limit",-1);
-            config.set("maxinstalled","&c已超过限制的镶嵌数量 无法镶嵌");
-            config.set("workspace","WORKBENCH");
-            config.options().header("由于配置需要更新 注释已被消除 请查看MCBBS上的配置文件栏查看格式");
-            try {
-                config.save(new File(buff.getDataFolder() + "/config.yml"));
-            } catch (IOException e) {
-                System.err.println(Color.color("&c[配置更新器] 保存失败"));
-                return;
-            }
-            buff.reloadConfig();
-            FlyBuff.config = buff.getConfig();
-            System.out.println(Color.color("[配置更新器] 更新完成！"));
-            return;
+        if (config.get("config-version") != "1.2.0") {
+            System.err.println("[FlyBuff-Updater] 由于1.2.0变更过大 将不提供配置更新 请手动修改更新");
+            Bukkit.getPluginManager().disablePlugin(Bukkit.getPluginManager().getPlugin("FlyBuff"));
         }
     }
 }
