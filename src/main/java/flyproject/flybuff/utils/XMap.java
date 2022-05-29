@@ -12,6 +12,7 @@ public class XMap {
     public static List<String> gems;
     public static List<String> installs;
     public static List<String> nbt_lore;
+    public static List<String> lore;
     public static Map<String,List<BuffParticle>> particles;
     public static Map<String,List<BuffParticle>> nbt_particles;
     public static void load(){
@@ -32,12 +33,11 @@ public class XMap {
         }
         nbt_lore = new ArrayList<>();
         for (String key : FlyBuff.config.getConfigurationSection("nbteffect").getKeys(false)){
-            for (String x : FlyBuff.config.getStringList("nbteffect." + key)){
-                String data = x;
-                if (data.startsWith("[buff] ")) continue;
-                data = data.substring(6);
-                nbt_lore.add(data);
-            }
+            nbt_lore.add(key);
+        }
+        lore = new ArrayList<>();
+        for (String key : FlyBuff.config.getConfigurationSection("effect").getKeys(false)){
+            lore.add(key);
         }
         particles = new HashMap<>();
         for (String effects : FlyBuff.config.getConfigurationSection("effect").getKeys(false)){
