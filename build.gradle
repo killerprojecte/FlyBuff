@@ -34,10 +34,10 @@ dependencies {
     compileOnly fileTree(dir: 'libs',includes: ['*.jar'])
 }
 
-def targetJavaVersion = 8
+def targetJavaVersion = 17
 java {
     def javaVersion = JavaVersion.toVersion(targetJavaVersion)
-    sourceCompatibility = javaVersion
+    sourceCompatibility = 1.8
     targetCompatibility = javaVersion
     if (JavaVersion.current() < javaVersion) {
         toolchain.languageVersion = JavaLanguageVersion.of(targetJavaVersion)
@@ -61,4 +61,5 @@ processResources {
 
 tasks.withType(JavaCompile) {
     options.encoding = 'UTF-8'
+    options.release = 8
 }
