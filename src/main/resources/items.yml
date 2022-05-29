@@ -30,19 +30,19 @@ gems:
         lore:
           - '{"extra":[{"bold":true,"italic":false,"underlined":false,"strikethrough":false,"obfuscated":false,"color":"aqua","text":"速度I"}],"text":""}'
         internal: H4sIAAAAAAAA/01Pz1KCQBz+5dSMUc/ReZGWxkMHphhdxpUUBHZvCquyLcYgOMJ07NpTdPbmE/QSvUNP0R47ff8PnwFgwG3w2ij1Ur2tcyUMMDQrRVXnYn8N/Voc66YSewMALvpwFS1VI+AsWg/xZIuyxFNpS2ytwwApn8jygeyidvVEbFLofOzYk3b4r4vrZYwVs7wt382aVRGhiTVXYjw302JxmIZOR2VWMEkR7VzM5QazmJosJsgfEcSfU0zl4sil23HpDKaDKOexa/GRa+ruPZOpxpnla492G+yHehN4w3WCHgFuoEcyfeTSfj/1vu8s9PWLyo+fT239AeckFX4KAQAA
-    #NBT宝石
-    nbtgem:
-      "heart":
-        #mode:
-        ##make -- 新建物品(不支持NBT)
-        ##stack -- 使用ItemStack生成(支持NBT) [使用 /buffitem <名称> 保存 不支持输入lore请手动修改]
-        mode: make
-        #物品名称
-        display: "&7NBT爱心粒子宝石"
-        #物品lore
-        lores:
-          - "&b&l速度I"
-        #物品TYPE
-        type: PLAYER_HEAD
-        #头颅材质(仅支持PLAYER_HEAD或SKULL_ITEM使用)
-        texture: "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNTAzMjdmYjM0MzE5Zjg5YWM1YWI0OGI0ZDc5MjUxZjEzZjA2N2ViZWE3ZGE1Zjg4Yjc1ZjQ3OWE3Mzg5OTI0ZSJ9fX0="
+#NBT宝石
+nbtgem:
+  "heart":
+    #mode:
+    ##make -- 新建物品(不支持NBT)
+    ##stack -- 使用ItemStack生成(支持NBT) [使用 /buffitem <名称> 保存 不支持输入lore请手动修改]
+    mode: make
+    #物品名称
+    display: "&7NBT爱心粒子宝石"
+    #物品lore
+    lores:
+      - "&b&l速度I"
+    #物品TYPE
+    type: PLAYER_HEAD
+    #头颅材质(仅支持PLAYER_HEAD或SKULL_ITEM使用)
+    texture: "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNTAzMjdmYjM0MzE5Zjg5YWM1YWI0OGI0ZDc5MjUxZjEzZjA2N2ViZWE3ZGE1Zjg4Yjc1ZjQ3OWE3Mzg5OTI0ZSJ9fX0="

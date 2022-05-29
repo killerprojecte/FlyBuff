@@ -25,7 +25,7 @@ public class PotionSender {
                         });
                     }
                     for (BuffParticle buffParticle : FlyBuff.getParticles(p)){
-                        World world = Bukkit.getWorld(buffParticle.getWorld());
+                        World world = Bukkit.getWorld(PlaceholderAPI.setPlaceholders(p,buffParticle.getWorld()));
                         Particle particle = Particle.valueOf(buffParticle.getParticle());
                         String xstr = buffParticle.getX();
                         String ystr = buffParticle.getY();
@@ -35,9 +35,9 @@ public class PotionSender {
                             ystr = PlaceholderAPI.setPlaceholders(p,ystr);
                             zstr = PlaceholderAPI.setPlaceholders(p,zstr);
                         }
-                        int x = Integer.parseInt(MathEngine.format(xstr));
-                        int y = Integer.parseInt(MathEngine.format(ystr));
-                        int z = Integer.parseInt(MathEngine.format(zstr));
+                        double x = Double.parseDouble(MathEngine.format(xstr));
+                        double y = Double.parseDouble(MathEngine.format(ystr));
+                        double z = Double.parseDouble(MathEngine.format(zstr));
                         int count = buffParticle.getCount();
                         world.spawnParticle(particle,x,y,z,count);
                     }

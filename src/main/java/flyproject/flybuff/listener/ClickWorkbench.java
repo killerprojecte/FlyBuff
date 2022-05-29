@@ -86,6 +86,9 @@ public class ClickWorkbench implements Listener {
                     }
                     event.setCurrentItem(FlyBuff.nms.addBuff(click,place));
                     buff.setAmount(buff.getAmount() - 1);
+                    click.setItemMeta(meta);
+                    p.sendMessage(Color.color(FlyBuff.config.getString("finish")));
+                    p.playSound(p.getLocation(), Sound.valueOf(FlyBuff.config.getString("sound")), 1.0f, 1.0f);
                 } else {
                     place = place.substring(7);
                     if (lore.contains(Color.color(place))) {
@@ -99,12 +102,11 @@ public class ClickWorkbench implements Listener {
                     lore.add(Color.color(place));
                     buff.setAmount(buff.getAmount() - 1);
                     meta.setLore(lore);
+                    click.setItemMeta(meta);
+                    p.sendMessage(Color.color(FlyBuff.config.getString("finish")));
+                    p.playSound(p.getLocation(), Sound.valueOf(FlyBuff.config.getString("sound")), 1.0f, 1.0f);
+                    sort(click);
                 }
-
-                click.setItemMeta(meta);
-                p.sendMessage(Color.color(FlyBuff.config.getString("finish")));
-                p.playSound(p.getLocation(), Sound.valueOf(FlyBuff.config.getString("sound")), 1.0f, 1.0f);
-                sort(click);
             } else {
                 if (FlyBuff.config.getStringList("bypass").contains(event.getCurrentItem().getType().toString())) return;
                 p.sendMessage(Color.color(FlyBuff.config.getString("invaild")));

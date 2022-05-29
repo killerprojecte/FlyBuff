@@ -105,36 +105,52 @@ public class GuiClick implements Listener {
                 if (hasSpace(p)) {
                     if (!PaymentCore.pay(p.getUniqueId())) return;
                     String key = holder.origin.get((53 * (holder.getPage() - 1)) + event.getSlot());
-                    if (p.getInventory().getItemInMainHand().getItemMeta().getLore().contains(Color.color(key))) {
-                        if (FlyBuff.item.getString("gems." + key + ".mode").equalsIgnoreCase("stack")) {
-                            if (eqlore(FlyBuff.item.getItemStack("gems." + key + ".itemstack").getItemMeta().getLore(), event.getCurrentItem().getItemMeta().getLore())) {
-                                ItemMeta im = p.getInventory().getItemInMainHand().getItemMeta();
-                                List<String> lores = new ArrayList<>();
-                                for (String str : im.getLore()) {
-                                    if (str.equals(Color.color(key))) {
-                                        continue;
-                                    }
-                                    lores.add(str);
-                                }
-                                im.setLore(lores);
-                                p.getInventory().getItemInMainHand().setItemMeta(im);
-                                p.getInventory().addItem(FlyBuff.item.getItemStack("gems." + key + ".itemstack"));
+                    if (key.startsWith("[nbt] ")){
+                        key = key.substring(6);
+                        if (FlyBuff.nms.getItemBuffs(p.getInventory().getItemInMainHand()).contains(key)){
+                            if (FlyBuff.item.getString("nbtgem." + key + ".mode").equalsIgnoreCase("stack")){
+                                p.getInventory().setItemInMainHand(FlyBuff.nms.removeBuff(p.getInventory().getItemInMainHand(),key));
+                                p.getInventory().addItem(FlyBuff.item.getItemStack("nbtgem." + key + ".itemstack"));
                                 p.closeInventory();
-                            }
-                        } else {
-                            if (colore2(FlyBuff.item.getStringList("gems." + key + ".lores"), event.getCurrentItem().getItemMeta().getLore())) {
-                                ItemMeta im = p.getInventory().getItemInMainHand().getItemMeta();
-                                List<String> lores = new ArrayList<>();
-                                for (String str : im.getLore()) {
-                                    if (str.equals(Color.color(key))) {
-                                        continue;
-                                    }
-                                    lores.add(str);
-                                }
-                                im.setLore(lores);
-                                p.getInventory().getItemInMainHand().setItemMeta(im);
+                            } else {
+                                p.getInventory().setItemInMainHand(FlyBuff.nms.removeBuff(p.getInventory().getItemInMainHand(),key));
                                 p.getInventory().addItem(tonormal(event.getCurrentItem()));
                                 p.closeInventory();
+                            }
+                        }
+                    } else {
+                        key = key.substring(7);
+                        if (p.getInventory().getItemInMainHand().getItemMeta().getLore().contains(Color.color(key))) {
+                            if (FlyBuff.item.getString("gems." + key + ".mode").equalsIgnoreCase("stack")) {
+                                if (eqlore(FlyBuff.item.getItemStack("gems." + key + ".itemstack").getItemMeta().getLore(), event.getCurrentItem().getItemMeta().getLore())) {
+                                    ItemMeta im = p.getInventory().getItemInMainHand().getItemMeta();
+                                    List<String> lores = new ArrayList<>();
+                                    for (String str : im.getLore()) {
+                                        if (str.equals(Color.color(key))) {
+                                            continue;
+                                        }
+                                        lores.add(str);
+                                    }
+                                    im.setLore(lores);
+                                    p.getInventory().getItemInMainHand().setItemMeta(im);
+                                    p.getInventory().addItem(FlyBuff.item.getItemStack("gems." + key + ".itemstack"));
+                                    p.closeInventory();
+                                }
+                            } else {
+                                if (colore2(FlyBuff.item.getStringList("gems." + key + ".lores"), event.getCurrentItem().getItemMeta().getLore())) {
+                                    ItemMeta im = p.getInventory().getItemInMainHand().getItemMeta();
+                                    List<String> lores = new ArrayList<>();
+                                    for (String str : im.getLore()) {
+                                        if (str.equals(Color.color(key))) {
+                                            continue;
+                                        }
+                                        lores.add(str);
+                                    }
+                                    im.setLore(lores);
+                                    p.getInventory().getItemInMainHand().setItemMeta(im);
+                                    p.getInventory().addItem(tonormal(event.getCurrentItem()));
+                                    p.closeInventory();
+                                }
                             }
                         }
                     }

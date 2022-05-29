@@ -64,7 +64,32 @@ public class GuiUtil {
                     nim.setDisplayName(display);
                     nim.setLore(nlore);
                     nitem.setItemMeta(nim);
-                    items.add(new Object[]{nitem,key});
+                    items.add(new Object[]{nitem,"[lore] " + key});
+                }
+            }
+            for (String nbt : FlyBuff.nms.getItemBuffs(is)){
+                if (FlyBuff.item.getString("nbtgem." + nbt + ".mode").equals("stack")) {
+                    items.add(new Object[]{FlyBuff.item.getItemStack("gems." + nbt + ".itemstack"), nbt});
+                } else {
+                    String type = FlyBuff.item.getString("nbtgem." + nbt + ".type");
+                    ItemStack nitem;
+                    if (type.equals("PLAYER_HEAD") || type.equals("SKULL_ITEM")) {
+                        nitem = new ItemStack(Material.valueOf(type), 1, (short) 3);
+                        nitem = FlyBuff.simpleSkull(nitem, FlyBuff.item.getString("nbtgem." + nbt + ".texture"));
+                    } else {
+                        nitem = new ItemStack(Material.valueOf(type), 1);
+                    }
+                    ItemMeta nim = nitem.getItemMeta();
+                    String display = Color.color(FlyBuff.item.getString("nbtgem." + nbt + ".display"));
+                    List<String> nlore = new ArrayList<>();
+                    for (String nl : FlyBuff.item.getStringList("nbtgem." + nbt + ".lores")) {
+                        nlore.add(Color.color(nl));
+                    }
+                    nlore.add(Color.color(FlyBuff.config.getString("removehelp")));
+                    nim.setDisplayName(display);
+                    nim.setLore(nlore);
+                    nitem.setItemMeta(nim);
+                    items.add(new Object[]{nitem,"[nbt] " + nbt});
                 }
             }
             inv.setItem(45, new ItemStack(Material.AIR));

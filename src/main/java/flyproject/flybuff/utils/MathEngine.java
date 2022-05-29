@@ -4,12 +4,12 @@ import java.util.Stack;
 
 public class MathEngine {
 
-    private static long number(char[] arr,int start,long end){
+    private static double number(char[] arr,int start,double end){
         StringBuilder buffer = new StringBuilder();
         for(int i=start;i<=end;i++){
             buffer.append(arr[i]);
         }
-        return Long.parseLong(buffer.toString());
+        return Double.parseDouble(buffer.toString());
     }
 
     private static int compute(String format){
@@ -20,8 +20,8 @@ public class MathEngine {
         return 0;
     }
 
-    private static String compute(long a,long b,String format){
-        long res;
+    private static String compute(double a,double b,String format){
+        double res;
         if(format.equals("+")) {
             res = a + b;
             return String.valueOf(res);
@@ -43,12 +43,12 @@ public class MathEngine {
     }
 
     public static String format(String mathstr) {
-        Stack<Long> numbers=new Stack<>();
+        Stack<Double> numbers=new Stack<>();
         Stack<String> operator=new Stack<>();
         operator.push(".");
         char[] exps=mathstr.toCharArray();
         int start=0;
-        if(exps[0]=='-') numbers.push(0L);
+        if(exps[0]=='-') numbers.push(0.0);
         for(int j=0;j<exps.length;j++){
             if(exps[j]=='+' || exps[j]=='*' || exps[j]=='/' || exps[j]=='-'){
                 if (start <= j - 1) {
@@ -56,27 +56,27 @@ public class MathEngine {
                 }
                 start=j+1;
                 while (compute(operator.peek())>=compute(String.valueOf(exps[j]))){
-                    long two=numbers.peek();numbers.pop();
-                    long one=numbers.peek();numbers.pop();
+                    double two=numbers.peek();numbers.pop();
+                    double one=numbers.peek();numbers.pop();
                     String result=compute(one,two,operator.peek());operator.pop();
                     if (result.equals("error")) {
                         return result;
                     }
-                    numbers.push(Long.valueOf(result));
+                    numbers.push(Double.valueOf(result));
                 }
                 operator.push(String.valueOf(exps[j]));
             }
         }
         numbers.push(number(exps,start,exps.length-1));
         while (operator.size()>1){
-            long two=numbers.peek();numbers.pop();
-            long one =numbers.peek();numbers.pop();
+            double two=numbers.peek();numbers.pop();
+            double one =numbers.peek();numbers.pop();
             String op=operator.peek();operator.pop();
             String value = compute(one, two, op);
             if (value.equals("error")) {
                 return value;
             }
-            numbers.push(Long.valueOf(value));
+            numbers.push(Double.valueOf(value));
         }
         return numbers.peek().toString();
     }

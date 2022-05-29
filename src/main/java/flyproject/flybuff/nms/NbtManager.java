@@ -12,4 +12,8 @@ public abstract class NbtManager {
     public ItemStack addBuff(ItemStack item, String buff) {
         return null;
     }
+
+    public ItemStack removeBuff(ItemStack item, String buff) {
+        return null;
+    }
 }

@@ -148,19 +148,20 @@ public final class FlyBuff extends JavaPlugin {
             if (i == null || i.getType().equals(Material.AIR)) continue;
             ItemMeta meta = i.getItemMeta();
             Map<PotionEffectType, Integer> map = new HashMap<>();
-            if (meta.getLore() == null || meta.getLore().size() == 0) continue;
-            for (String str : meta.getLore()){
-                if (!XMap.lore.contains(Color.uncolor(str))) continue;
-                for (String pots : config.getStringList("effect." + Color.uncolor(str))) {
-                    if (!pots.startsWith("[buff] ")) continue;
-                    pots = pots.substring(7);
-                    String[] args = pots.split(":");
-                    int time = 10;
-                    if (args.length==3) time= Integer.parseInt(args[2]);
-                    PotionEffect pe = new PotionEffect(PotionEffectType.getByName(args[0]),time, Integer.parseInt(args[1]) - 1);
-                    if (list.contains(pe)) {
-                    } else {
-                        list.add(pe);
+            if (meta.getLore() != null && meta.getLore().size() != 0) {
+                for (String str : meta.getLore()){
+                    if (!XMap.lore.contains(Color.uncolor(str))) continue;
+                    for (String pots : config.getStringList("effect." + Color.uncolor(str))) {
+                        if (!pots.startsWith("[buff] ")) continue;
+                        pots = pots.substring(7);
+                        String[] args = pots.split(":");
+                        int time = 10;
+                        if (args.length==3) time= Integer.parseInt(args[2]);
+                        PotionEffect pe = new PotionEffect(PotionEffectType.getByName(args[0]),time, Integer.parseInt(args[1]) - 1);
+                        if (list.contains(pe)) {
+                        } else {
+                            list.add(pe);
+                        }
                     }
                 }
             }
@@ -196,10 +197,11 @@ public final class FlyBuff extends JavaPlugin {
         for (ItemStack i : is) {
             if (i == null || i.getType().equals(Material.AIR)) continue;
             ItemMeta meta = i.getItemMeta();
-            if (meta.getLore() == null || meta.getLore().size() == 0) continue;
-            for (String lore : meta.getLore()){
-                if (XMap.particles.containsKey(lore)){
-                    list.addAll(XMap.particles.get(lore));
+            if (meta.getLore() != null && meta.getLore().size() != 0){
+                for (String lore : meta.getLore()){
+                    if (XMap.particles.containsKey(lore)){
+                        list.addAll(XMap.particles.get(lore));
+                    }
                 }
             }
             for (String nbt : FlyBuff.nms.getItemBuffs(i)){

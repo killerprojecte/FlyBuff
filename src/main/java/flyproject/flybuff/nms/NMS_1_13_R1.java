@@ -41,4 +41,20 @@ public class NMS_1_13_R1 extends NbtManager{
         i.setTag(nbt);
         return CraftItemStack.asBukkitCopy(i);
     }
+
+    @Override
+    public ItemStack removeBuff(ItemStack item, String buff){
+        net.minecraft.server.v1_13_R1.ItemStack i = CraftItemStack.asNMSCopy(item);
+        NBTTagCompound nbt= i.getOrCreateTag();
+        NBTTagList nlist;
+        if (nbt.hasKey("FlyBuff")){
+            nlist = nbt.getList("FlyBuff",8);
+            nlist.remove(buff);
+        } else {
+            nlist = new NBTTagList();
+        }
+        nbt.set("FlyBuff",nlist);
+        i.setTag(nbt);
+        return CraftItemStack.asBukkitCopy(i);
+    }
 }
