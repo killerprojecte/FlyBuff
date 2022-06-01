@@ -1,9 +1,10 @@
 plugins {
     id 'java'
+    id "de.undercouch.download" version "1.2"
 }
 
 group = 'flyproject'
-version = '1.2.0-BETA'
+version = '1.2.0-SNAPSHOT'
 
 repositories {
     mavenCentral()
@@ -24,14 +25,70 @@ repositories {
     maven {
         url = 'https://repo.extendedclip.com/content/repositories/placeholderapi/'
     }
+    maven {
+        name = 'fastmcmirror-repo'
+        url = 'https://repo.fastmcmirror.org/content/repositories/releases/'
+    }
 }
 
 dependencies {
-    compileOnly 'org.spigotmc:spigot-api:1.12.2-R0.1-SNAPSHOT'
     compileOnly "com.github.MilkBowl:VaultAPI:1.7"
     compileOnly 'org.black_ixx:playerpoints:3.2.3'
     compileOnly 'me.clip:placeholderapi:2.11.1'
+    dl('1.8')
+    dl('1.8.3')
+    dl('1.8.4')
+    dl('1.8.5')
+    dl('1.8.6')
+    dl('1.8.7')
+    dl('1.8.8')
+    dl('1.9')
+    dl('1.9.2')
+    dl('1.9.4')
+    dl('1.10')
+    dl('1.10.2')
+    dl('1.11')
+    dl('1.11.1')
+    dl('1.11.2')
+    dl('1.12')
+    dl('1.12.1')
+    dl('1.12.2')
+    dl('1.13')
+    dl('1.13.1')
+    dl('1.13.2')
+    dl('1.14')
+    dl('1.14.1')
+    dl('1.14.2')
+    dl('1.14.3')
+    dl('1.14.4')
+    dl('1.15')
+    dl('1.15.1')
+    dl('1.15.2')
+    dl('1.16.1')
+    dl('1.16.2')
+    dl('1.16.3')
+    dl('1.16.4')
+    dl('1.16.5')
+    dl('1.17')
+    dl('1.17.1')
+    dl('1.18')
+    dl('1.18.1')
+    dl('1.18.2')
     compileOnly fileTree(dir: 'libs',includes: ['*.jar'])
+    System.out.println("> [FlyBuff-Builder] Loaded all dependencies!")
+}
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.StandardCopyOption;
+def void dl(String version){
+    File file = new File(rootDir.getPath() + "/libs/spigot-" + version + ".jar")
+    if (file.exists()) return
+    URL url = new URL("https://repo.fastmcmirror.org/content/repositories/releases/org/spigotmc/spigot/" + version + "/spigot-" + version + ".jar")
+    InputStream ins = url.openStream()
+    Path target = file.toPath()
+    Files.createDirectories(target.getParent())
+    System.out.println("> Downloading Spigot " + version)
+    Files.copy(ins, target, StandardCopyOption.REPLACE_EXISTING)
 }
 
 def targetJavaVersion = 17
