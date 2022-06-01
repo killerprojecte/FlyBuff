@@ -5,13 +5,13 @@ import flyproject.flybuff.utils.BuffParticle;
 import flyproject.flybuff.utils.FlyTask;
 import flyproject.flybuff.utils.MathEngine;
 import me.clip.placeholderapi.PlaceholderAPI;
-import org.bukkit.Bukkit;
-import org.bukkit.Location;
-import org.bukkit.Particle;
-import org.bukkit.World;
+import org.bukkit.*;
 import org.bukkit.entity.Player;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.scheduler.BukkitRunnable;
+
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 
 public class PotionSender {
     public static void load() {
@@ -27,7 +27,6 @@ public class PotionSender {
                     }
                     for (BuffParticle buffParticle : FlyBuff.getParticles(p)){
                         World world = Bukkit.getWorld(PlaceholderAPI.setPlaceholders(p,buffParticle.getWorld()));
-                        Particle particle = Particle.valueOf(buffParticle.getParticle());
                         String xstr = buffParticle.getX();
                         String ystr = buffParticle.getY();
                         String zstr = buffParticle.getZ();
@@ -40,7 +39,19 @@ public class PotionSender {
                         double y = Double.parseDouble(MathEngine.format(ystr));
                         double z = Double.parseDouble(MathEngine.format(zstr));
                         int count = buffParticle.getCount();
-                        world.spawnParticle(particle,new Location(world,x,y,z),count);
+                        String version = Bukkit.getServer().getClass().getPackage()
+                                .getName().replace("org.bukkit.craftbukkit.","");
+                        if (!(version.equals("v1_8_R1") || version.equals("v1_8_R2") || version.equals("v1_8_R3"))){
+                            Particle particle = Particle.valueOf(buffParticle.getParticle());
+                            try {
+                                Method method = world.getClass().getMethod("spawnParticle", Particle.class, double.class, double.class, double.class, int.class);
+                                method.invoke(world,particle,x,y,z,count);
+                            } catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
+                                e.printStackTrace();
+                            }
+                        } else {
+                            world.playEffect(new Location(world,x,y,z), Effect.valueOf(buffParticle.getParticle()),0);
+                        }
                     }
                 }
             }

@@ -36,6 +36,13 @@ dependencies {
     compileOnly 'org.black_ixx:playerpoints:3.2.3'
     compileOnly 'me.clip:placeholderapi:2.11.1'
     compileOnly 'org.spigotmc:spigot-api:1.13.2-R0.1-SNAPSHOT'
+    dl('1.8')
+    dl('1.8.3')
+    dl('1.8.4')
+    dl('1.8.5')
+    dl('1.8.6')
+    dl('1.8.7')
+    dl('1.8.8')
     dl('1.9')
     dl('1.9.2')
     dl('1.9.4')
