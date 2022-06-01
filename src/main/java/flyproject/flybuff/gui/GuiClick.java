@@ -108,23 +108,23 @@ public class GuiClick implements Listener {
                     if (key.startsWith("[nbt] ")){
                         key = key.substring(6);
                         System.out.println(key);
-                        if (FlyBuff.nms.getItemBuffs(p.getInventory().getItemInMainHand()).contains(key)){
+                        if (FlyBuff.nms.getItemBuffs(p.getItemInHand()).contains(key)){
                             if (FlyBuff.item.getString("nbtgem." + key + ".mode").equalsIgnoreCase("stack")){
-                                p.getInventory().setItemInMainHand(FlyBuff.nms.removeBuff(p.getInventory().getItemInMainHand(),key));
+                                p.setItemInHand(FlyBuff.nms.removeBuff(p.getItemInHand(),key));
                                 p.getInventory().addItem(FlyBuff.item.getItemStack("nbtgem." + key + ".itemstack"));
                                 p.closeInventory();
                             } else {
-                                p.getInventory().setItemInMainHand(FlyBuff.nms.removeBuff(p.getInventory().getItemInMainHand(),key));
+                                p.setItemInHand(FlyBuff.nms.removeBuff(p.getItemInHand(),key));
                                 p.getInventory().addItem(tonormal(event.getCurrentItem()));
                                 p.closeInventory();
                             }
                         }
                     } else {
                         key = key.substring(7);
-                        if (p.getInventory().getItemInMainHand().getItemMeta().getLore().contains(Color.color(key))) {
+                        if (p.getItemInHand().getItemMeta().getLore().contains(Color.color(key))) {
                             if (FlyBuff.item.getString("gems." + key + ".mode").equalsIgnoreCase("stack")) {
                                 if (eqlore(FlyBuff.item.getItemStack("gems." + key + ".itemstack").getItemMeta().getLore(), event.getCurrentItem().getItemMeta().getLore())) {
-                                    ItemMeta im = p.getInventory().getItemInMainHand().getItemMeta();
+                                    ItemMeta im = p.getItemInHand().getItemMeta();
                                     List<String> lores = new ArrayList<>();
                                     for (String str : im.getLore()) {
                                         if (str.equals(Color.color(key))) {
@@ -133,13 +133,13 @@ public class GuiClick implements Listener {
                                         lores.add(str);
                                     }
                                     im.setLore(lores);
-                                    p.getInventory().getItemInMainHand().setItemMeta(im);
+                                    p.getItemInHand().setItemMeta(im);
                                     p.getInventory().addItem(FlyBuff.item.getItemStack("gems." + key + ".itemstack"));
                                     p.closeInventory();
                                 }
                             } else {
                                 if (colore2(FlyBuff.item.getStringList("gems." + key + ".lores"), event.getCurrentItem().getItemMeta().getLore())) {
-                                    ItemMeta im = p.getInventory().getItemInMainHand().getItemMeta();
+                                    ItemMeta im = p.getItemInHand().getItemMeta();
                                     List<String> lores = new ArrayList<>();
                                     for (String str : im.getLore()) {
                                         if (str.equals(Color.color(key))) {
@@ -148,7 +148,7 @@ public class GuiClick implements Listener {
                                         lores.add(str);
                                     }
                                     im.setLore(lores);
-                                    p.getInventory().getItemInMainHand().setItemMeta(im);
+                                    p.getItemInHand().setItemMeta(im);
                                     p.getInventory().addItem(tonormal(event.getCurrentItem()));
                                     p.closeInventory();
                                 }

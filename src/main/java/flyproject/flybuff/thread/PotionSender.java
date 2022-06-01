@@ -6,6 +6,7 @@ import flyproject.flybuff.utils.FlyTask;
 import flyproject.flybuff.utils.MathEngine;
 import me.clip.placeholderapi.PlaceholderAPI;
 import org.bukkit.Bukkit;
+import org.bukkit.Location;
 import org.bukkit.Particle;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
@@ -39,7 +40,7 @@ public class PotionSender {
                         double y = Double.parseDouble(MathEngine.format(ystr));
                         double z = Double.parseDouble(MathEngine.format(zstr));
                         int count = buffParticle.getCount();
-                        world.spawnParticle(particle,x,y,z,count);
+                        world.spawnParticle(particle,new Location(world,x,y,z),count);
                     }
                 }
             }
