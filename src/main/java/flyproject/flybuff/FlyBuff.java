@@ -55,22 +55,6 @@ public final class FlyBuff extends JavaPlugin {
                 .getName().replace("org.bukkit.craftbukkit.","");
         logger.info("[FlyBuff] 服务器版本: " + version + " 正在尝试初始化NMS组件");
         switch (version){
-            case "v1_8_R1": {
-                nms = new NMS_1_8_R1();
-                break;
-            }
-            case "v1_8_R2": {
-                nms = new NMS_1_8_R2();
-                break;
-            }
-            case "v1_8_R3": {
-                nms = new NMS_1_8_R3();
-                break;
-            }
-            case "v1_9_R1": {
-                nms = new NMS_1_9_R1();
-                break;
-            }
             case "v1_9_R2": {
                 nms = new NMS_1_9_R2();
                 break;
