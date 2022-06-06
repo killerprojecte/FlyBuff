@@ -22,11 +22,15 @@ public class NMS_1_18_R1 extends NbtManager{
             e.printStackTrace();
         }
         List<String> list = new ArrayList<>();
-        if (nbt.hasKey("FlyBuff")){
-            NBTTagList nlist = nbt.getList("FlyBuff",8);
-            for (NBTBase n : nlist){
-                list.add(n.asString());
+        try {
+            if ((boolean) nbt.getClass().getMethod("e").invoke(nbt,"FlyBuff")) {
+                NBTTagList nlist = (NBTTagList) nbt.getClass().getMethod("c").invoke(nbt, "FlyBuff", 8);
+                for (NBTBase n : nlist) {
+                    list.add(n.asString());
+                }
             }
+        } catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
+            e.printStackTrace();
         }
         return list;
     }
@@ -41,15 +45,19 @@ public class NMS_1_18_R1 extends NbtManager{
             e.printStackTrace();
         }
         NBTTagList nlist;
-        if (nbt.hasKey("FlyBuff")){
-            nlist = nbt.getList("FlyBuff",8);
-            nlist.add(NBTTagString.a(buff));
-        } else {
-            nlist = new NBTTagList();
-            nlist.add(NBTTagString.a(buff));
+        try {
+            if ((boolean) nbt.getClass().getMethod("e").invoke(nbt,"FlyBuff")){
+                nlist = (NBTTagList) nbt.getClass().getMethod("c").invoke(nbt,"FlyBuff",8);
+                nlist.add(NBTTagString.a(buff));
+            } else {
+                nlist = new NBTTagList();
+                nlist.add(NBTTagString.a(buff));
+            }
+            nbt.getClass().getMethod("a").invoke(nbt,"FlyBuff",nlist);
+            i.getClass().getMethod("c").invoke(i,nbt);
+        } catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
+            e.printStackTrace();
         }
-        nbt.set("FlyBuff",nlist);
-        i.setTag(nbt);
         return CraftItemStack.asBukkitCopy(i);
     }
 
@@ -64,16 +72,20 @@ public class NMS_1_18_R1 extends NbtManager{
         }
         NBTTagList nlist;
         NBTTagList list = new NBTTagList();
-        if (nbt.hasKey("FlyBuff")){
-            nlist = nbt.getList("FlyBuff",8);
-            for (int s = 0;s<nlist.size();s++){
-                String str = nlist.getString(s);
-                if (str.equals(buff)) continue;
-                list.add(NBTTagString.a(str));
+        try {
+            if ((boolean) nbt.getClass().getMethod("e").invoke(nbt,"FlyBuff")){
+                nlist = (NBTTagList) nbt.getClass().getMethod("c").invoke(nbt,"FlyBuff",8);
+                for (int s = 0;s<nlist.size();s++){
+                    String str = (String) nlist.getClass().getMethod("j").invoke(nlist,s);
+                    if (str.equals(buff)) continue;
+                    list.add(NBTTagString.a(str));
+                }
             }
+            nbt.getClass().getMethod("a").invoke(nbt,"FlyBuff",list);
+            i.getClass().getMethod("c").invoke(i,nbt);
+        } catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
+            e.printStackTrace();
         }
-        nbt.set("FlyBuff",list);
-        i.setTag(nbt);
         return CraftItemStack.asBukkitCopy(i);
     }
 }
