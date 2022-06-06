@@ -24,7 +24,7 @@ public class NMS_1_18_R2 extends NbtManager{
         }
         List<String> list = new ArrayList<>();
         try {
-            if ((boolean) nbt.getClass().getMethod("e").invoke(nbt,"FlyBuff")) {
+            if ((boolean) nbt.getClass().getMethod("contains(java.lang.String)").invoke(nbt,"FlyBuff")) {
                 NBTTagList nlist = (NBTTagList) nbt.getClass().getMethod("c").invoke(nbt, "FlyBuff", 8);
                 for (NBTBase n : nlist) {
                     list.add(n.asString());
@@ -47,7 +47,7 @@ public class NMS_1_18_R2 extends NbtManager{
         }
         NBTTagList nlist;
         try {
-            if ((boolean) nbt.getClass().getMethod("e").invoke(nbt,"FlyBuff")){
+            if ((boolean) nbt.getClass().getMethod("contains(java.lang.String)").invoke(nbt,"FlyBuff")){
                 nlist = (NBTTagList) nbt.getClass().getMethod("c").invoke(nbt,"FlyBuff",8);
                 nlist.add(NBTTagString.a(buff));
             } else {
@@ -74,7 +74,7 @@ public class NMS_1_18_R2 extends NbtManager{
         NBTTagList nlist;
         NBTTagList list = new NBTTagList();
         try {
-            if ((boolean) nbt.getClass().getMethod("e").invoke(nbt,"FlyBuff")){
+            if ((boolean) nbt.getClass().getMethod("contains(java.lang.String)").invoke(nbt,"FlyBuff")){
                 nlist = (NBTTagList) nbt.getClass().getMethod("c").invoke(nbt,"FlyBuff",8);
                 for (int s = 0;s<nlist.size();s++){
                     String str = (String) nlist.getClass().getMethod("j").invoke(nlist,s);
