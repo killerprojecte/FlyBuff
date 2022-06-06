@@ -7,6 +7,7 @@ import net.minecraft.nbt.NBTTagString;
 import org.bukkit.craftbukkit.v1_18_R1.inventory.CraftItemStack;
 import org.bukkit.inventory.ItemStack;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,7 +15,12 @@ public class NMS_1_18_R1 extends NbtManager{
     @Override
     public List<String> getItemBuffs(ItemStack item){
         net.minecraft.world.item.ItemStack i = CraftItemStack.asNMSCopy(item);
-        NBTTagCompound nbt= i.getOrCreateTag();
+        NBTTagCompound nbt= null;
+        try {
+            nbt = (NBTTagCompound) i.getClass().getMethod("u").invoke(i);
+        } catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
+            e.printStackTrace();
+        }
         List<String> list = new ArrayList<>();
         if (nbt.hasKey("FlyBuff")){
             NBTTagList nlist = nbt.getList("FlyBuff",8);
@@ -28,7 +34,12 @@ public class NMS_1_18_R1 extends NbtManager{
     @Override
     public ItemStack addBuff(ItemStack item, String buff) {
         net.minecraft.world.item.ItemStack i = CraftItemStack.asNMSCopy(item);
-        NBTTagCompound nbt= i.getOrCreateTag();
+        NBTTagCompound nbt= null;
+        try {
+            nbt = (NBTTagCompound) i.getClass().getMethod("u").invoke(i);
+        } catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
+            e.printStackTrace();
+        }
         NBTTagList nlist;
         if (nbt.hasKey("FlyBuff")){
             nlist = nbt.getList("FlyBuff",8);
@@ -44,8 +55,13 @@ public class NMS_1_18_R1 extends NbtManager{
 
     @Override
     public ItemStack removeBuff(ItemStack item, String buff){
-        net.minecraft.world.item.ItemStack i = org.bukkit.craftbukkit.v1_17_R1.inventory.CraftItemStack.asNMSCopy(item);
-        NBTTagCompound nbt= i.getOrCreateTag();
+        net.minecraft.world.item.ItemStack i = CraftItemStack.asNMSCopy(item);
+        NBTTagCompound nbt= null;
+        try {
+            nbt = (NBTTagCompound) i.getClass().getMethod("u").invoke(i);
+        } catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
+            e.printStackTrace();
+        }
         NBTTagList nlist;
         NBTTagList list = new NBTTagList();
         if (nbt.hasKey("FlyBuff")){
@@ -58,6 +74,6 @@ public class NMS_1_18_R1 extends NbtManager{
         }
         nbt.set("FlyBuff",list);
         i.setTag(nbt);
-        return org.bukkit.craftbukkit.v1_17_R1.inventory.CraftItemStack.asBukkitCopy(i);
+        return CraftItemStack.asBukkitCopy(i);
     }
 }
