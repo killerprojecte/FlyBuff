@@ -24,10 +24,10 @@ public class NMS_1_18_R2 extends NbtManager{
         }
         List<String> list = new ArrayList<>();
         try {
-            if ((boolean) nbt.getClass().getMethod("contains(java.lang.String)").invoke(nbt,"FlyBuff")) {
-                NBTTagList nlist = (NBTTagList) nbt.getClass().getMethod("c").invoke(nbt, "FlyBuff", 8);
+            if ((boolean) nbt.getClass().getMethod("e", String.class).invoke(nbt,"FlyBuff")) {
+                NBTTagList nlist = (NBTTagList) nbt.getClass().getMethod("c", String.class, int.class).invoke(nbt, "FlyBuff", 8);
                 for (NBTBase n : nlist) {
-                    list.add(n.asString());
+                    list.add((String) n.getClass().getMethod("e_").invoke(n));
                 }
             }
         } catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
@@ -47,15 +47,15 @@ public class NMS_1_18_R2 extends NbtManager{
         }
         NBTTagList nlist;
         try {
-            if ((boolean) nbt.getClass().getMethod("contains(java.lang.String)").invoke(nbt,"FlyBuff")){
-                nlist = (NBTTagList) nbt.getClass().getMethod("c").invoke(nbt,"FlyBuff",8);
+            if ((boolean) nbt.getClass().getMethod("e", String.class).invoke(nbt,"FlyBuff")){
+                nlist = (NBTTagList) nbt.getClass().getMethod("c", String.class, int.class).invoke(nbt,"FlyBuff",8);
                 nlist.add(NBTTagString.a(buff));
             } else {
                 nlist = new NBTTagList();
                 nlist.add(NBTTagString.a(buff));
             }
-            nbt.getClass().getMethod("a").invoke(nbt,"FlyBuff",nlist);
-            i.getClass().getMethod("c").invoke(i,nbt);
+            nbt.getClass().getMethod("a", String.class, List.class).invoke(nbt,"FlyBuff",nlist);
+            i.getClass().getMethod("c", NBTTagCompound.class).invoke(i,nbt);
         } catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
             e.printStackTrace();
         }
@@ -74,16 +74,16 @@ public class NMS_1_18_R2 extends NbtManager{
         NBTTagList nlist;
         NBTTagList list = new NBTTagList();
         try {
-            if ((boolean) nbt.getClass().getMethod("contains(java.lang.String)").invoke(nbt,"FlyBuff")){
-                nlist = (NBTTagList) nbt.getClass().getMethod("c").invoke(nbt,"FlyBuff",8);
+            if ((boolean) nbt.getClass().getMethod("e", String.class).invoke(nbt,"FlyBuff")){
+                nlist = (NBTTagList) nbt.getClass().getMethod("c", String.class, int.class).invoke(nbt,"FlyBuff",8);
                 for (int s = 0;s<nlist.size();s++){
-                    String str = (String) nlist.getClass().getMethod("j").invoke(nlist,s);
+                    String str = (String) nlist.getClass().getMethod("j", int.class).invoke(nlist,s);
                     if (str.equals(buff)) continue;
                     list.add(NBTTagString.a(str));
                 }
             }
-            nbt.getClass().getMethod("a").invoke(nbt,"FlyBuff",list);
-            i.getClass().getMethod("c").invoke(i,nbt);
+            nbt.getClass().getMethod("a", String.class, List.class).invoke(nbt,"FlyBuff",list);
+            i.getClass().getMethod("c", NBTTagCompound.class).invoke(i,nbt);
         } catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
             e.printStackTrace();
         }
