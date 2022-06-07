@@ -117,6 +117,8 @@ public class ClickWorkbench implements Listener {
         int installed = 0;
         int limit = FlyBuff.config.getInt("limit");
         if (limit==-1) return true;
+        if (!item.getItemMeta().hasLore()) return true;
+        if (item.getItemMeta().getLore().size()==0) return true;
         for (String l : item.getItemMeta().getLore()){
             if (XMap.installs.contains(Color.uncolor(l))) installed++;
         }
