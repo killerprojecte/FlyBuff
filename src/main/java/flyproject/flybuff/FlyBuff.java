@@ -38,6 +38,7 @@ public final class FlyBuff extends JavaPlugin {
     public static boolean hasVault = true;
     public static boolean hasPoints = true;
     public static NbtManager nms;
+    public static Logger logger;
 
     @Deprecated
     public static void sendPotion(Player p, PotionEffect pe) {
@@ -50,7 +51,7 @@ public final class FlyBuff extends JavaPlugin {
     }
 
     private void setupNMS(){
-        Logger logger = LogManager.getRootLogger();
+        logger = LogManager.getRootLogger();
         String version = Bukkit.getServer().getClass().getPackage()
                 .getName().replace("org.bukkit.craftbukkit.","");
         logger.info("[FlyBuff] 服务器版本: " + version + " 正在尝试初始化NMS组件");
