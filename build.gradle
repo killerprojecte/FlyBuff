@@ -75,6 +75,8 @@ dependencies {
     dl('1.18')
     dl('1.18.1')
     dl('1.18.2')
+    dl('1.18.2')
+    dl('1.19')
     compileOnly fileTree(dir: 'libs',includes: ['*.jar'])
     System.out.println("> [FlyBuff-Builder] Loaded all dependencies!")
 }

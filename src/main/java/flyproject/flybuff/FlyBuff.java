@@ -128,6 +128,10 @@ public final class FlyBuff extends JavaPlugin {
                 nms = new NMS_1_18_R2();
                 break;
             }
+            case "v1_19_R1": {
+                nms = new NMS_1_19_R1();
+                break;
+            }
             default: {
                 logger.error("[FlyBuff] 无法找到对应服务器版本的NMS映射组件 请联系作者!");
                 break;
