@@ -32,9 +32,9 @@ repositories {
 }
 
 dependencies {
-    compileOnly "com.github.MilkBowl:VaultAPI:1.7"
-    compileOnly 'org.black_ixx:playerpoints:3.2.3'
-    compileOnly 'me.clip:placeholderapi:2.11.1'
+    compileOnly "com.github.MilkBowl:VaultAPI:1.7@jar"
+    compileOnly 'org.black_ixx:playerpoints:3.2.3@jar'
+    compileOnly 'me.clip:placeholderapi:2.11.1@jar'
     dl('1.8')
     dl('1.8.3')
     dl('1.8.4')
