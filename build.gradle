@@ -1,10 +1,9 @@
 plugins {
     id 'java'
-    id "de.undercouch.download" version "1.2"
 }
 
 group = 'flyproject'
-version = '1.2.0-SNAPSHOT'
+version = '1.2.0-RC1'
 
 repositories {
     mavenCentral()
@@ -104,9 +103,8 @@ java {
 }
 
 tasks.withType(JavaCompile).configureEach {
-    if (targetJavaVersion >= 10 || JavaVersion.current().isJava10Compatible()) {
-        options.release = targetJavaVersion
-    }
+    options.encoding = 'UTF-8'
+    options.release = 8
 }
 
 processResources {
@@ -116,9 +114,4 @@ processResources {
     filesMatching('plugin.yml') {
         expand props
     }
-}
-
-tasks.withType(JavaCompile) {
-    options.encoding = 'UTF-8'
-    options.release = 8
 }

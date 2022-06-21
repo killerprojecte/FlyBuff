@@ -10,6 +10,11 @@ import java.util.List;
 
 public class BuffAPI {
 
+    /**
+     * init flybuff api
+     * @param plugin register plugin
+     * @return BuffAPI Class
+    **/
     public BuffAPI(Plugin plugin){
         FlyBuff.logger.info("[FlyBuff-API] 插件 " + plugin.getName() + " 正在注册FlyBuff-API");
     }
@@ -19,6 +24,9 @@ public class BuffAPI {
         if (notify) FlyBuff.logger.info("[FlyBuff-API] 插件 " + plugin.getName() + " 正在注册FlyBuff-API");
     }
 
+    /**
+    * check item contains Buff status
+     * **/
     public boolean containsBuff(ItemStack item, String buffname){
         return FlyBuff.nms.getItemBuffs(item).contains(buffname);
     }

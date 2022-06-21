@@ -7,6 +7,13 @@ gem:
 whitelist:
   - "DIAMOND_SWORD"
   - "DIAMOND_AXE"
+#高级白名单
+#当需要镶嵌的物品符合全局白名单时
+#将会触发高级白名单
+#高级白名单不会进行提示
+whitelist_private:
+  "&b&l速度I":
+    - "DIAMOND_SWORD"
 #强化完成提示
 finish: "&a强化成功"
 #已含有该lore提示

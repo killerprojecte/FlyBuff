@@ -240,7 +240,7 @@ public final class FlyBuff extends JavaPlugin {
         saveResource("particle.yml",false);
         item = YamlConfiguration.loadConfiguration(new File(getDataFolder() + "/items.yml"));
         particle = YamlConfiguration.loadConfiguration(new File(getDataFolder() + "/particle.yml"));
-        System.out.println("\n" +
+        logLogo("\n" +
                 "    ________      ____        ________\n" +
                 "   / ____/ /_  __/ __ )__  __/ __/ __/\n" +
                 "  / /_  / / / / / __  / / / / /_/ /_  \n" +
@@ -249,10 +249,10 @@ public final class FlyBuff extends JavaPlugin {
                 "        /____/                        \n\n" +
                 "(c) Copyright 2022 FlyProject\n" +
                 "This software using GPLv3 Open Source License\n" +
-                "Author All Rights Reserved\n" +
+                "FlyProject(QQ: 3491932059) All Rights Reserved\n" +
                 "Github: https://github.com/killerprojecte/FlyBuff\n" +
-                "Version: " + getDescription().getVersion() +
-                "\n");
+                "Version: " + getDescription().getVersion() + "\n" +
+                "Type: " + (isPreview() ? "Preview" : "Release"));
         setupNMS();
         FlyTask.runTaskAsync(ConfigUpdater::update);
         Bukkit.getPluginManager().registerEvents(new ClickWorkbench(), this);
@@ -306,5 +306,15 @@ public final class FlyBuff extends JavaPlugin {
     @Override
     public void onDisable() {
         // Plugin shutdown logic
+    }
+
+    public static boolean isPreview(){
+        return FlyBuff.getPlugin(FlyBuff.class).getDescription().getVersion().endsWith("SNAPSHOT") || FlyBuff.getPlugin(FlyBuff.class).getDescription().getVersion().endsWith("BETA") || FlyBuff.getPlugin(FlyBuff.class).getDescription().getVersion().endsWith("ALPHA") || FlyBuff.getPlugin(FlyBuff.class).getDescription().getVersion().contains("RC") || FlyBuff.getPlugin(FlyBuff.class).getDescription().getVersion().contains("PRE");
+    }
+
+    private static void logLogo(String text){
+        for (String line : text.split("\n")){
+            logger.info(line);
+        }
     }
 }

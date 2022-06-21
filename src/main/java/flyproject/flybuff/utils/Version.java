@@ -12,7 +12,7 @@ public class Version {
     public static void check() {
         String str;
         StringBuilder sb = new StringBuilder();
-        if (FlyBuff.getPlugin(FlyBuff.class).getDescription().getVersion().endsWith("SNAPSHOT") || FlyBuff.getPlugin(FlyBuff.class).getDescription().getVersion().endsWith("BETA") || FlyBuff.getPlugin(FlyBuff.class).getDescription().getVersion().endsWith("ALPHA")){
+        if (FlyBuff.isPreview()){
             try {
                 URL url = new URL("https://bbttasia.coding.net/p/versions/d/Version/git/raw/master/flybuff-dev.txt");
                 BufferedReader reader = new BufferedReader(new InputStreamReader(url.openConnection().getInputStream(), StandardCharsets.UTF_8));

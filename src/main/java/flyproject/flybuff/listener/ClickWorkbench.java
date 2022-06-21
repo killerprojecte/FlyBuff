@@ -45,9 +45,10 @@ public class ClickWorkbench implements Listener {
         item.setItemMeta(im);
     }
 
-    private static String place(List<String> lore) {
+    private static String place(Material type,List<String> lore) {
         for (String key : FlyBuff.config.getConfigurationSection("gem").getKeys(false)) {
             if (lore.contains(Color.color(key))) {
+                if (whitelist_plus(type,key))
                 return FlyBuff.config.getString("gem." + key);
             }
         }
@@ -59,6 +60,12 @@ public class ClickWorkbench implements Listener {
         return XMap.whitelists.contains(n.toUpperCase());
     }
 
+    private static boolean whitelist_plus(Material type,String buff) {
+        String n = type.toString();
+        if (FlyBuff.config.get("whitelist_plus." + buff)==null) return true;
+        return FlyBuff.config.getStringList("whitelist_plus." + buff).contains(n);
+    }
+
     @EventHandler
     public void onClick(InventoryClickEvent event) {
         ItemStack buff = event.getCursor();
@@ -68,7 +75,7 @@ public class ClickWorkbench implements Listener {
                 ItemMeta buffim = buff.getItemMeta();
                 ItemStack click = event.getCurrentItem();
                 ItemMeta meta = click.getItemMeta();
-                String place = place(buffim.getLore());
+                String place = place(event.getCurrentItem().getType(),buffim.getLore());
                 if (place == null) return;
                 List<String> lore = new ArrayList<>();
                 if (!(meta.getLore() == null)) {
