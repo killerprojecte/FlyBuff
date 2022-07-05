@@ -9,8 +9,6 @@ import flyproject.flybuff.nms.*;
 import flyproject.flybuff.thread.PotionSender;
 import flyproject.flybuff.utils.*;
 import net.milkbowl.vault.economy.Economy;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.black_ixx.playerpoints.PlayerPoints;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -30,6 +28,7 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.util.*;
+import java.util.logging.Logger;
 
 public final class FlyBuff extends JavaPlugin {
     public static FileConfiguration config;
@@ -51,7 +50,7 @@ public final class FlyBuff extends JavaPlugin {
     }
 
     private void setupNMS(){
-        logger = LogManager.getRootLogger();
+        logger = Bukkit.getServer().getLogger();
         String version = Bukkit.getServer().getClass().getPackage()
                 .getName().replace("org.bukkit.craftbukkit.","");
         logger.info("[FlyBuff] 服务器版本: " + version + " 正在尝试初始化NMS组件");
@@ -133,7 +132,7 @@ public final class FlyBuff extends JavaPlugin {
                 break;
             }
             default: {
-                logger.error("[FlyBuff] 无法找到对应服务器版本的NMS映射组件 请联系作者!");
+                logger.warning("[FlyBuff] 无法找到对应服务器版本的NMS映射组件 请联系作者!");
                 break;
             }
         }
