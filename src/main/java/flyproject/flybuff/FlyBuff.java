@@ -50,7 +50,6 @@ public final class FlyBuff extends JavaPlugin {
     }
 
     private void setupNMS(){
-        logger = Bukkit.getServer().getLogger();
         String version = Bukkit.getServer().getClass().getPackage()
                 .getName().replace("org.bukkit.craftbukkit.","");
         logger.info("[FlyBuff] 服务器版本: " + version + " 正在尝试初始化NMS组件");
@@ -224,6 +223,7 @@ public final class FlyBuff extends JavaPlugin {
 
     @Override
     public void onEnable() {
+        logger = Bukkit.getServer().getLogger();
         saveDefaultConfig();
         config = getConfig();
         if (getServer().getVersion().contains("1.12") || getServer().getVersion().contains("1.11") || getServer().getVersion().contains("1.10") || getServer().getVersion().contains("1.9") || getServer().getVersion().contains("1.8") || getServer().getVersion().contains("1.7")) {
