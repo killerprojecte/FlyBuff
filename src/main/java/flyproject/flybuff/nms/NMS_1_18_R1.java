@@ -66,7 +66,7 @@ public class NMS_1_18_R1 extends NbtManager{
         net.minecraft.world.item.ItemStack i = CraftItemStack.asNMSCopy(item);
         NBTTagCompound nbt= null;
         try {
-            nbt = (NBTTagCompound) i.getClass().getMethod("u").invoke(i);
+            nbt = (NBTTagCompound) i.getClass().getMethod("t").invoke(i);
         } catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
             e.printStackTrace();
         }

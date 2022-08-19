@@ -14,7 +14,7 @@ public class Version {
         StringBuilder sb = new StringBuilder();
         if (FlyBuff.isPreview()){
             try {
-                URL url = new URL("https://bbttasia.coding.net/p/versions/d/Version/git/raw/master/flybuff-dev.txt");
+                URL url = new URL("https://fastmcmirror.org/flybuff-dev.txt");
                 BufferedReader reader = new BufferedReader(new InputStreamReader(url.openConnection().getInputStream(), StandardCharsets.UTF_8));
                 while ((str = reader.readLine()) != null) {
                     sb.append(str);
@@ -23,7 +23,7 @@ public class Version {
                 sb.delete(sb.length() - 1, sb.length());
             } catch (java.io.IOException e) {
                 try {
-                    URL url = new URL("https://github.com/killerprojecte/pages/raw/main/flybuff-dev.txt");
+                    URL url = new URL("https://cdn.jsdelivr.net/gh/killerprojecte/pages@master/flybuff-dev.txt");
                     BufferedReader reader = new BufferedReader(new InputStreamReader(url.openConnection().getInputStream(), StandardCharsets.UTF_8));
                     while ((str = reader.readLine()) != null) {
                         sb.append(str);
@@ -47,7 +47,7 @@ public class Version {
             return;
         }
         try {
-            URL url = new URL("https://bbttasia.coding.net/p/versions/d/Version/git/raw/master/flybuff.txt");
+            URL url = new URL("https://fastmcmirror.org/flybuff.txt");
             BufferedReader reader = new BufferedReader(new InputStreamReader(url.openConnection().getInputStream(), StandardCharsets.UTF_8));
             while ((str = reader.readLine()) != null) {
                 sb.append(str);
@@ -56,7 +56,7 @@ public class Version {
             sb.delete(sb.length() - 1, sb.length());
         } catch (java.io.IOException e) {
             try {
-                URL url = new URL("https://github.com/killerprojecte/pages/raw/main/flybuff.txt");
+                URL url = new URL("https://cdn.jsdelivr.net/gh/killerprojecte/pages@master/flybuff.txt");
                 BufferedReader reader = new BufferedReader(new InputStreamReader(url.openConnection().getInputStream(), StandardCharsets.UTF_8));
                 while ((str = reader.readLine()) != null) {
                     sb.append(str);

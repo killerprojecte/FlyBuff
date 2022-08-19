@@ -31,14 +31,23 @@ public class BuffAPI {
         return FlyBuff.nms.getItemBuffs(item).contains(buffname);
     }
 
+    /**
+     * add a Buff
+     * **/
     public void addBuff(ItemStack item, String buffname){
         FlyBuff.nms.addBuff(item,buffname);
     }
 
+    /**
+     * remove a Buff
+     * **/
     public void removeBuff(ItemStack item, String buffname){
         FlyBuff.nms.removeBuff(item,buffname);
     }
 
+    /**
+     * get Buffs Total in the Item
+     * **/
     public long getItemInstalledBuff(ItemStack item){
         int installed = 0;
         if (!item.getItemMeta().hasLore()) return 0L;
@@ -50,6 +59,9 @@ public class BuffAPI {
         return installed;
     }
 
+    /**
+     * get Item Buffs
+     * **/
     public List<String> getBuffs(ItemStack item){
         return FlyBuff.nms.getItemBuffs(item);
     }

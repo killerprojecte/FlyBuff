@@ -223,6 +223,13 @@ public final class FlyBuff extends JavaPlugin {
 
     @Override
     public void onEnable() {
+        if (!getDescription().getAuthors().contains("FlyProject")){
+            getLogger().info("You are using unoffical release version");
+            getLogger().info("The version you are using violates the open source license");
+            getLogger().info("Plugin Disabled...");
+            setEnabled(false);
+            return;
+        }
         logger = Bukkit.getServer().getLogger();
         saveDefaultConfig();
         config = getConfig();
@@ -251,7 +258,10 @@ public final class FlyBuff extends JavaPlugin {
                 "FlyProject(QQ: 3491932059) All Rights Reserved\n" +
                 "Github: https://github.com/killerprojecte/FlyBuff\n" +
                 "Version: " + getDescription().getVersion() + "\n" +
-                "Type: " + (isPreview() ? "Preview" : "Release"));
+                "Type: " + (isPreview() ? "Preview" : "Release") + "\n" +
+                "Using Modified Bukkit Release Version May make some unknown problems\n" +
+                "Not supported (Forge + Bukkit) (Fabric + Bukkit) & other similar"
+        );
         setupNMS();
         FlyTask.runTaskAsync(ConfigUpdater::update);
         Bukkit.getPluginManager().registerEvents(new ClickWorkbench(), this);
