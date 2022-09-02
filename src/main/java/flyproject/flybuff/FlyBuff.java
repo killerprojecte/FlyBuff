@@ -293,7 +293,7 @@ public final class FlyBuff extends JavaPlugin {
 
     private boolean setupPoints() {
         if (Bukkit.getPluginManager().isPluginEnabled("PlayerPoints")) {
-            PaymentCore.points = PlayerPoints.getInstance().getAPI();
+            PaymentCore.points = ((PlayerPoints) Bukkit.getPluginManager().getPlugin("PlayerPoints")).getAPI() ;
             return true;
         } else {
             return false;

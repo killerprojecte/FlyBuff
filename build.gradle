@@ -28,12 +28,16 @@ repositories {
         name = 'fastmcmirror-repo'
         url = 'https://repo.fastmcmirror.org/content/repositories/releases/'
     }
+    maven {
+        url = 'https://mvn.lumine.io/repository/maven-public/'
+    }
 }
 
 dependencies {
     compileOnly "com.github.MilkBowl:VaultAPI:1.7@jar"
-    compileOnly 'org.black_ixx:playerpoints:3.2.3@jar'
+    compileOnly 'org.black_ixx:playerpoints:2.1.9@jar'
     compileOnly 'me.clip:placeholderapi:2.11.1@jar'
+    compileOnly 'io.lumine:Mythic-Dist:5.0.3-SNAPSHOT'
     dl('1.8')
     dl('1.8.3')
     dl('1.8.4')
