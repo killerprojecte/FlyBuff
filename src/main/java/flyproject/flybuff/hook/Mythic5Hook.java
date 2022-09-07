@@ -10,6 +10,11 @@ import org.bukkit.entity.Entity;
 public class Mythic5Hook extends MythicHook {
     @Override
     public void execute(String skillName, SkillType trigger_type, Entity caster, Entity trigger) {
-        MythicBukkit.inst().getSkillManager().getSkill(skillName).get().execute(new SkillMetadataImpl(SkillTrigger.get(trigger_type.toString()), new GenericCaster(new BukkitEntity(caster)), new BukkitEntity(trigger)));
+        try {
+            MythicBukkit.inst().getSkillManager().getSkill(skillName).get().execute(new SkillMetadataImpl(
+                    (SkillTrigger) Class.forName("io.lumine.mythic.api.skills.SkillTrigger").getMethod("get", String.class).invoke(null), new GenericCaster(new BukkitEntity(caster)), new BukkitEntity(trigger)));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }
