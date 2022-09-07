@@ -5,15 +5,9 @@ import org.bukkit.inventory.ItemStack;
 import java.util.List;
 
 public abstract class NbtManager {
-    public List<String> getItemBuffs(ItemStack item) {
-        return null;
-    }
+    public abstract List<String> getItemBuffs(ItemStack item);
 
-    public ItemStack addBuff(ItemStack item, String buff) {
-        return null;
-    }
+    public abstract ItemStack addBuff(ItemStack item, String buff);
 
-    public ItemStack removeBuff(ItemStack item, String buff) {
-        return null;
-    }
+    public abstract ItemStack removeBuff(ItemStack item, String buff);
 }

@@ -36,6 +36,8 @@ effect:
     - "[buff] SPEED:1"
   "&6[&c&lBUFF&6] &b爱心粒子":
     - "[particle] heart"
+  "&6[&c&lMythicMobs&6] &b技能宝石":
+    - "[attack-skill] test"
 
 #NBT Effect
 nbteffect:
@@ -80,4 +82,4 @@ bypass:
   - "PLAYER_HEAD"
   - "SKULL_ITEM"
 #配置版本(不要修改)
-config-version: "1.2.0"
+config-version: "1.3.0"

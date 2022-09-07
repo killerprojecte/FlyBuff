@@ -4,7 +4,11 @@ import flyproject.flybuff.command.BuffCommand;
 import flyproject.flybuff.command.ItemCommand;
 import flyproject.flybuff.command.RemoveCommand;
 import flyproject.flybuff.gui.GuiClick;
+import flyproject.flybuff.hook.Mythic4Hook;
+import flyproject.flybuff.hook.Mythic5Hook;
+import flyproject.flybuff.hook.MythicHook;
 import flyproject.flybuff.listener.ClickWorkbench;
+import flyproject.flybuff.listener.MythicListener;
 import flyproject.flybuff.nms.*;
 import flyproject.flybuff.thread.PotionSender;
 import flyproject.flybuff.utils.*;
@@ -38,6 +42,7 @@ public final class FlyBuff extends JavaPlugin {
     public static boolean hasPoints = true;
     public static NbtManager nms;
     public static Logger logger;
+    public static MythicHook mythicHook;
 
     @Deprecated
     public static void sendPotion(Player p, PotionEffect pe) {
@@ -161,8 +166,7 @@ public final class FlyBuff extends JavaPlugin {
                         int time = 10;
                         if (args.length==3) time= Integer.parseInt(args[2]);
                         PotionEffect pe = new PotionEffect(PotionEffectType.getByName(args[0]),time, Integer.parseInt(args[1]) - 1);
-                        if (list.contains(pe)) {
-                        } else {
+                        if (!list.contains(pe)) {
                             list.add(pe);
                         }
                     }
@@ -177,9 +181,47 @@ public final class FlyBuff extends JavaPlugin {
                     int time = 10;
                     if (args.length==3) time= Integer.parseInt(args[2]);
                     PotionEffect pe = new PotionEffect(PotionEffectType.getByName(args[0]),time, Integer.parseInt(args[1]) - 1);
-                    if (list.contains(pe)) {
-                    } else {
+                    if (!list.contains(pe)) {
                         list.add(pe);
+                    }
+                }
+            }
+        }
+        return list;
+    }
+
+    public static List<String> getAttackSkills(Player player) {
+        List<String> list = new ArrayList<>();
+        Inventory inv = player.getInventory();
+        ItemStack i1 = inv.getItem(36);
+        ItemStack i2 = inv.getItem(37);
+        ItemStack i3 = inv.getItem(38);
+        ItemStack i4 = inv.getItem(39);
+        ItemStack i5 = inv.getItem(40);
+        ItemStack i6 = player.getItemInHand();
+        ItemStack[] is = {i1, i2, i3, i4, i5, i6};
+        for (ItemStack i : is) {
+            if (i == null || i.getType().equals(Material.AIR)) continue;
+            ItemMeta meta = i.getItemMeta();
+            if (meta.getLore() != null && meta.getLore().size() != 0) {
+                for (String str : meta.getLore()){
+                    if (!XMap.lore.contains(Color.uncolor(str))) continue;
+                    for (String pots : config.getStringList("effect." + Color.uncolor(str))) {
+                        if (!pots.startsWith("[attack-skill] ")) continue;
+                        pots = pots.substring(15);
+                        if (!list.contains(pots)) {
+                            list.add(pots);
+                        }
+                    }
+                }
+            }
+            for (String nbt : FlyBuff.nms.getItemBuffs(i)){
+                if (!XMap.nbt_lore.contains(nbt)) continue;
+                for (String pots : config.getStringList("nbteffect." + nbt)) {
+                    if (!pots.startsWith("[attack-skill] ")) continue;
+                    pots = pots.substring(15);
+                    if (!list.contains(pots)) {
+                        list.add(pots);
                     }
                 }
             }
@@ -266,6 +308,7 @@ public final class FlyBuff extends JavaPlugin {
         FlyTask.runTaskAsync(ConfigUpdater::update);
         Bukkit.getPluginManager().registerEvents(new ClickWorkbench(), this);
         Bukkit.getPluginManager().registerEvents(new GuiClick(), this);
+        Bukkit.getPluginManager().registerEvents(new MythicListener(),this);
         getCommand("flybuff").setExecutor(new BuffCommand());
         getCommand("buffremove").setExecutor(new RemoveCommand());
         getCommand("buffitem").setExecutor(new ItemCommand());
@@ -288,6 +331,16 @@ public final class FlyBuff extends JavaPlugin {
             }
         }.runTaskLaterAsynchronously(this, 1200L);
         XMap.load();
+        if (Bukkit.getPluginManager().getPlugin("MythicMobs")!=null){
+            String mythicversion = Bukkit.getPluginManager().getPlugin("MythicMobs").getDescription().getVersion();
+            if (mythicversion.startsWith("4.")){
+                mythicHook = new Mythic4Hook();
+            } else if (mythicversion.startsWith("5.")){
+                mythicHook = new Mythic5Hook();
+            } else {
+                getLogger().warning("You are using un-support MythicMobs Version!");
+            }
+        }
         // Plugin startup logic
     }
 

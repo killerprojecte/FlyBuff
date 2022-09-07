@@ -9,7 +9,7 @@ import org.bukkit.entity.Entity;
 
 public class Mythic4Hook extends MythicHook{
     @Override
-    public void execute(String skillName, String trigger_type, Entity caster, Entity trigger) {
-        MythicMobs.inst().getSkillManager().getSkill(skillName).get().execute(new SkillMetadata(SkillTrigger.valueOf(trigger_type),new GenericCaster(new BukkitEntity(caster)),new BukkitEntity(trigger)));
+    public void execute(String skillName, SkillType trigger_type, Entity caster, Entity trigger) {
+        MythicMobs.inst().getSkillManager().getSkill(skillName).get().execute(new SkillMetadata(SkillTrigger.valueOf(trigger_type.toString()),new GenericCaster(new BukkitEntity(caster)),new BukkitEntity(trigger)));
     }
 }
