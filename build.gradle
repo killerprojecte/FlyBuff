@@ -1,5 +1,6 @@
 plugins {
     id 'java'
+    id 'com.github.johnrengelman.shadow' version '7.1.2'
 }
 
 group = 'flyproject'
@@ -34,6 +35,7 @@ repositories {
 }
 
 dependencies {
+    implementation 'org.openjdk.nashorn:nashorn-core:15.4'
     compileOnly "com.github.MilkBowl:VaultAPI:1.7@jar"
     compileOnly 'org.black_ixx:playerpoints:2.1.9@jar'
     compileOnly 'me.clip:placeholderapi:2.11.1@jar'
@@ -101,8 +103,8 @@ def void dl(String version){
 def targetJavaVersion = 17
 java {
     def javaVersion = JavaVersion.toVersion(targetJavaVersion)
-    sourceCompatibility = 1.8
-    targetCompatibility = javaVersion
+    sourceCompatibility = 11
+    targetCompatibility = 11
     if (JavaVersion.current() < javaVersion) {
         toolchain.languageVersion = JavaLanguageVersion.of(targetJavaVersion)
     }
@@ -121,3 +123,11 @@ processResources {
         expand props
     }
 }
+
+shadowJar {
+    relocate("org.openjdk.nashorn","flyproject.flybuff.javascript")
+    exclude("LICENSE")
+    archiveName("FlyBuff-" + version + ".jar")
+}
+
+build.finalizedBy(shadowJar)

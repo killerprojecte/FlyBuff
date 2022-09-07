@@ -27,7 +27,9 @@ import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
+import org.openjdk.nashorn.api.scripting.NashornScriptEngineFactory;
 
+import javax.script.ScriptEngineManager;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -44,6 +46,7 @@ public final class FlyBuff extends JavaPlugin {
     public static Logger logger;
     public static MythicHook mythicHook;
     public static FlyBuff instance;
+    public static ScriptEngineManager scriptEngineManager;
 
     @Deprecated
     public static void sendPotion(Player p, PotionEffect pe) {
@@ -298,6 +301,45 @@ public final class FlyBuff extends JavaPlugin {
         return list;
     }
 
+    public static List<String[]> getJSBuffs(Player player) {
+        List<String[]> list = new ArrayList<>();
+        Inventory inv = player.getInventory();
+        ItemStack i1 = inv.getItem(36);
+        ItemStack i2 = inv.getItem(37);
+        ItemStack i3 = inv.getItem(38);
+        ItemStack i4 = inv.getItem(39);
+        ItemStack i5 = inv.getItem(40);
+        ItemStack i6 = player.getItemInHand();
+        ItemStack[] is = {i1, i2, i3, i4, i5, i6};
+        for (ItemStack i : is) {
+            if (i == null || i.getType().equals(Material.AIR)) continue;
+            ItemMeta meta = i.getItemMeta();
+            if (meta.getLore() != null && meta.getLore().size() != 0) {
+                for (String str : meta.getLore()) {
+                    if (!XMap.lore.contains(Color.uncolor(str))) continue;
+                    for (String pots : config.getStringList("effect." + Color.uncolor(str))) {
+                        if (!pots.startsWith("[js] ")) continue;
+                        pots = pots.substring(5);
+                        if (!list.contains(pots)) {
+                            list.add(new String[]{pots,Color.uncolor(str)});
+                        }
+                    }
+                }
+            }
+            for (String nbt : FlyBuff.nms.getItemBuffs(i)) {
+                if (!XMap.nbt_lore.contains(nbt)) continue;
+                for (String pots : config.getStringList("nbteffect." + nbt)) {
+                    if (!pots.startsWith("[js] ")) continue;
+                    pots = pots.substring(5);
+                    if (!list.contains(pots)) {
+                        list.add(new String[]{pots,nbt});
+                    }
+                }
+            }
+        }
+        return list;
+    }
+
     public static List<BuffParticle> getParticles(Player player) {
         List<BuffParticle> list = new ArrayList<>();
         Inventory inv = player.getInventory();
@@ -443,6 +485,8 @@ public final class FlyBuff extends JavaPlugin {
         logger = Bukkit.getServer().getLogger();
         saveDefaultConfig();
         config = getConfig();
+        scriptEngineManager = new ScriptEngineManager();
+        scriptEngineManager.registerEngineName("flybuffJSEngine",new NashornScriptEngineFactory());
         if (getServer().getVersion().contains("1.12") || getServer().getVersion().contains("1.11") || getServer().getVersion().contains("1.10") || getServer().getVersion().contains("1.9") || getServer().getVersion().contains("1.8") || getServer().getVersion().contains("1.7")) {
             saveResource("items-low.yml", false);
             File il = new File(getDataFolder() + "/items-low.yml");
@@ -454,6 +498,7 @@ public final class FlyBuff extends JavaPlugin {
             saveResource("items.yml", false);
         }
         saveResource("particle.yml", false);
+        saveResource("js/example.js",false);
         item = YamlConfiguration.loadConfiguration(new File(getDataFolder() + "/items.yml"));
         particle = YamlConfiguration.loadConfiguration(new File(getDataFolder() + "/particle.yml"));
         logLogo("\n" +
@@ -509,7 +554,6 @@ public final class FlyBuff extends JavaPlugin {
                 getLogger().warning("You are using un-support MythicMobs Version!");
             }
         }
-        JavaScriptEngine.runScript("example.js","unknow",null);
         // Plugin startup logic
     }
 

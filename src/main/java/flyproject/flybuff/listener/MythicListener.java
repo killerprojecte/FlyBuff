@@ -2,6 +2,7 @@ package flyproject.flybuff.listener;
 
 import flyproject.flybuff.FlyBuff;
 import flyproject.flybuff.hook.SkillType;
+import flyproject.flybuff.utils.JavaScriptEngine;
 import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -24,6 +25,9 @@ public class MythicListener implements Listener {
         for (String sk : skills) {
             FlyBuff.mythicHook.execute(sk, SkillType.ATTACK, event.getEntity(), player);
         }
+        for (String[] jsarg : FlyBuff.getJSBuffs(player)){
+            JavaScriptEngine.runScript(jsarg[0],jsarg[1],player,"damage");
+        }
     }
 
     @EventHandler
@@ -34,6 +38,9 @@ public class MythicListener implements Listener {
         List<String> skills = FlyBuff.getMineSkills(player);
         for (String sk : skills) {
             FlyBuff.mythicHook.execute(sk, SkillType.BLOCK_BREAK, player, player);
+        }
+        for (String[] jsarg : FlyBuff.getJSBuffs(player)){
+            JavaScriptEngine.runScript(jsarg[0],jsarg[1],player,"blockbreak");
         }
     }
 
@@ -46,6 +53,9 @@ public class MythicListener implements Listener {
         for (String sk : skills) {
             FlyBuff.mythicHook.execute(sk, SkillType.BLOCK_PLACE, player, player);
         }
+        for (String[] jsarg : FlyBuff.getJSBuffs(player)){
+            JavaScriptEngine.runScript(jsarg[0],jsarg[1],player,"blockplace");
+        }
     }
 
     @EventHandler
@@ -57,6 +67,9 @@ public class MythicListener implements Listener {
         List<String> skills = FlyBuff.getRClickSkills(player);
         for (String sk : skills) {
             FlyBuff.mythicHook.execute(sk, SkillType.RIGHTCLICK, player, player);
+        }
+        for (String[] jsarg : FlyBuff.getJSBuffs(player)){
+            JavaScriptEngine.runScript(jsarg[0],jsarg[1],player,"rclick");
         }
     }
 
@@ -71,6 +84,9 @@ public class MythicListener implements Listener {
         List<String> skills = FlyBuff.getBowHitSkills(player);
         for (String sk : skills) {
             FlyBuff.mythicHook.execute(sk, SkillType.BOW_HIT, event.getEntity(), player);
+        }
+        for (String[] jsarg : FlyBuff.getJSBuffs(player)){
+            JavaScriptEngine.runScript(jsarg[0],jsarg[1],player,"bowhit");
         }
     }
 }
