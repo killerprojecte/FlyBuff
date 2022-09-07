@@ -43,6 +43,7 @@ public final class FlyBuff extends JavaPlugin {
     public static NbtManager nms;
     public static Logger logger;
     public static MythicHook mythicHook;
+    public static FlyBuff instance;
 
     @Deprecated
     public static void sendPotion(Player p, PotionEffect pe) {
@@ -438,6 +439,7 @@ public final class FlyBuff extends JavaPlugin {
             setEnabled(false);
             return;
         }
+        instance = this;
         logger = Bukkit.getServer().getLogger();
         saveDefaultConfig();
         config = getConfig();
@@ -507,6 +509,7 @@ public final class FlyBuff extends JavaPlugin {
                 getLogger().warning("You are using un-support MythicMobs Version!");
             }
         }
+        JavaScriptEngine.runScript("example.js","unknow",null);
         // Plugin startup logic
     }
 
