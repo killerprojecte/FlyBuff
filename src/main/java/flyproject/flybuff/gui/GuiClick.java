@@ -105,16 +105,16 @@ public class GuiClick implements Listener {
                 if (hasSpace(p)) {
                     if (!PaymentCore.pay(p.getUniqueId())) return;
                     String key = holder.origin.get((53 * (holder.getPage() - 1)) + event.getSlot());
-                    if (key.startsWith("[nbt] ")){
+                    if (key.startsWith("[nbt] ")) {
                         key = key.substring(6);
                         System.out.println(key);
-                        if (FlyBuff.nms.getItemBuffs(p.getItemInHand()).contains(key)){
-                            if (FlyBuff.item.getString("nbtgem." + key + ".mode").equalsIgnoreCase("stack")){
-                                p.setItemInHand(FlyBuff.nms.removeBuff(p.getItemInHand(),key));
+                        if (FlyBuff.nms.getItemBuffs(p.getItemInHand()).contains(key)) {
+                            if (FlyBuff.item.getString("nbtgem." + key + ".mode").equalsIgnoreCase("stack")) {
+                                p.setItemInHand(FlyBuff.nms.removeBuff(p.getItemInHand(), key));
                                 p.getInventory().addItem(FlyBuff.item.getItemStack("nbtgem." + key + ".itemstack"));
                                 p.closeInventory();
                             } else {
-                                p.setItemInHand(FlyBuff.nms.removeBuff(p.getItemInHand(),key));
+                                p.setItemInHand(FlyBuff.nms.removeBuff(p.getItemInHand(), key));
                                 p.getInventory().addItem(tonormal(event.getCurrentItem()));
                                 p.closeInventory();
                             }

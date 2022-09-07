@@ -45,11 +45,11 @@ public class ClickWorkbench implements Listener {
         item.setItemMeta(im);
     }
 
-    private static String place(Material type,List<String> lore) {
+    private static String place(Material type, List<String> lore) {
         for (String key : FlyBuff.config.getConfigurationSection("gem").getKeys(false)) {
             if (lore.contains(Color.color(key))) {
-                if (whitelist_plus(type,key))
-                return FlyBuff.config.getString("gem." + key);
+                if (whitelist_plus(type, key))
+                    return FlyBuff.config.getString("gem." + key);
             }
         }
         return null;
@@ -60,10 +60,23 @@ public class ClickWorkbench implements Listener {
         return XMap.whitelists.contains(n.toUpperCase());
     }
 
-    private static boolean whitelist_plus(Material type,String buff) {
+    private static boolean whitelist_plus(Material type, String buff) {
         String n = type.toString();
-        if (FlyBuff.config.get("whitelist_plus." + buff)==null) return true;
+        if (FlyBuff.config.get("whitelist_plus." + buff) == null) return true;
         return FlyBuff.config.getStringList("whitelist_plus." + buff).contains(n);
+    }
+
+    private static boolean checklimit(ItemStack item) {
+        int installed = 0;
+        int limit = FlyBuff.config.getInt("limit");
+        if (limit == -1) return true;
+        if (!item.getItemMeta().hasLore()) return true;
+        if (item.getItemMeta().getLore().size() == 0) return true;
+        for (String l : item.getItemMeta().getLore()) {
+            if (XMap.installs.contains(Color.uncolor(l))) installed++;
+        }
+        installed = installed + FlyBuff.nms.getItemBuffs(item).size();
+        return installed < limit;
     }
 
     @EventHandler
@@ -75,13 +88,13 @@ public class ClickWorkbench implements Listener {
                 ItemMeta buffim = buff.getItemMeta();
                 ItemStack click = event.getCurrentItem();
                 ItemMeta meta = click.getItemMeta();
-                String place = place(event.getCurrentItem().getType(),buffim.getLore());
+                String place = place(event.getCurrentItem().getType(), buffim.getLore());
                 if (place == null) return;
                 List<String> lore = new ArrayList<>();
                 if (!(meta.getLore() == null)) {
                     lore.addAll(meta.getLore());
                 }
-                if (place.startsWith("[nbt] ")){
+                if (place.startsWith("[nbt] ")) {
                     place = place.substring(6);
                     if (FlyBuff.nms.getItemBuffs(click).contains(place)) {
                         p.sendMessage(Color.color(FlyBuff.config.getString("error")));
@@ -91,7 +104,7 @@ public class ClickWorkbench implements Listener {
                         p.sendMessage(Color.color(FlyBuff.config.getString("maxinstalled")));
                         return;
                     }
-                    event.setCurrentItem(FlyBuff.nms.addBuff(click,place));
+                    event.setCurrentItem(FlyBuff.nms.addBuff(click, place));
                     buff.setAmount(buff.getAmount() - 1);
                     click.setItemMeta(meta);
                     p.sendMessage(Color.color(FlyBuff.config.getString("finish")));
@@ -115,21 +128,10 @@ public class ClickWorkbench implements Listener {
                     sort(click);
                 }
             } else {
-                if (FlyBuff.config.getStringList("bypass").contains(event.getCurrentItem().getType().toString())) return;
+                if (FlyBuff.config.getStringList("bypass").contains(event.getCurrentItem().getType().toString()))
+                    return;
                 p.sendMessage(Color.color(FlyBuff.config.getString("invaild")));
             }
         }
-    }
-    private static boolean checklimit(ItemStack item){
-        int installed = 0;
-        int limit = FlyBuff.config.getInt("limit");
-        if (limit==-1) return true;
-        if (!item.getItemMeta().hasLore()) return true;
-        if (item.getItemMeta().getLore().size()==0) return true;
-        for (String l : item.getItemMeta().getLore()){
-            if (XMap.installs.contains(Color.uncolor(l))) installed++;
-        }
-        installed = installed + FlyBuff.nms.getItemBuffs(item).size();
-        return installed < limit;
     }
 }

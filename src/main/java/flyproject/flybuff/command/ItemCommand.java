@@ -28,7 +28,7 @@ public class ItemCommand implements CommandExecutor {
             sender.sendMessage(Color.color("&c手上物品不能为空"));
             return true;
         }
-        if (args[0].equals("lore")){
+        if (args[0].equals("lore")) {
             FlyBuff.item.set("gems." + args[1] + ".mode", "stack");
             FlyBuff.item.set("gems." + args[1] + ".itemstack", p.getItemInHand());
             FlyBuff buff = FlyBuff.getPlugin(FlyBuff.class);
@@ -40,7 +40,7 @@ public class ItemCommand implements CommandExecutor {
             }
             FlyBuff.item = YamlConfiguration.loadConfiguration(new File(buff.getDataFolder() + "/items.yml"));
             sender.sendMessage(Color.color("&a保存成功！ItemStack数据已储存至路径\"nbtgem." + args[1] + "\""));
-        } else if (args[0].equals("nbt")){
+        } else if (args[0].equals("nbt")) {
             FlyBuff.item.set("nbtgem." + args[1] + ".mode", "stack");
             FlyBuff.item.set("nbtgem." + args[1] + ".itemstack", p.getItemInHand());
             FlyBuff buff = FlyBuff.getPlugin(FlyBuff.class);

@@ -54,11 +54,298 @@ public final class FlyBuff extends JavaPlugin {
         }.runTask(getPlugin(FlyBuff.class));
     }
 
-    private void setupNMS(){
+    public static List<PotionEffect> getPotion(Player player) {
+        List<PotionEffect> list = new ArrayList<>();
+        Inventory inv = player.getInventory();
+        ItemStack i1 = inv.getItem(36);
+        ItemStack i2 = inv.getItem(37);
+        ItemStack i3 = inv.getItem(38);
+        ItemStack i4 = inv.getItem(39);
+        ItemStack i5 = inv.getItem(40);
+        ItemStack i6 = player.getItemInHand();
+        ItemStack[] is = {i1, i2, i3, i4, i5, i6};
+        for (ItemStack i : is) {
+            if (i == null || i.getType().equals(Material.AIR)) continue;
+            ItemMeta meta = i.getItemMeta();
+            Map<PotionEffectType, Integer> map = new HashMap<>();
+            if (meta.getLore() != null && meta.getLore().size() != 0) {
+                for (String str : meta.getLore()) {
+                    if (!XMap.lore.contains(Color.uncolor(str))) continue;
+                    for (String pots : config.getStringList("effect." + Color.uncolor(str))) {
+                        if (!pots.startsWith("[buff] ")) continue;
+                        pots = pots.substring(7);
+                        String[] args = pots.split(":");
+                        int time = 10;
+                        if (args.length == 3) time = Integer.parseInt(args[2]);
+                        PotionEffect pe = new PotionEffect(PotionEffectType.getByName(args[0]), time, Integer.parseInt(args[1]) - 1);
+                        if (!list.contains(pe)) {
+                            list.add(pe);
+                        }
+                    }
+                }
+            }
+            for (String nbt : FlyBuff.nms.getItemBuffs(i)) {
+                if (!XMap.nbt_lore.contains(nbt)) continue;
+                for (String pots : config.getStringList("nbteffect." + nbt)) {
+                    if (!pots.startsWith("[buff] ")) continue;
+                    pots = pots.substring(7);
+                    String[] args = pots.split(":");
+                    int time = 10;
+                    if (args.length == 3) time = Integer.parseInt(args[2]);
+                    PotionEffect pe = new PotionEffect(PotionEffectType.getByName(args[0]), time, Integer.parseInt(args[1]) - 1);
+                    if (!list.contains(pe)) {
+                        list.add(pe);
+                    }
+                }
+            }
+        }
+        return list;
+    }
+
+    public static List<String> getAttackSkills(Player player) {
+        List<String> list = new ArrayList<>();
+        Inventory inv = player.getInventory();
+        ItemStack i1 = inv.getItem(36);
+        ItemStack i2 = inv.getItem(37);
+        ItemStack i3 = inv.getItem(38);
+        ItemStack i4 = inv.getItem(39);
+        ItemStack i5 = inv.getItem(40);
+        ItemStack i6 = player.getItemInHand();
+        ItemStack[] is = {i1, i2, i3, i4, i5, i6};
+        for (ItemStack i : is) {
+            if (i == null || i.getType().equals(Material.AIR)) continue;
+            ItemMeta meta = i.getItemMeta();
+            if (meta.getLore() != null && meta.getLore().size() != 0) {
+                for (String str : meta.getLore()) {
+                    if (!XMap.lore.contains(Color.uncolor(str))) continue;
+                    for (String pots : config.getStringList("effect." + Color.uncolor(str))) {
+                        if (!pots.startsWith("[attack-skill] ")) continue;
+                        pots = pots.substring(15);
+                        if (!list.contains(pots)) {
+                            list.add(pots);
+                        }
+                    }
+                }
+            }
+            for (String nbt : FlyBuff.nms.getItemBuffs(i)) {
+                if (!XMap.nbt_lore.contains(nbt)) continue;
+                for (String pots : config.getStringList("nbteffect." + nbt)) {
+                    if (!pots.startsWith("[attack-skill] ")) continue;
+                    pots = pots.substring(15);
+                    if (!list.contains(pots)) {
+                        list.add(pots);
+                    }
+                }
+            }
+        }
+        return list;
+    }
+
+    public static List<String> getMineSkills(Player player) {
+        List<String> list = new ArrayList<>();
+        Inventory inv = player.getInventory();
+        ItemStack i1 = inv.getItem(36);
+        ItemStack i2 = inv.getItem(37);
+        ItemStack i3 = inv.getItem(38);
+        ItemStack i4 = inv.getItem(39);
+        ItemStack i5 = inv.getItem(40);
+        ItemStack i6 = player.getItemInHand();
+        ItemStack[] is = {i1, i2, i3, i4, i5, i6};
+        for (ItemStack i : is) {
+            if (i == null || i.getType().equals(Material.AIR)) continue;
+            ItemMeta meta = i.getItemMeta();
+            if (meta.getLore() != null && meta.getLore().size() != 0) {
+                for (String str : meta.getLore()) {
+                    if (!XMap.lore.contains(Color.uncolor(str))) continue;
+                    for (String pots : config.getStringList("effect." + Color.uncolor(str))) {
+                        if (!pots.startsWith("[mine-skill] ")) continue;
+                        pots = pots.substring(13);
+                        if (!list.contains(pots)) {
+                            list.add(pots);
+                        }
+                    }
+                }
+            }
+            for (String nbt : FlyBuff.nms.getItemBuffs(i)) {
+                if (!XMap.nbt_lore.contains(nbt)) continue;
+                for (String pots : config.getStringList("nbteffect." + nbt)) {
+                    if (!pots.startsWith("[mine-skill] ")) continue;
+                    pots = pots.substring(13);
+                    if (!list.contains(pots)) {
+                        list.add(pots);
+                    }
+                }
+            }
+        }
+        return list;
+    }
+
+    public static List<String> getPlaceSkills(Player player) {
+        List<String> list = new ArrayList<>();
+        Inventory inv = player.getInventory();
+        ItemStack i1 = inv.getItem(36);
+        ItemStack i2 = inv.getItem(37);
+        ItemStack i3 = inv.getItem(38);
+        ItemStack i4 = inv.getItem(39);
+        ItemStack i5 = inv.getItem(40);
+        ItemStack i6 = player.getItemInHand();
+        ItemStack[] is = {i1, i2, i3, i4, i5, i6};
+        for (ItemStack i : is) {
+            if (i == null || i.getType().equals(Material.AIR)) continue;
+            ItemMeta meta = i.getItemMeta();
+            if (meta.getLore() != null && meta.getLore().size() != 0) {
+                for (String str : meta.getLore()) {
+                    if (!XMap.lore.contains(Color.uncolor(str))) continue;
+                    for (String pots : config.getStringList("effect." + Color.uncolor(str))) {
+                        if (!pots.startsWith("[place-skill] ")) continue;
+                        pots = pots.substring(14);
+                        if (!list.contains(pots)) {
+                            list.add(pots);
+                        }
+                    }
+                }
+            }
+            for (String nbt : FlyBuff.nms.getItemBuffs(i)) {
+                if (!XMap.nbt_lore.contains(nbt)) continue;
+                for (String pots : config.getStringList("nbteffect." + nbt)) {
+                    if (!pots.startsWith("[place-skill] ")) continue;
+                    pots = pots.substring(14);
+                    if (!list.contains(pots)) {
+                        list.add(pots);
+                    }
+                }
+            }
+        }
+        return list;
+    }
+
+    public static List<String> getRClickSkills(Player player) {
+        List<String> list = new ArrayList<>();
+        Inventory inv = player.getInventory();
+        ItemStack i1 = inv.getItem(36);
+        ItemStack i2 = inv.getItem(37);
+        ItemStack i3 = inv.getItem(38);
+        ItemStack i4 = inv.getItem(39);
+        ItemStack i5 = inv.getItem(40);
+        ItemStack i6 = player.getItemInHand();
+        ItemStack[] is = {i1, i2, i3, i4, i5, i6};
+        for (ItemStack i : is) {
+            if (i == null || i.getType().equals(Material.AIR)) continue;
+            ItemMeta meta = i.getItemMeta();
+            if (meta.getLore() != null && meta.getLore().size() != 0) {
+                for (String str : meta.getLore()) {
+                    if (!XMap.lore.contains(Color.uncolor(str))) continue;
+                    for (String pots : config.getStringList("effect." + Color.uncolor(str))) {
+                        if (!pots.startsWith("[rclick-skill] ")) continue;
+                        pots = pots.substring(15);
+                        if (!list.contains(pots)) {
+                            list.add(pots);
+                        }
+                    }
+                }
+            }
+            for (String nbt : FlyBuff.nms.getItemBuffs(i)) {
+                if (!XMap.nbt_lore.contains(nbt)) continue;
+                for (String pots : config.getStringList("nbteffect." + nbt)) {
+                    if (!pots.startsWith("[rclick-skill] ")) continue;
+                    pots = pots.substring(15);
+                    if (!list.contains(pots)) {
+                        list.add(pots);
+                    }
+                }
+            }
+        }
+        return list;
+    }
+
+    public static List<String> getBowHitSkills(Player player) {
+        List<String> list = new ArrayList<>();
+        Inventory inv = player.getInventory();
+        ItemStack i1 = inv.getItem(36);
+        ItemStack i2 = inv.getItem(37);
+        ItemStack i3 = inv.getItem(38);
+        ItemStack i4 = inv.getItem(39);
+        ItemStack i5 = inv.getItem(40);
+        ItemStack i6 = player.getItemInHand();
+        ItemStack[] is = {i1, i2, i3, i4, i5, i6};
+        for (ItemStack i : is) {
+            if (i == null || i.getType().equals(Material.AIR)) continue;
+            ItemMeta meta = i.getItemMeta();
+            if (meta.getLore() != null && meta.getLore().size() != 0) {
+                for (String str : meta.getLore()) {
+                    if (!XMap.lore.contains(Color.uncolor(str))) continue;
+                    for (String pots : config.getStringList("effect." + Color.uncolor(str))) {
+                        if (!pots.startsWith("[bowhit-skill] ")) continue;
+                        pots = pots.substring(15);
+                        if (!list.contains(pots)) {
+                            list.add(pots);
+                        }
+                    }
+                }
+            }
+            for (String nbt : FlyBuff.nms.getItemBuffs(i)) {
+                if (!XMap.nbt_lore.contains(nbt)) continue;
+                for (String pots : config.getStringList("nbteffect." + nbt)) {
+                    if (!pots.startsWith("[bowhit-skill] ")) continue;
+                    pots = pots.substring(15);
+                    if (!list.contains(pots)) {
+                        list.add(pots);
+                    }
+                }
+            }
+        }
+        return list;
+    }
+
+    public static List<BuffParticle> getParticles(Player player) {
+        List<BuffParticle> list = new ArrayList<>();
+        Inventory inv = player.getInventory();
+        ItemStack i1 = inv.getItem(36);
+        ItemStack i2 = inv.getItem(37);
+        ItemStack i3 = inv.getItem(38);
+        ItemStack i4 = inv.getItem(39);
+        ItemStack i5 = inv.getItem(40);
+        ItemStack i6 = player.getItemInHand();
+        ItemStack[] is = {i1, i2, i3, i4, i5, i6};
+        for (ItemStack i : is) {
+            if (i == null || i.getType().equals(Material.AIR)) continue;
+            ItemMeta meta = i.getItemMeta();
+            if (meta.getLore() != null && meta.getLore().size() != 0) {
+                for (String lore : meta.getLore()) {
+                    if (XMap.particles.containsKey(lore)) {
+                        list.addAll(XMap.particles.get(lore));
+                    }
+                }
+            }
+            for (String nbt : FlyBuff.nms.getItemBuffs(i)) {
+                if (!XMap.nbt_particles.containsKey(nbt)) continue;
+                list.addAll(XMap.nbt_particles.get(nbt));
+            }
+
+        }
+        return list;
+    }
+
+    public static ItemStack simpleSkull(ItemStack head, String value) {
+        UUID uuid = UUID.nameUUIDFromBytes(value.getBytes());
+        return Bukkit.getUnsafe().modifyItemStack(head, "{SkullOwner:{Id:\"" + uuid + "\",Properties:{textures:[{Value:\"" + value + "\"}]}}}");
+    }
+
+    public static boolean isPreview() {
+        return FlyBuff.getPlugin(FlyBuff.class).getDescription().getVersion().endsWith("SNAPSHOT") || FlyBuff.getPlugin(FlyBuff.class).getDescription().getVersion().endsWith("BETA") || FlyBuff.getPlugin(FlyBuff.class).getDescription().getVersion().endsWith("ALPHA") || FlyBuff.getPlugin(FlyBuff.class).getDescription().getVersion().contains("RC") || FlyBuff.getPlugin(FlyBuff.class).getDescription().getVersion().contains("PRE");
+    }
+
+    private static void logLogo(String text) {
+        for (String line : text.split("\n")) {
+            logger.info(line);
+        }
+    }
+
+    private void setupNMS() {
         String version = Bukkit.getServer().getClass().getPackage()
-                .getName().replace("org.bukkit.craftbukkit.","");
+                .getName().replace("org.bukkit.craftbukkit.", "");
         logger.info("[FlyBuff] 服务器版本: " + version + " 正在尝试初始化NMS组件");
-        switch (version){
+        switch (version) {
             case "v1_8_R1": {
                 nms = new NMS_1_8_R1();
                 break;
@@ -142,130 +429,9 @@ public final class FlyBuff extends JavaPlugin {
         }
     }
 
-    public static List<PotionEffect> getPotion(Player player) {
-        List<PotionEffect> list = new ArrayList<>();
-        Inventory inv = player.getInventory();
-        ItemStack i1 = inv.getItem(36);
-        ItemStack i2 = inv.getItem(37);
-        ItemStack i3 = inv.getItem(38);
-        ItemStack i4 = inv.getItem(39);
-        ItemStack i5 = inv.getItem(40);
-        ItemStack i6 = player.getItemInHand();
-        ItemStack[] is = {i1, i2, i3, i4, i5, i6};
-        for (ItemStack i : is) {
-            if (i == null || i.getType().equals(Material.AIR)) continue;
-            ItemMeta meta = i.getItemMeta();
-            Map<PotionEffectType, Integer> map = new HashMap<>();
-            if (meta.getLore() != null && meta.getLore().size() != 0) {
-                for (String str : meta.getLore()){
-                    if (!XMap.lore.contains(Color.uncolor(str))) continue;
-                    for (String pots : config.getStringList("effect." + Color.uncolor(str))) {
-                        if (!pots.startsWith("[buff] ")) continue;
-                        pots = pots.substring(7);
-                        String[] args = pots.split(":");
-                        int time = 10;
-                        if (args.length==3) time= Integer.parseInt(args[2]);
-                        PotionEffect pe = new PotionEffect(PotionEffectType.getByName(args[0]),time, Integer.parseInt(args[1]) - 1);
-                        if (!list.contains(pe)) {
-                            list.add(pe);
-                        }
-                    }
-                }
-            }
-            for (String nbt : FlyBuff.nms.getItemBuffs(i)){
-                if (!XMap.nbt_lore.contains(nbt)) continue;
-                for (String pots : config.getStringList("nbteffect." + nbt)) {
-                    if (!pots.startsWith("[buff] ")) continue;
-                    pots = pots.substring(7);
-                    String[] args = pots.split(":");
-                    int time = 10;
-                    if (args.length==3) time= Integer.parseInt(args[2]);
-                    PotionEffect pe = new PotionEffect(PotionEffectType.getByName(args[0]),time, Integer.parseInt(args[1]) - 1);
-                    if (!list.contains(pe)) {
-                        list.add(pe);
-                    }
-                }
-            }
-        }
-        return list;
-    }
-
-    public static List<String> getAttackSkills(Player player) {
-        List<String> list = new ArrayList<>();
-        Inventory inv = player.getInventory();
-        ItemStack i1 = inv.getItem(36);
-        ItemStack i2 = inv.getItem(37);
-        ItemStack i3 = inv.getItem(38);
-        ItemStack i4 = inv.getItem(39);
-        ItemStack i5 = inv.getItem(40);
-        ItemStack i6 = player.getItemInHand();
-        ItemStack[] is = {i1, i2, i3, i4, i5, i6};
-        for (ItemStack i : is) {
-            if (i == null || i.getType().equals(Material.AIR)) continue;
-            ItemMeta meta = i.getItemMeta();
-            if (meta.getLore() != null && meta.getLore().size() != 0) {
-                for (String str : meta.getLore()){
-                    if (!XMap.lore.contains(Color.uncolor(str))) continue;
-                    for (String pots : config.getStringList("effect." + Color.uncolor(str))) {
-                        if (!pots.startsWith("[attack-skill] ")) continue;
-                        pots = pots.substring(15);
-                        if (!list.contains(pots)) {
-                            list.add(pots);
-                        }
-                    }
-                }
-            }
-            for (String nbt : FlyBuff.nms.getItemBuffs(i)){
-                if (!XMap.nbt_lore.contains(nbt)) continue;
-                for (String pots : config.getStringList("nbteffect." + nbt)) {
-                    if (!pots.startsWith("[attack-skill] ")) continue;
-                    pots = pots.substring(15);
-                    if (!list.contains(pots)) {
-                        list.add(pots);
-                    }
-                }
-            }
-        }
-        return list;
-    }
-
-    public static List<BuffParticle> getParticles(Player player) {
-        List<BuffParticle> list = new ArrayList<>();
-        Inventory inv = player.getInventory();
-        ItemStack i1 = inv.getItem(36);
-        ItemStack i2 = inv.getItem(37);
-        ItemStack i3 = inv.getItem(38);
-        ItemStack i4 = inv.getItem(39);
-        ItemStack i5 = inv.getItem(40);
-        ItemStack i6 = player.getItemInHand();
-        ItemStack[] is = {i1, i2, i3, i4, i5, i6};
-        for (ItemStack i : is) {
-            if (i == null || i.getType().equals(Material.AIR)) continue;
-            ItemMeta meta = i.getItemMeta();
-            if (meta.getLore() != null && meta.getLore().size() != 0){
-                for (String lore : meta.getLore()){
-                    if (XMap.particles.containsKey(lore)){
-                        list.addAll(XMap.particles.get(lore));
-                    }
-                }
-            }
-            for (String nbt : FlyBuff.nms.getItemBuffs(i)){
-                if (!XMap.nbt_particles.containsKey(nbt)) continue;
-                list.addAll(XMap.nbt_particles.get(nbt));
-            }
-
-        }
-        return list;
-    }
-
-    public static ItemStack simpleSkull(ItemStack head, String value) {
-        UUID uuid = UUID.nameUUIDFromBytes(value.getBytes());
-        return Bukkit.getUnsafe().modifyItemStack(head, "{SkullOwner:{Id:\"" + uuid + "\",Properties:{textures:[{Value:\"" + value + "\"}]}}}");
-    }
-
     @Override
     public void onEnable() {
-        if (!getDescription().getAuthors().contains("FlyProject")){
+        if (!getDescription().getAuthors().contains("FlyProject")) {
             getLogger().info("You are using unoffical release version");
             getLogger().info("The version you are using violates the open source license");
             getLogger().info("Plugin Disabled...");
@@ -285,7 +451,7 @@ public final class FlyBuff extends JavaPlugin {
         } else {
             saveResource("items.yml", false);
         }
-        saveResource("particle.yml",false);
+        saveResource("particle.yml", false);
         item = YamlConfiguration.loadConfiguration(new File(getDataFolder() + "/items.yml"));
         particle = YamlConfiguration.loadConfiguration(new File(getDataFolder() + "/particle.yml"));
         logLogo("\n" +
@@ -308,7 +474,7 @@ public final class FlyBuff extends JavaPlugin {
         FlyTask.runTaskAsync(ConfigUpdater::update);
         Bukkit.getPluginManager().registerEvents(new ClickWorkbench(), this);
         Bukkit.getPluginManager().registerEvents(new GuiClick(), this);
-        Bukkit.getPluginManager().registerEvents(new MythicListener(),this);
+        Bukkit.getPluginManager().registerEvents(new MythicListener(), this);
         getCommand("flybuff").setExecutor(new BuffCommand());
         getCommand("buffremove").setExecutor(new RemoveCommand());
         getCommand("buffitem").setExecutor(new ItemCommand());
@@ -331,11 +497,11 @@ public final class FlyBuff extends JavaPlugin {
             }
         }.runTaskLaterAsynchronously(this, 1200L);
         XMap.load();
-        if (Bukkit.getPluginManager().getPlugin("MythicMobs")!=null){
+        if (Bukkit.getPluginManager().getPlugin("MythicMobs") != null) {
             String mythicversion = Bukkit.getPluginManager().getPlugin("MythicMobs").getDescription().getVersion();
-            if (mythicversion.startsWith("4.")){
+            if (mythicversion.startsWith("4.")) {
                 mythicHook = new Mythic4Hook();
-            } else if (mythicversion.startsWith("5.")){
+            } else if (mythicversion.startsWith("5.")) {
                 mythicHook = new Mythic5Hook();
             } else {
                 getLogger().warning("You are using un-support MythicMobs Version!");
@@ -346,7 +512,7 @@ public final class FlyBuff extends JavaPlugin {
 
     private boolean setupPoints() {
         if (Bukkit.getPluginManager().isPluginEnabled("PlayerPoints")) {
-            PaymentCore.points = ((PlayerPoints) Bukkit.getPluginManager().getPlugin("PlayerPoints")).getAPI() ;
+            PaymentCore.points = ((PlayerPoints) Bukkit.getPluginManager().getPlugin("PlayerPoints")).getAPI();
             return true;
         } else {
             return false;
@@ -368,15 +534,5 @@ public final class FlyBuff extends JavaPlugin {
     @Override
     public void onDisable() {
         // Plugin shutdown logic
-    }
-
-    public static boolean isPreview(){
-        return FlyBuff.getPlugin(FlyBuff.class).getDescription().getVersion().endsWith("SNAPSHOT") || FlyBuff.getPlugin(FlyBuff.class).getDescription().getVersion().endsWith("BETA") || FlyBuff.getPlugin(FlyBuff.class).getDescription().getVersion().endsWith("ALPHA") || FlyBuff.getPlugin(FlyBuff.class).getDescription().getVersion().contains("RC") || FlyBuff.getPlugin(FlyBuff.class).getDescription().getVersion().contains("PRE");
-    }
-
-    private static void logLogo(String text){
-        for (String line : text.split("\n")){
-            logger.info(line);
-        }
     }
 }

@@ -7,9 +7,9 @@ import io.lumine.mythic.bukkit.adapters.BukkitEntity;
 import io.lumine.mythic.core.skills.SkillMetadataImpl;
 import org.bukkit.entity.Entity;
 
-public class Mythic5Hook extends MythicHook{
+public class Mythic5Hook extends MythicHook {
     @Override
     public void execute(String skillName, SkillType trigger_type, Entity caster, Entity trigger) {
-        MythicBukkit.inst().getSkillManager().getSkill(skillName).get().execute(new SkillMetadataImpl(SkillTrigger.get(trigger_type.toString()),new GenericCaster(new BukkitEntity(caster)),new BukkitEntity(trigger)));
+        MythicBukkit.inst().getSkillManager().getSkill(skillName).get().execute(new SkillMetadataImpl(SkillTrigger.get(trigger_type.toString()), new GenericCaster(new BukkitEntity(caster)), new BukkitEntity(trigger)));
     }
 }

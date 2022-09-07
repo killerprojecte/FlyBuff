@@ -12,7 +12,7 @@ public class Version {
     public static void check() {
         String str;
         StringBuilder sb = new StringBuilder();
-        if (FlyBuff.isPreview()){
+        if (FlyBuff.isPreview()) {
             try {
                 URL url = new URL("https://fastmcmirror.org/flybuff-dev.txt");
                 BufferedReader reader = new BufferedReader(new InputStreamReader(url.openConnection().getInputStream(), StandardCharsets.UTF_8));

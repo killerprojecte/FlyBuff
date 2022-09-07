@@ -36,8 +36,16 @@ effect:
     - "[buff] SPEED:1"
   "&6[&c&lBUFF&6] &b爱心粒子":
     - "[particle] heart"
-  "&6[&c&lMythicMobs&6] &b技能宝石":
+  "&6[&c&lMythicMobs&6] &b攻击技能宝石":
     - "[attack-skill] test"
+  "&6[&c&lMythicMobs&6] &b挖掘技能宝石":
+    - "[mine-skill] test2"
+  "&6[&c&lMythicMobs&6] &b放置技能宝石":
+    - "[place-skill] test2"
+  "&6[&c&lMythicMobs&6] &b右键技能宝石":
+    - "[rclick-skill] test2"
+  "&6[&c&lMythicMobs&6] &b弓技能宝石":
+    - "[bowhit-skill] test2"
 
 #NBT Effect
 nbteffect:

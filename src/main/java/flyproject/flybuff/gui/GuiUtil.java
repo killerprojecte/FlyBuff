@@ -13,9 +13,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class GuiUtil {
     public static Inventory create() {
@@ -39,7 +37,7 @@ public class GuiUtil {
         BHolder holder = (BHolder) inv.getHolder();
         FlyTask.runTaskAsync(() -> {
             List<Object[]> items = new ArrayList<>();
-            if (im.getLore() != null && im.getLore().size() != 0){
+            if (im.getLore() != null && im.getLore().size() != 0) {
                 for (String lore : im.getLore()) {
                     if (!XMap.gems.contains(Color.uncolor(lore))) continue;
                     String key = Color.uncolor(lore);
@@ -64,11 +62,11 @@ public class GuiUtil {
                         nim.setDisplayName(display);
                         nim.setLore(nlore);
                         nitem.setItemMeta(nim);
-                        items.add(new Object[]{nitem,"[lore] " + key});
+                        items.add(new Object[]{nitem, "[lore] " + key});
                     }
                 }
             }
-            for (String nbt : FlyBuff.nms.getItemBuffs(is)){
+            for (String nbt : FlyBuff.nms.getItemBuffs(is)) {
                 if (!FlyBuff.item.getConfigurationSection("nbtgem").getKeys(false).contains(nbt)) continue;
                 if (FlyBuff.item.getString("nbtgem." + nbt + ".mode").equals("stack")) {
                     items.add(new Object[]{FlyBuff.item.getItemStack("nbtgem." + nbt + ".itemstack"), nbt});
@@ -91,7 +89,7 @@ public class GuiUtil {
                     nim.setDisplayName(display);
                     nim.setLore(nlore);
                     nitem.setItemMeta(nim);
-                    items.add(new Object[]{nitem,"[nbt] " + nbt});
+                    items.add(new Object[]{nitem, "[nbt] " + nbt});
                 }
             }
             inv.setItem(45, new ItemStack(Material.AIR));
@@ -108,8 +106,8 @@ public class GuiUtil {
                     holder.origin.put(i, (String) items.get(i)[1]);
                 }
             }
-            List<ItemStack> isl  = new ArrayList<>();
-            for (Object[] obj : items){
+            List<ItemStack> isl = new ArrayList<>();
+            for (Object[] obj : items) {
                 isl.add((ItemStack) obj[0]);
             }
             holder.setItems(isl);
