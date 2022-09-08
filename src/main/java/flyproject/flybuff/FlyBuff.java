@@ -321,7 +321,7 @@ public final class FlyBuff extends JavaPlugin {
                         if (!pots.startsWith("[js] ")) continue;
                         pots = pots.substring(5);
                         if (!list.contains(pots)) {
-                            list.add(new String[]{pots,Color.uncolor(str)});
+                            list.add(new String[]{pots, Color.uncolor(str)});
                         }
                     }
                 }
@@ -332,7 +332,7 @@ public final class FlyBuff extends JavaPlugin {
                     if (!pots.startsWith("[js] ")) continue;
                     pots = pots.substring(5);
                     if (!list.contains(pots)) {
-                        list.add(new String[]{pots,nbt});
+                        list.add(new String[]{pots, nbt});
                     }
                 }
             }
@@ -486,7 +486,7 @@ public final class FlyBuff extends JavaPlugin {
         saveDefaultConfig();
         config = getConfig();
         scriptEngineManager = new ScriptEngineManager();
-        scriptEngineManager.registerEngineName("flybuffJSEngine",new NashornScriptEngineFactory());
+        scriptEngineManager.registerEngineName("flybuffJSEngine", new NashornScriptEngineFactory());
         if (getServer().getVersion().contains("1.12") || getServer().getVersion().contains("1.11") || getServer().getVersion().contains("1.10") || getServer().getVersion().contains("1.9") || getServer().getVersion().contains("1.8") || getServer().getVersion().contains("1.7")) {
             saveResource("items-low.yml", false);
             File il = new File(getDataFolder() + "/items-low.yml");
@@ -498,7 +498,7 @@ public final class FlyBuff extends JavaPlugin {
             saveResource("items.yml", false);
         }
         saveResource("particle.yml", false);
-        saveResource("js/example.js",false);
+        saveResource("js/example.js", false);
         item = YamlConfiguration.loadConfiguration(new File(getDataFolder() + "/items.yml"));
         particle = YamlConfiguration.loadConfiguration(new File(getDataFolder() + "/particle.yml"));
         logLogo("\n" +
@@ -554,7 +554,8 @@ public final class FlyBuff extends JavaPlugin {
                 getLogger().warning("You are using un-support MythicMobs Version!");
             }
         }
-        JavaScriptEngine.runScript("example","unknow",null,"test");
+        new Metrics(this, 16381);
+        JavaScriptEngine.runScript("example", "unknow", null, "test");
         // Plugin startup logic
     }
 
@@ -582,5 +583,9 @@ public final class FlyBuff extends JavaPlugin {
     @Override
     public void onDisable() {
         // Plugin shutdown logic
+    }
+
+    public void disable() {
+        setEnabled(false);
     }
 }

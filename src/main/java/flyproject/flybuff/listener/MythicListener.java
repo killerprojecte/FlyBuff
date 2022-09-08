@@ -12,9 +12,7 @@ import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.metadata.FixedMetadataValue;
-import org.bukkit.metadata.LazyMetadataValue;
 import org.bukkit.metadata.MetadataValue;
-import org.bukkit.metadata.MetadataValueAdapter;
 
 import java.util.List;
 
@@ -22,21 +20,21 @@ public class MythicListener implements Listener {
     @EventHandler
     public void onEntityDamaged(EntityDamageByEntityEvent event) {
         if (event.isCancelled()) return;
-        for (MetadataValue mv : event.getDamager().getMetadata("using-flybuff-damage-skill")){
+        for (MetadataValue mv : event.getDamager().getMetadata("using-flybuff-damage-skill")) {
             if (mv.asBoolean()) return;
         }
         if (!(event.getDamager() instanceof Player)) return;
         if (FlyBuff.mythicHook == null) return;
-        event.getDamager().setMetadata("using-flybuff-damage-skill", new FixedMetadataValue(FlyBuff.instance,true));
+        event.getDamager().setMetadata("using-flybuff-damage-skill", new FixedMetadataValue(FlyBuff.instance, true));
         Player player = (Player) event.getDamager();
         List<String> skills = FlyBuff.getAttackSkills(player);
         for (String sk : skills) {
             FlyBuff.mythicHook.execute(sk, SkillType.ATTACK, event.getEntity(), player);
         }
-        for (String[] jsarg : FlyBuff.getJSBuffs(player)){
-            JavaScriptEngine.runScript(jsarg[0],jsarg[1],player,"damage");
+        for (String[] jsarg : FlyBuff.getJSBuffs(player)) {
+            JavaScriptEngine.runScript(jsarg[0], jsarg[1], player, "damage");
         }
-        event.getDamager().setMetadata("using-flybuff-damage-skill", new FixedMetadataValue(FlyBuff.instance,false));
+        event.getDamager().setMetadata("using-flybuff-damage-skill", new FixedMetadataValue(FlyBuff.instance, false));
     }
 
     @EventHandler
@@ -48,8 +46,8 @@ public class MythicListener implements Listener {
         for (String sk : skills) {
             FlyBuff.mythicHook.execute(sk, SkillType.BLOCK_BREAK, player, player);
         }
-        for (String[] jsarg : FlyBuff.getJSBuffs(player)){
-            JavaScriptEngine.runScript(jsarg[0],jsarg[1],player,"blockbreak");
+        for (String[] jsarg : FlyBuff.getJSBuffs(player)) {
+            JavaScriptEngine.runScript(jsarg[0], jsarg[1], player, "blockbreak");
         }
     }
 
@@ -62,8 +60,8 @@ public class MythicListener implements Listener {
         for (String sk : skills) {
             FlyBuff.mythicHook.execute(sk, SkillType.BLOCK_PLACE, player, player);
         }
-        for (String[] jsarg : FlyBuff.getJSBuffs(player)){
-            JavaScriptEngine.runScript(jsarg[0],jsarg[1],player,"blockplace");
+        for (String[] jsarg : FlyBuff.getJSBuffs(player)) {
+            JavaScriptEngine.runScript(jsarg[0], jsarg[1], player, "blockplace");
         }
     }
 
@@ -77,30 +75,30 @@ public class MythicListener implements Listener {
         for (String sk : skills) {
             FlyBuff.mythicHook.execute(sk, SkillType.RIGHTCLICK, player, player);
         }
-        for (String[] jsarg : FlyBuff.getJSBuffs(player)){
-            JavaScriptEngine.runScript(jsarg[0],jsarg[1],player,"rclick");
+        for (String[] jsarg : FlyBuff.getJSBuffs(player)) {
+            JavaScriptEngine.runScript(jsarg[0], jsarg[1], player, "rclick");
         }
     }
 
     @EventHandler
     public void onBowHit(EntityDamageByEntityEvent event) {
         if (event.isCancelled()) return;
-        for (MetadataValue mv : event.getDamager().getMetadata("using-flybuff-bowhit-skill")){
+        for (MetadataValue mv : event.getDamager().getMetadata("using-flybuff-bowhit-skill")) {
             if (mv.asBoolean()) return;
         }
         if (!(event.getDamager() instanceof Arrow)) return;
         if (FlyBuff.mythicHook == null) return;
         Arrow arrow = (Arrow) event.getDamager();
         if (!(arrow.getShooter() instanceof Player)) return;
-        event.getDamager().setMetadata("using-flybuff-bowhit-skill", new FixedMetadataValue(FlyBuff.instance,true));
+        event.getDamager().setMetadata("using-flybuff-bowhit-skill", new FixedMetadataValue(FlyBuff.instance, true));
         Player player = (Player) arrow.getShooter();
         List<String> skills = FlyBuff.getBowHitSkills(player);
         for (String sk : skills) {
             FlyBuff.mythicHook.execute(sk, SkillType.BOW_HIT, event.getEntity(), player);
         }
-        for (String[] jsarg : FlyBuff.getJSBuffs(player)){
-            JavaScriptEngine.runScript(jsarg[0],jsarg[1],player,"bowhit");
+        for (String[] jsarg : FlyBuff.getJSBuffs(player)) {
+            JavaScriptEngine.runScript(jsarg[0], jsarg[1], player, "bowhit");
         }
-        event.getDamager().setMetadata("using-flybuff-bowhit-skill", new FixedMetadataValue(FlyBuff.instance,false));
+        event.getDamager().setMetadata("using-flybuff-bowhit-skill", new FixedMetadataValue(FlyBuff.instance, false));
     }
 }
