@@ -46,7 +46,8 @@ effect:
     - "[rclick-skill] test2"
   "&6[&c&lMythicMobs&6] &b弓技能宝石":
     - "[bowhit-skill] test2"
-
+  "&6[&c&lJavaScript&6] &b脚本宝石":
+    - "[js] example"
 #NBT Effect
 nbteffect:
   "heart":

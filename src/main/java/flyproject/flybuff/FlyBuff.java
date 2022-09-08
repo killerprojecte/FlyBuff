@@ -554,6 +554,7 @@ public final class FlyBuff extends JavaPlugin {
                 getLogger().warning("You are using un-support MythicMobs Version!");
             }
         }
+        JavaScriptEngine.runScript("example","unknow",null,"test");
         // Plugin startup logic
     }
 
