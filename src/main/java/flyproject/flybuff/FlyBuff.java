@@ -555,7 +555,7 @@ public final class FlyBuff extends JavaPlugin {
             }
         }
         new Metrics(this, 16381);
-        JavaScriptEngine.runScript("example", "unknow", null, "test");
+        //JavaScriptEngine.runScript("example", "unknow", null, "test");
         // Plugin startup logic
     }
 
