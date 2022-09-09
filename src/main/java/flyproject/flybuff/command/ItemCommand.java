@@ -31,7 +31,7 @@ public class ItemCommand implements CommandExecutor {
         if (args[0].equals("lore")) {
             FlyBuff.item.set("gems." + args[1] + ".mode", "stack");
             FlyBuff.item.set("gems." + args[1] + ".itemstack", p.getItemInHand());
-            FlyBuff buff = FlyBuff.getPlugin(FlyBuff.class);
+            FlyBuff buff = FlyBuff.instance;
             try {
                 FlyBuff.item.save(new File(buff.getDataFolder() + "/items.yml"));
             } catch (IOException e) {
@@ -43,7 +43,7 @@ public class ItemCommand implements CommandExecutor {
         } else if (args[0].equals("nbt")) {
             FlyBuff.item.set("nbtgem." + args[1] + ".mode", "stack");
             FlyBuff.item.set("nbtgem." + args[1] + ".itemstack", p.getItemInHand());
-            FlyBuff buff = FlyBuff.getPlugin(FlyBuff.class);
+            FlyBuff buff = FlyBuff.instance;
             try {
                 FlyBuff.item.save(new File(buff.getDataFolder() + "/items.yml"));
             } catch (IOException e) {

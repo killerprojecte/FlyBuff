@@ -55,6 +55,6 @@ public class PotionSender {
                     }
                 }
             }
-        }.runTaskTimerAsynchronously(FlyBuff.getPlugin(FlyBuff.class), FlyBuff.config.getInt("bufftime"), 0L);
+        }.runTaskTimerAsynchronously(FlyBuff.instance, FlyBuff.config.getInt("bufftime"), 0L);
     }
 }

@@ -8,7 +8,7 @@ import java.io.File;
 
 public class ConfigUpdater {
     public static void update() {
-        FlyBuff buff = FlyBuff.getPlugin(FlyBuff.class);
+        FlyBuff buff = FlyBuff.instance;
         FileConfiguration config = YamlConfiguration.loadConfiguration(new File(buff.getDataFolder() + "/config.yml"));
     }
 }

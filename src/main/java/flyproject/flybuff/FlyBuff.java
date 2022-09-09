@@ -375,7 +375,7 @@ public final class FlyBuff extends JavaPlugin {
     }
 
     public static boolean isPreview() {
-        return FlyBuff.getPlugin(FlyBuff.class).getDescription().getVersion().endsWith("SNAPSHOT") || FlyBuff.getPlugin(FlyBuff.class).getDescription().getVersion().endsWith("BETA") || FlyBuff.getPlugin(FlyBuff.class).getDescription().getVersion().endsWith("ALPHA") || FlyBuff.getPlugin(FlyBuff.class).getDescription().getVersion().contains("RC") || FlyBuff.getPlugin(FlyBuff.class).getDescription().getVersion().contains("PRE");
+        return FlyBuff.instance.getDescription().getVersion().endsWith("SNAPSHOT") || FlyBuff.instance.getDescription().getVersion().endsWith("BETA") || FlyBuff.instance.getDescription().getVersion().endsWith("ALPHA") || FlyBuff.instance.getDescription().getVersion().contains("RC") || FlyBuff.instance.getDescription().getVersion().contains("PRE");
     }
 
     private static void logLogo(String text) {

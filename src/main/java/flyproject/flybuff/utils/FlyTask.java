@@ -6,10 +6,10 @@ import org.bukkit.scheduler.BukkitTask;
 
 public class FlyTask {
     public static BukkitTask runTaskAsync(Runnable task) {
-        return Bukkit.getScheduler().runTaskAsynchronously(FlyBuff.getPlugin(FlyBuff.class), task);
+        return Bukkit.getScheduler().runTaskAsynchronously(FlyBuff.instance, task);
     }
 
     public static void runTask(Runnable task) {
-        Bukkit.getScheduler().runTask(FlyBuff.getPlugin(FlyBuff.class), task);
+        Bukkit.getScheduler().runTask(FlyBuff.instance, task);
     }
 }
