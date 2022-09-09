@@ -588,4 +588,10 @@ public final class FlyBuff extends JavaPlugin {
     public void disable() {
         setEnabled(false);
     }
+
+    public static void excuteCommand(String cmd){
+        Bukkit.getScheduler().runTask(FlyBuff.instance,() -> {
+            Bukkit.dispatchCommand(Bukkit.getConsoleSender(),cmd);
+        });
+    }
 }

@@ -96,5 +96,8 @@ workspace: WORKBENCH
 bypass:
   - "PLAYER_HEAD"
   - "SKULL_ITEM"
+
+#是否异步处理JavaScript
+jsasync: true
 #配置版本(不要修改)
 config-version: "1.3.0"

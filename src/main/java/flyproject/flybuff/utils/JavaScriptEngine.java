@@ -1,6 +1,7 @@
 package flyproject.flybuff.utils;
 
 import flyproject.flybuff.FlyBuff;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
 import javax.script.Bindings;
@@ -16,6 +17,14 @@ import java.nio.file.Paths;
 public class JavaScriptEngine {
 
     public static void runScript(String js, String buff, Player player, String call) {
+        if (FlyBuff.config.getBoolean("jsasync")){
+            Bukkit.getScheduler().runTaskAsynchronously(FlyBuff.instance,() -> {excute(js, buff, player, call);});
+        } else {
+            excute(js, buff, player, call);
+        }
+    }
+
+    private static void excute(String js, String buff, Player player, String call) {
         ScriptEngine scriptEngine = FlyBuff.scriptEngineManager.getEngineByName("flybuffJSEngine");
         try {
             Bindings bindings = scriptEngine.createBindings();
