@@ -8,6 +8,8 @@ import javax.script.ScriptContext;
 import javax.script.ScriptEngine;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
@@ -22,7 +24,7 @@ public class JavaScriptEngine {
             bindings.put("plugin", FlyBuff.instance);
             bindings.put("call", call);
             scriptEngine.setBindings(bindings, ScriptContext.ENGINE_SCOPE);
-            scriptEngine.eval(new BufferedReader(new InputStreamReader(Files.newInputStream(Paths.get(FlyBuff.instance.getDataFolder() + "/js/" + js + ".js")))));
+            scriptEngine.eval(new BufferedReader(new InputStreamReader(Files.newInputStream(Paths.get(FlyBuff.instance.getDataFolder() + "/js/" + js + ".js")), StandardCharsets.UTF_8)));
         } catch (Exception e) {
             e.printStackTrace();
         }

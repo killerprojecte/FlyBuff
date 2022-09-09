@@ -31,6 +31,12 @@ sound: "BLOCK_ANVIL_PLACE"
 #新格式
 #"[buff] <药水效果>:<等级>:<持续时间>"
 #"[particle] <Particle配置文件对应名称>"
+#"[attack-skill] <MythicSkills名称>"
+#"[mine-skill] <MythicSkills名称>"
+#"[place-skill] <MythicSkills名称>"
+#"[rclick-skill] <MythicSkills名称>"
+#"[bowhit-skill] <MythicSkills名称>"
+#"[js] <JavaScript文件名(不带文件后缀)>"
 effect:
   "&6[&c&lBUFF&6] &b速度I":
     - "[buff] SPEED:1"

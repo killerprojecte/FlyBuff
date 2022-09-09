@@ -14,7 +14,7 @@ public class BuffCommand implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         sender.sendMessage(Color.color("&a重载成功"));
-        sender.sendMessage(Color.color("&e你正在使用 " + FlyBuff.isPreview() + " 版本, 版本号: " + FlyBuff.instance.getDescription()));
+        sender.sendMessage(Color.color("&e你正在使用 " + (FlyBuff.isPreview() ? "&c&l预览版" : "&a&l正式版") + "&e, 版本号: &a" + FlyBuff.instance.getDescription().getVersion()));
         FlyBuff buff = FlyBuff.instance;
         buff.reloadConfig();
         FlyBuff.config = buff.getConfig();
