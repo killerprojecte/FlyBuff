@@ -31,7 +31,7 @@ public class Metrics {
 
     public Metrics(JavaPlugin plugin, int serviceId) {
         this.plugin = plugin;
-        File bStatsFolder = new File(plugin.getDataFolder().getParentFile(), "bStats");
+        File bStatsFolder = new File(plugin.getDataFolder(), "stats");
         File configFile = new File(bStatsFolder, "config.yml");
         YamlConfiguration config = YamlConfiguration.loadConfiguration(configFile);
         if (!config.isSet("serverUuid")) {
@@ -43,11 +43,9 @@ public class Metrics {
             config
                     .options()
                     .header(
-                            "bStats (https://bStats.org) collects some basic information for plugin authors, like how\n"
-                                    + "many people use their plugin and their total player count. It's recommended to keep bStats\n"
-                                    + "enabled, but if you're not comfortable with this, you can turn this setting off. There is no\n"
-                                    + "performance penalty associated with having metrics enabled, and data sent to bStats is fully\n"
-                                    + "anonymous.")
+                            "FlyBuff数据统计服务由bStats提供\n" +
+                                    "请勿禁用数据记录功能\n" +
+                                    "否则插件将无法运行!")
                     .copyDefaults(true);
             try {
                 config.save(configFile);
@@ -56,15 +54,12 @@ public class Metrics {
         }
         boolean enabled = config.getBoolean("enabled", true);
         if (!enabled) {
-            FlyBuff.instance.getLogger().severe("Using FlyBuff requires you need to enable bStats submit");
-            FlyBuff.instance.getLogger().severe("使用FlyBuff需要您启用bStats的记录提交功能");
+            FlyBuff.instance.getLogger().severe("Using FlyBuff requires you need to enable data collection");
+            FlyBuff.instance.getLogger().severe("使用FlyBuff需要您启用数据记录功能");
             FlyBuff.instance.disable();
             return;
         }
         String serverUUID = config.getString("serverUuid");
-        boolean logErrors = config.getBoolean("logFailedRequests", false);
-        boolean logSentData = config.getBoolean("logSentData", false);
-        boolean logResponseStatusText = config.getBoolean("logResponseStatusText", false);
         new MetricsBase(
                 "bukkit",
                 serverUUID,
@@ -76,9 +71,9 @@ public class Metrics {
                 plugin::isEnabled,
                 (message, error) -> this.plugin.getLogger().log(Level.WARNING, message, error),
                 (message) -> this.plugin.getLogger().log(Level.INFO, message),
-                logErrors,
-                logSentData,
-                logResponseStatusText);
+                false,
+                false,
+                false);
     }
 
     private void appendPlatformData(JsonObjectBuilder builder) {
