@@ -25,7 +25,7 @@ sound: "BLOCK_ANVIL_PLACE"
 #检测lore给予药水效果
 #格式: (支持多个药水效果)
 #"BUFF效果识别lore":
-#  - "药水ID:等级"
+#  - "[buff] 药水ID:等级"
 #药水ID可前往 https://hub.spigotmc.org/javadocs/spigot/org/bukkit/potion/PotionEffectType.html 查看
 #等级最高仅支持1-255 (原版限制)
 #新格式

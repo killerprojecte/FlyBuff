@@ -36,6 +36,8 @@ import java.nio.file.Files;
 import java.util.*;
 import java.util.logging.Logger;
 
+import static flyproject.flybuff.utils.ResourceX.saveFile;
+
 public final class FlyBuff extends JavaPlugin {
     public static FileConfiguration config;
     public static FileConfiguration item;
@@ -488,17 +490,17 @@ public final class FlyBuff extends JavaPlugin {
         scriptEngineManager = new ScriptEngineManager();
         scriptEngineManager.registerEngineName("flybuffJSEngine", new NashornScriptEngineFactory());
         if (getServer().getVersion().contains("1.12") || getServer().getVersion().contains("1.11") || getServer().getVersion().contains("1.10") || getServer().getVersion().contains("1.9") || getServer().getVersion().contains("1.8") || getServer().getVersion().contains("1.7")) {
-            saveResource("items-low.yml", false);
+            saveFile("items-low.yml", false);
             File il = new File(getDataFolder() + "/items-low.yml");
             try {
                 Files.copy(il.toPath(), new File(getDataFolder() + "/items.yml").toPath());
             } catch (IOException ignored) {
             }
         } else {
-            saveResource("items.yml", false);
+            saveFile("items.yml", false);
         }
-        saveResource("particle.yml", false);
-        saveResource("js/example.js", false);
+        saveFile("particle.yml", false);
+        saveFile("js/example.js", false);
         item = YamlConfiguration.loadConfiguration(new File(getDataFolder() + "/items.yml"));
         particle = YamlConfiguration.loadConfiguration(new File(getDataFolder() + "/particle.yml"));
         logLogo("\n" +
