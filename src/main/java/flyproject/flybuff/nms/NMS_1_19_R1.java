@@ -17,13 +17,13 @@ public class NMS_1_19_R1 extends NbtManager {
         net.minecraft.world.item.ItemStack i = CraftItemStack.asNMSCopy(item);
         NBTTagCompound nbt = null;
         try {
-            nbt = (NBTTagCompound) i.getClass().getMethod("t").invoke(i);
+            nbt = (NBTTagCompound) i.getClass().getMethod("v").invoke(i);
         } catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
             e.printStackTrace();
         }
         List<String> list = new ArrayList<>();
         try {
-            if ((boolean) nbt.getClass().getMethod("e", String.class).invoke(nbt, "FlyBuff")) {
+            if ((boolean) nbt.getClass().getMethod("k", String.class).invoke(nbt, "FlyBuff")) {
                 NBTTagList nlist = (NBTTagList) nbt.getClass().getMethod("c", String.class, int.class).invoke(nbt, "FlyBuff", 8);
                 for (NBTBase n : nlist) {
                     list.add((String) n.getClass().getMethod("e_").invoke(n));
@@ -40,13 +40,13 @@ public class NMS_1_19_R1 extends NbtManager {
         net.minecraft.world.item.ItemStack i = CraftItemStack.asNMSCopy(item);
         NBTTagCompound nbt = null;
         try {
-            nbt = (NBTTagCompound) i.getClass().getMethod("u").invoke(i);
+            nbt = (NBTTagCompound) i.getClass().getMethod("v").invoke(i);
         } catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
             e.printStackTrace();
         }
         NBTTagList nlist;
         try {
-            if ((boolean) nbt.getClass().getMethod("e", String.class).invoke(nbt, "FlyBuff")) {
+            if ((boolean) nbt.getClass().getMethod("k", String.class).invoke(nbt, "FlyBuff")) {
                 nlist = (NBTTagList) nbt.getClass().getMethod("c", String.class, int.class).invoke(nbt, "FlyBuff", 8);
                 nlist.add(NBTTagString.a(buff));
             } else {
@@ -66,14 +66,14 @@ public class NMS_1_19_R1 extends NbtManager {
         net.minecraft.world.item.ItemStack i = CraftItemStack.asNMSCopy(item);
         NBTTagCompound nbt = null;
         try {
-            nbt = (NBTTagCompound) i.getClass().getMethod("u").invoke(i);
+            nbt = (NBTTagCompound) i.getClass().getMethod("v").invoke(i);
         } catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
             e.printStackTrace();
         }
         NBTTagList nlist;
         NBTTagList list = new NBTTagList();
         try {
-            if ((boolean) nbt.getClass().getMethod("e", String.class).invoke(nbt, "FlyBuff")) {
+            if ((boolean) nbt.getClass().getMethod("k", String.class).invoke(nbt, "FlyBuff")) {
                 nlist = (NBTTagList) nbt.getClass().getMethod("c", String.class, int.class).invoke(nbt, "FlyBuff", 8);
                 for (int s = 0; s < nlist.size(); s++) {
                     String str = (String) nlist.getClass().getMethod("j", int.class).invoke(nlist, s);
