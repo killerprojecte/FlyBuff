@@ -16,6 +16,8 @@ import java.nio.file.Paths;
 
 public class JavaScriptEngine {
 
+    public static String engine = "flybuffJSEngine";
+
     public static void runScript(String js, String buff, Player player, String call) {
         if (FlyBuff.config.getBoolean("jsasync")){
             Bukkit.getScheduler().runTaskAsynchronously(FlyBuff.instance,() -> {excute(js, buff, player, call);});

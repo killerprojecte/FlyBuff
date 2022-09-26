@@ -4,9 +4,10 @@ import flyproject.flybuff.utils.MathEngine;
 
 public class Test {
     public static void main(String[] args) {
-        String math = "1";
-        System.out.println(MathEngine.format(math));
-        String a = "[buff] a";
-        System.out.println(a.substring(7));
+        System.out.println(System.getProperty("java.version"));
+        System.out.println(System.getProperty("java.vm.specification.version"));
+        System.out.println(System.getProperty("java.vm.version"));
+        System.out.println(System.getProperty("java.specification.version"));
+        System.out.println(System.getProperty("java.class.version"));
     }
 }

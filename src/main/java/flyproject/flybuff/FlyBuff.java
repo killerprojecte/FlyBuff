@@ -488,7 +488,11 @@ public final class FlyBuff extends JavaPlugin {
         saveDefaultConfig();
         config = getConfig();
         scriptEngineManager = new ScriptEngineManager();
-        scriptEngineManager.registerEngineName("flybuffJSEngine", new NashornScriptEngineFactory());
+        if (Double.parseDouble(System.getProperty("java.class.version"))<55.0){
+            JavaScriptEngine.engine = "javascript";
+        } else {
+            scriptEngineManager.registerEngineName("flybuffJSEngine", new NashornScriptEngineFactory());
+        }
         if (getServer().getVersion().contains("1.12") || getServer().getVersion().contains("1.11") || getServer().getVersion().contains("1.10") || getServer().getVersion().contains("1.9") || getServer().getVersion().contains("1.8") || getServer().getVersion().contains("1.7")) {
             saveFile("items-low.yml", false);
             File il = new File(getDataFolder() + "/items-low.yml");
