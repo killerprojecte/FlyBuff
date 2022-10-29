@@ -17,14 +17,15 @@ public class ResourceX {
             return;
         }
         File file = new File(FlyBuff.instance.getDataFolder() + "/" + name);
-        if (!replace){
+        if (!replace) {
             if (file.exists()) return;
         } else {
-            if (file.exists()){
+            if (file.exists()) {
                 FlyBuff.instance.getLogger().warning("文件 " + name + " 正在以覆盖方式解压");
                 file.delete();
             }
         }
+        if (!file.getParentFile().exists()) file.getParentFile().mkdirs();
         URLConnection connection = null;
         try {
             connection = url.openConnection();
